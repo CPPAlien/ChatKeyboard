@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="main_view_id" type="id"/>
+    <item name="emoticon_view_id" type="id"/>
+    <item name="media_view_id" type="id"/>
+</resources>

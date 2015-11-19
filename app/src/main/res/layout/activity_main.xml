@@ -1,0 +1,9 @@
+<cn.hadcn.keyboard.ChatKeyboardLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/kv_bar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</cn.hadcn.keyboard.ChatKeyboardLayout>
