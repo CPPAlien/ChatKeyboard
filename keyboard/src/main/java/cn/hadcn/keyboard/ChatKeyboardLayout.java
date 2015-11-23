@@ -22,7 +22,6 @@ import cn.hadcn.keyboard.emoticon.EmoticonsToolBarView;
 import cn.hadcn.keyboard.media.MediaBean;
 import cn.hadcn.keyboard.media.MediaLayout;
 import cn.hadcn.keyboard.utils.EmoticonsKeyboardBuilder;
-import cn.hadcn.keyboard.utils.Utils;
 import cn.hadcn.keyboard.view.HadEditText;
 import cn.hadcn.keyboard.view.SoftHandleLayout;
 
@@ -206,10 +205,12 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements View.OnClick
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.btn_face) {
+        if ( id == R.id.btn_face ) {
             switch (mKeyboardState){
                 case KEYBOARD_STATE_BOTH:
-                    Utils.closeSoftKeyboard(mContext);
+                    closeSoftKeyboard(et_chat);
+                    btn_face.setImageResource(R.drawable.icon_face_pop);
+                    break;
                 case KEYBOARD_STATE_NONE:
                     btn_face.setImageResource(R.drawable.icon_face_pop);
                     et_chat.setFocusableInTouchMode(true);
@@ -218,9 +219,9 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements View.OnClick
                     show(FUNC_EMOTICON_POS);
                     break;
                 case KEYBOARD_STATE_FUNC:
-                    if(mChildViewPosition == FUNC_EMOTICON_POS){
+                    if ( mChildViewPosition == FUNC_EMOTICON_POS ) {
                         btn_face.setImageResource(R.drawable.icon_face_nomal);
-                        Utils.openSoftKeyboard(et_chat);
+                        openSoftKeyboard(et_chat);
                     } else {
                         show(FUNC_EMOTICON_POS);
                         btn_face.setImageResource(R.drawable.icon_face_pop);
@@ -234,7 +235,8 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements View.OnClick
         } else if (id == R.id.btn_multimedia) {
             switch (mKeyboardState){
                 case KEYBOARD_STATE_BOTH:
-                    Utils.closeSoftKeyboard(mContext);
+                    closeSoftKeyboard(et_chat);
+                    break;
                 case KEYBOARD_STATE_NONE:
                     btn_face.setImageResource(R.drawable.icon_face_nomal);
                     rl_input.setVisibility(VISIBLE);
@@ -247,29 +249,34 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements View.OnClick
                 case KEYBOARD_STATE_FUNC:
                     btn_face.setImageResource(R.drawable.icon_face_nomal);
                     if(mChildViewPosition == FUNC_MEDIA_POS){
-                        Utils.openSoftKeyboard(et_chat);
+                        openSoftKeyboard(et_chat);
                     } else {
                         show(FUNC_MEDIA_POS);
                     }
                     break;
             }
         } else if (id == R.id.btn_voice_or_text) {
-            if(rl_input.isShown()){
+            if ( rl_input.isShown() ) {
                 hideAutoView();
                 rl_input.setVisibility(GONE);
                 btn_voice.setVisibility(VISIBLE);
-            }
-            else{
+            } else {
                 rl_input.setVisibility(VISIBLE);
                 btn_voice.setVisibility(GONE);
                 setEditableState(true);
-                Utils.openSoftKeyboard(et_chat);
+                openSoftKeyboard(et_chat);
             }
         } else if (id == R.id.btn_voice) {
             if(mKeyBoardBarViewListener != null){
                 mKeyBoardBarViewListener.OnVideoBtnClick();
             }
         }
+    }
+
+    @Override
+    public void OnSoftKeyboardPop(int height) {
+        super.OnSoftKeyboardPop(height);
+        btn_face.setImageResource(R.drawable.icon_face_nomal);
     }
 
     public void setMediaContents( List<MediaBean> mediaContents ){

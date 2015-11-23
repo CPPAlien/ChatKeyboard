@@ -91,7 +91,7 @@ public class HadEditText extends EditText {
                         itemWidth = mItemWidth;
                     }
 
-                    drawable.setBounds(0, 0, itemHeight, itemWidth);
+                    drawable.setBounds(0, 0, itemWidth, itemHeight);
                     VerticalImageSpan imageSpan = new VerticalImageSpan(drawable);
                     getText().setSpan(imageSpan, start, end, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
                     isEmoticonMatcher = true;

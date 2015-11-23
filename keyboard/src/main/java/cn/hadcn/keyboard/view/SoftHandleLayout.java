@@ -1,9 +1,12 @@
 package cn.hadcn.keyboard.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -13,8 +16,8 @@ import cn.hadcn.keyboard.utils.Utils;
 
 public class SoftHandleLayout extends SoftListenLayout {
     public static final int KEYBOARD_STATE_NONE = 100;  // no pop
-    public static final int KEYBOARD_STATE_FUNC = 102;  // other pop
-    public static final int KEYBOARD_STATE_BOTH = 103;  // keyboard pop
+    public static final int KEYBOARD_STATE_FUNC = 101;  // only media or emoticon pop
+    public static final int KEYBOARD_STATE_BOTH = 102;  // keyboard and media or emoticon pop together
 
     protected Context mContext;
     protected int mAutoHeightLayoutId;
@@ -58,7 +61,6 @@ public class SoftHandleLayout extends SoftListenLayout {
     }
 
     public void setAutoViewHeight(final int height) {
-
         if ( height == 0 ) {
             mAutoHeightLayoutView.setVisibility(GONE);
         } else {
@@ -73,46 +75,66 @@ public class SoftHandleLayout extends SoftListenLayout {
         this.post(new Runnable() {
             @Override
             public void run() {
-                Utils.closeSoftKeyboard(mContext);
                 setAutoViewHeight(0);
             }
         });
-        mKeyboardState = KEYBOARD_STATE_NONE ;
+        mKeyboardState = KEYBOARD_STATE_NONE;
     }
 
-    public void showAutoView(){
-        isAutoViewNeedHide = false;
-        setAutoViewHeight(Utils.dip2px(mContext, mAutoViewHeight));
-        mKeyboardState = mKeyboardState == KEYBOARD_STATE_NONE ? KEYBOARD_STATE_FUNC : KEYBOARD_STATE_BOTH ;
+    public void showAutoView() {
+        post(new Runnable() {
+            @Override
+            public void run() {
+                setAutoViewHeight(Utils.dip2px(mContext, mAutoViewHeight));
+            }
+        });
+
+        mKeyboardState = KEYBOARD_STATE_FUNC;
     }
 
     @Override
     public void OnSoftKeyboardPop(final int height) {
-        mKeyboardState = KEYBOARD_STATE_BOTH;
         int heightDp = Utils.px2dip(mContext, height);
-        if (heightDp > 0 && heightDp != mAutoViewHeight) {
+        if ( heightDp > 0 && heightDp != mAutoViewHeight ) {
             mAutoViewHeight = heightDp;
             Utils.setDefKeyboardHeight(mContext, mAutoViewHeight);
         }
-        post(new Runnable() {
-            @Override
-            public void run() {
-                setAutoViewHeight(height);
-            }
-        });
+
+        //if soft keyboard popped, auto view must be visible, soft keyboard covers it
+        if ( mKeyboardState != KEYBOARD_STATE_BOTH ) {
+            showAutoView();
+        }
+        mKeyboardState = KEYBOARD_STATE_BOTH;
     }
 
     @Override
     public void OnSoftKeyboardClose() {
+        mKeyboardState = mKeyboardState == KEYBOARD_STATE_BOTH ? KEYBOARD_STATE_FUNC : KEYBOARD_STATE_NONE;
+
+        // if keyboard closed isn't by calling close, but by pressing back button or keyboard hide, hide auto view
         if ( isAutoViewNeedHide ) {
-            post(new Runnable() {
-                @Override
-                public void run() {
-                    setAutoViewHeight(0);
-                }
-            });
+            hideAutoView();
+            mKeyboardState = KEYBOARD_STATE_NONE;
         }
         isAutoViewNeedHide = true;
-        mKeyboardState = mKeyboardState == KEYBOARD_STATE_BOTH ? KEYBOARD_STATE_FUNC : KEYBOARD_STATE_NONE;
+    }
+
+    /**
+     * display soft keyboard
+     */
+    public void openSoftKeyboard( EditText et ) {
+        InputMethodManager inputManager = (InputMethodManager) et.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.showSoftInput(et, 0);
+    }
+
+    /**
+     * close soft keyboard
+     */
+    public void closeSoftKeyboard( EditText et ) {
+        InputMethodManager inputMethodManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (inputMethodManager != null && ((Activity) mContext).getCurrentFocus() != null) {
+            inputMethodManager.hideSoftInputFromWindow(et.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+        isAutoViewNeedHide = false;
     }
 }
