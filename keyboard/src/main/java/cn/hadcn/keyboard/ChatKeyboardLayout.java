@@ -203,6 +203,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
             switch (mKeyboardState){
                 case KEYBOARD_STATE_BOTH:
                     closeSoftKeyboard(et_chat);
+                    show(FUNC_EMOTICON_POS);
                     btn_face.setImageResource(R.drawable.icon_face_pop);
                     break;
                 case KEYBOARD_STATE_NONE:
@@ -232,6 +233,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
             switch (mKeyboardState){
                 case KEYBOARD_STATE_BOTH:
                     closeSoftKeyboard(et_chat);
+                    show(FUNC_MEDIA_POS);
                     break;
                 case KEYBOARD_STATE_NONE:
                     btn_face.setImageResource(R.drawable.icon_face_nomal);
