@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ListView
+        android:id="@+id/list_view"
+        android:transcriptMode="alwaysScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </cn.hadcn.keyboard.ChatKeyboardLayout>

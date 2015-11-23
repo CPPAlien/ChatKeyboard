@@ -85,7 +85,7 @@ public class SoftHandleLayout extends SoftListenLayout {
         post(new Runnable() {
             @Override
             public void run() {
-                setAutoViewHeight(Utils.dip2px(mContext, mAutoViewHeight));
+                setAutoViewHeight( mAutoViewHeight );
             }
         });
         isAutoViewNeedHide = true;
@@ -93,10 +93,9 @@ public class SoftHandleLayout extends SoftListenLayout {
     }
 
     @Override
-    public void OnSoftKeyboardPop(final int height) {
-        int heightDp = Utils.px2dip(mContext, height);
-        if ( heightDp > 0 && heightDp != mAutoViewHeight ) {
-            mAutoViewHeight = heightDp;
+    public void OnSoftKeyboardPop( int height ) {
+        if ( height > 0 && height != mAutoViewHeight ) {
+            mAutoViewHeight = height;
             Utils.setDefKeyboardHeight(mContext, mAutoViewHeight);
         }
 

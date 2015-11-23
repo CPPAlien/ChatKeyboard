@@ -45,15 +45,23 @@ public class ImageLoader implements ImageBase {
             case HTTPS:
                 return null;
             case FILE:
+                String filePath = Scheme.FILE.crop(imageUri);
+                Bitmap fileBitmap = null;
+                try {
+                    fileBitmap = BitmapFactory.decodeFile(filePath);
+                    return new BitmapDrawable(context.getResources(), fileBitmap);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 return null;
             case CONTENT:
                 return null;
             case ASSETS:
-                String filePath = Scheme.ASSETS.crop(imageUri);
-                Bitmap bitmap = null;
+                String assetsPath = Scheme.ASSETS.crop(imageUri);
+                Bitmap assetsBitmap = null;
                 try {
-                    bitmap = BitmapFactory.decodeStream(context.getAssets().open(filePath));
-                    return new BitmapDrawable(bitmap);
+                    assetsBitmap = BitmapFactory.decodeStream(context.getAssets().open(assetsPath));
+                    return new BitmapDrawable(context.getResources(), assetsBitmap);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

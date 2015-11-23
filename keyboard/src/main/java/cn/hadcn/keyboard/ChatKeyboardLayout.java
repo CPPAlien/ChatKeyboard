@@ -324,6 +324,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                         et_chat.onKeyDown(KeyEvent.KEYCODE_DEL, event);
                         return;
                     } else if (bean.getEventType() == EmoticonBean.FACE_TYPE_USERDEF) {
+                        mOnChatKeyBoardListener.onUserDefEmoticonClicked(bean.getContent(), bean.getIconUri());
                         return;
                     }
 
@@ -368,6 +369,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     public interface OnChatKeyBoardListener {
         void onSendBtnClick(String msg);
         void onRecordingAction(RecordingAction action);
+        void onUserDefEmoticonClicked(String name, String uri);
     }
 
     public enum RecordingAction {

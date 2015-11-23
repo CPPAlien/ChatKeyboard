@@ -39,7 +39,7 @@ public class EmoticonsUtils {
                     /**
                      * FROM ASSETS
                      */
-                    ArrayList<EmoticonBean> xhsfaceArray = ParseData(xhsemojiArray, EmoticonBean.FACE_TYPE_NOMAL, ImageBase.Scheme.ASSETS);
+                    ArrayList<EmoticonBean> xhsfaceArray = ParseData(xhsemojiArray, EmoticonBean.FACE_TYPE_USERDEF, ImageBase.Scheme.ASSETS);
                     EmoticonSetBean xhsEmoticonSetBean = new EmoticonSetBean("xhs", 3, 7);
                     xhsEmoticonSetBean.setIconUri("assets://xhsemoji_19.png");
                     xhsEmoticonSetBean.setItemPadding(20);
@@ -60,6 +60,7 @@ public class EmoticonsUtils {
 
                     XmlUtil xmlUtil = new XmlUtil(context);
                     EmoticonSetBean bean =  xmlUtil.ParserXml(xmlUtil.getXmlFromSD(filePath + "/wxemoticons.xml"));
+                    bean.setIsShownName(true);
                     bean.setItemPadding(20);
                     bean.setVerticalSpacing(5);
                     bean.setIconUri("file://" + filePath + "/icon_030_cover.png");

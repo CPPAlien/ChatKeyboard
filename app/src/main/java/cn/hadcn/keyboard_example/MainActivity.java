@@ -3,15 +3,22 @@ package cn.hadcn.keyboard_example;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import cn.hadcn.keyboard.ChatKeyboardLayout;
 import cn.hadcn.keyboard.db.DBHelper;
@@ -19,9 +26,12 @@ import cn.hadcn.keyboard.emoticon.EmoticonSetBean;
 import cn.hadcn.keyboard.media.MediaBean;
 import cn.hadcn.keyboard.utils.EmoticonsKeyboardBuilder;
 import cn.hadcn.keyboard.utils.imageloader.ImageBase;
+import cn.hadcn.keyboard.utils.imageloader.ImageLoader;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, MediaBean.MediaListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, MediaBean.MediaListener, ChatKeyboardLayout.OnChatKeyBoardListener {
     ChatKeyboardLayout keyboardLayout = null;
+    SimpleAdapter mAdapter;
+    List<Map<String, Drawable>> mMapList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +54,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         popupModels.add(new MediaBean(8, R.drawable.icon_camera, "拍照", this));
         popupModels.add(new MediaBean(9, R.drawable.icon_photo, "照片", this));
         keyboardLayout.setMediaContents(popupModels);
+        keyboardLayout.setOnKeyBoardBarListener(this);
+
+        ListView listView = (ListView)findViewById(R.id.list_view);
+        mMapList = new ArrayList<>();
+        Map<String, Drawable> map = new HashMap<>();
+        map.put("image", ContextCompat.getDrawable(this, R.drawable.ic_launcher));
+        mMapList.add(map);
+
+        mAdapter = new SimpleAdapter(this, mMapList, R.layout.item_list, new String[]{"image"}, new int[]{R.id.item_image});
+        mAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+            @Override
+            public boolean setViewValue(View view, Object o, String s) {
+                if ( view instanceof ImageView && o instanceof Drawable ) {
+                    ((ImageView) view).setImageDrawable((Drawable)o);
+                    return true;
+                }
+                return false;
+            }
+        });
+        listView.setAdapter(mAdapter);
     }
 
     protected void displayImageFromAssets(String imageUri, ImageView imageView) throws IOException {
@@ -99,5 +129,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onMediaClick(int id) {
 
+    }
+
+    @Override
+    public void onSendBtnClick(String msg) {
+
+    }
+
+    @Override
+    public void onRecordingAction(ChatKeyboardLayout.RecordingAction action) {
+
+    }
+
+    @Override
+    public void onUserDefEmoticonClicked(String name, String uri) {
+        Map<String, Drawable> map = new HashMap<>();
+        map.put("image", ImageLoader.getInstance(this).getDrawable(uri));
+        mMapList.add(map);
+        mAdapter.notifyDataSetChanged();
     }
 }

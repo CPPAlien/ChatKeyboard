@@ -8,35 +8,35 @@ public final class TableColumns {
 
     public interface EmoticonColumns extends BaseColumns {
 
-        public static final String EVENTTYPE = "eventtype";
+        String EVENTTYPE = "eventtype";
 
-        public static final String CONTENT = "content";
+        String CONTENT = "content";
 
-        public static final String ICONURI = "iconuri";
+        String ICONURI = "iconuri";
 
-        public static final String EMOTICONSET_NAME = "emoticonset_name";
+        String EMOTICONSET_NAME = "emoticonset_name";
 
     }
 
     public interface EmoticonSetColumns extends BaseColumns {
 
-        public static final String NAME = "name";
+        String NAME = "name";
 
-        public static final String LINE = "line";
+        String LINE = "line";
 
-        public static final String ROW = "row";
+        String ROW = "row";
 
-        public static final String ICONURI = "iconuri";
+        String ICONURI = "iconuri";
 
-        public static final String ICONNAME = "iconname";
+        String ICONNAME = "iconname";
 
-        public static final String ISSHOWDELBTN = "isshowdelbtn";
+        String ISSHOWDELBTN = "isshowdelbtn";
 
-        public static final String ITEMPADDING = "itempadding";
+        String ITEMPADDING = "itempadding";
 
-        public static final String HORIZONTALSPACING = "horizontalspacing";
+        String HORIZONTALSPACING = "horizontalspacing";
 
-        public static final String VERTICALSPACING = "verticalspacing";
+        String VERTICALSPACING = "verticalspacing";
 
     }
 

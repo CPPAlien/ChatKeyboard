@@ -45,7 +45,7 @@ public class EmoticonBean {
 
     public static String fromCodePoint(int codePoint) { return newString(codePoint); }
 
-    public static final String newString(int codePoint) {
+    public static String newString(int codePoint) {
         if (Character.charCount(codePoint) == 1) {
             return String.valueOf(codePoint);
         } else {

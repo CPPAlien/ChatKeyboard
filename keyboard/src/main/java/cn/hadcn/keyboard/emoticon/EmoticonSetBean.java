@@ -38,6 +38,8 @@ public class EmoticonSetBean {
 
     private ArrayList<EmoticonBean> emoticonList;
 
+    private boolean isShownName;
+
     public EmoticonSetBean(){
     }
 
@@ -59,6 +61,14 @@ public class EmoticonSetBean {
         this.horizontalSpacing = horizontalSpacing;
         this.verticalSpacing = verticalSpacing;
         this.emoticonList = emoticonList;
+    }
+
+    public boolean isShownName() {
+        return isShownName;
+    }
+
+    public void setIsShownName(boolean isShownName) {
+        this.isShownName = isShownName;
     }
 
     public String getName() {

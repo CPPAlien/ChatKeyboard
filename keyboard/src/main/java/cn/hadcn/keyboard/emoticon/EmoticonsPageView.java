@@ -137,7 +137,6 @@ public class EmoticonsPageView extends ViewPager implements IView {
                 for (int i = 0; i < pageCount; i++) {
                     RelativeLayout rl = new RelativeLayout(mContext);
                     GridView gridView = new GridView(mContext);
-                    //gridView.setMotionEventSplittingEnabled(false);
                     gridView.setNumColumns(bean.getRow());
                     gridView.setBackgroundColor(Color.TRANSPARENT);
                     gridView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
@@ -148,7 +147,7 @@ public class EmoticonsPageView extends ViewPager implements IView {
                     gridView.setGravity(Gravity.CENTER);
                     gridView.setVerticalScrollBarEnabled(false);
 
-                    List<EmoticonBean> list = new ArrayList<EmoticonBean>();
+                    List<EmoticonBean> list = new ArrayList<>();
                     for (int j = start; j < end; j++) {
                         list.add(emoticonList.get(j));
                     }
@@ -166,7 +165,7 @@ public class EmoticonsPageView extends ViewPager implements IView {
                         }
                     }
 
-                    EmoticonsAdapter adapter = new EmoticonsAdapter(mContext, list);
+                    EmoticonsAdapter adapter = new EmoticonsAdapter(mContext, list, bean.isShownName());
                     adapter.setHeight(itemHeight, Utils.dip2px(mContext, bean.getItemPadding()));
                     gridView.setAdapter(adapter);
                     rl.addView(gridView, gridParams);
@@ -255,7 +254,7 @@ public class EmoticonsPageView extends ViewPager implements IView {
 
     public void addIViewListener(IView listener) {
         if (mIViewListeners == null) {
-            mIViewListeners = new ArrayList<IView>();
+            mIViewListeners = new ArrayList<>();
         }
         mIViewListeners.add(listener);
     }

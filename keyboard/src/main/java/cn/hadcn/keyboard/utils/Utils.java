@@ -7,13 +7,7 @@ import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 
-/**
- * Utils
- * @author zhongdaxia 2014-9-2 12:05:55
- */
 
 public class Utils {
 
@@ -28,7 +22,7 @@ public class Utils {
 
     public static void setIsInitDb(Context context,boolean b) {
         final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-        settings.edit().putBoolean(EXTRA_ISINITDB, b).commit();
+        settings.edit().putBoolean(EXTRA_ISINITDB, b).apply();
     }
 
     public static int getDefKeyboardHeight(Context context) {
@@ -46,7 +40,7 @@ public class Utils {
     public static void setDefKeyboardHeight(Context context, int height) {
         if(sDefKeyboardHeight != height){
             final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
-            settings.edit().putInt(EXTRA_DEF_KEYBOARDHEIGHT, height).commit();
+            settings.edit().putInt(EXTRA_DEF_KEYBOARDHEIGHT, height).apply();
         }
         Utils.sDefKeyboardHeight = height;
     }
