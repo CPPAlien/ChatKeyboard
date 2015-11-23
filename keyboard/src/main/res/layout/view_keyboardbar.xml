@@ -23,9 +23,11 @@
             android:id="@+id/btn_voice_or_text"
             android:layout_width="34dp"
             android:layout_height="34dp"
+            android:padding="7dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
-            android:src="@drawable/btn_voice_or_text_bg" />
+            android:background="@drawable/circle_button_bg"
+            android:src="@drawable/recording_icon" />
         <!--语音输入-->
         <Button
             android:id="@+id/bar_recording"
@@ -96,8 +98,10 @@
                 android:id="@+id/btn_multimedia"
                 android:layout_width="34dp"
                 android:layout_height="34dp"
+                android:padding="7dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/btn_multi_bg" />
+                android:src="@drawable/cross_icon"
+                android:background="@drawable/circle_button_bg"/>
             <Button
                 android:id="@+id/btn_send"
                 android:layout_width="50dp"

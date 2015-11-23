@@ -185,13 +185,13 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                 closeSoftKeyboard(et_chat);
                 rl_input.setVisibility(GONE);
                 btnRecording.setVisibility(VISIBLE);
-                //// TODO: 2015/11/23 change icon when switched
-                //btn_voice_or_text.setImageDrawable();
+                btn_voice_or_text.setImageResource(R.drawable.keyboard_icon);
             } else {
                 rl_input.setVisibility(VISIBLE);
                 btnRecording.setVisibility(GONE);
                 setEditableState(true);
                 openSoftKeyboard(et_chat);
+                btn_voice_or_text.setImageResource(R.drawable.recording_icon);
             }
         }
     }
@@ -237,6 +237,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                     btn_face.setImageResource(R.drawable.icon_face_nomal);
                     rl_input.setVisibility(VISIBLE);
                     btnRecording.setVisibility(GONE);
+                    btn_voice_or_text.setImageResource(R.drawable.recording_icon);
                     showAutoView();
                     show(FUNC_MEDIA_POS);
                     break;
