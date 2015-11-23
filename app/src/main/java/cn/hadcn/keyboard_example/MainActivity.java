@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.hadcn.keyboard.ChatKeyboardLayout;
-import cn.hadcn.keyboard.db.DBHelper;
+import cn.hadcn.keyboard.db.EmoticonDBHelper;
 import cn.hadcn.keyboard.emoticon.EmoticonSetBean;
 import cn.hadcn.keyboard.media.MediaBean;
 import cn.hadcn.keyboard.utils.EmoticonsKeyboardBuilder;
@@ -90,9 +90,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public static EmoticonsKeyboardBuilder getBuilder(Context context) {
 
-        DBHelper dbHelper = new DBHelper(context);
-        ArrayList<EmoticonSetBean> mEmoticonSetBeanList = dbHelper.queryAllEmoticonSet();
-        dbHelper.cleanup();
+        EmoticonDBHelper emoticonDbHelper = new EmoticonDBHelper(context);
+        ArrayList<EmoticonSetBean> mEmoticonSetBeanList = emoticonDbHelper.queryAllEmoticonSet();
+        emoticonDbHelper.cleanup();
 
         return new EmoticonsKeyboardBuilder.Builder()
                 .setEmoticonSetBeanList(mEmoticonSetBeanList)

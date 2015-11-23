@@ -58,53 +58,7 @@ public class EmoticonsPageView extends ViewPager implements IView {
         if (mEmoticonsViewPagerAdapter == null) {
             mEmoticonsViewPagerAdapter = new EmoticonsViewPagerAdapter();
             setAdapter(mEmoticonsViewPagerAdapter);
-            addOnPageChangeListener(new OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
-
-                @Override
-                public void onPageSelected(int position) {
-                    if ( mOldPagePosition < 0 ) {
-                        mOldPagePosition = 0;
-                    }
-                    int end = 0;
-                    int pagerPosition = 0;
-                    for ( EmoticonSetBean emoticonSetBean : mEmoticonSetBeanList ) {
-                        int size = getPageCount(emoticonSetBean);
-                        if ( end + size > position ) {
-                            mOnEmoticonsPageViewListener.emoticonsPageViewCountChanged(size);
-                            if (mOldPagePosition - end >= size) {
-                                if (position - end >= 0) {
-                                    mOnEmoticonsPageViewListener.moveTo(position - end);
-                                }
-                                if (mIViewListeners != null && !mIViewListeners.isEmpty()) {
-                                    for (IView listener : mIViewListeners) {
-                                        listener.onPageChangeTo(pagerPosition);
-                                    }
-                                }
-                                break;
-                            }
-                            if (mOldPagePosition - end < 0) {
-                                mOnEmoticonsPageViewListener.moveTo(0);
-                                if (mIViewListeners != null && !mIViewListeners.isEmpty()) {
-                                    for (IView listener : mIViewListeners) {
-                                        listener.onPageChangeTo(pagerPosition);
-                                    }
-                                }
-                                break;
-                            }
-                            mOnEmoticonsPageViewListener.moveBy(mOldPagePosition - end, position - end);
-                            break;
-                        }
-                        pagerPosition++;
-                        end += size;
-                    }
-                    mOldPagePosition = position;
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) { }
-            });
+            addOnPageChangeListener(new PageChangeListener());
         }
 
         int screenWidth = Utils.getDisplayWidthPixels(mContext);
@@ -191,6 +145,54 @@ public class EmoticonsPageView extends ViewPager implements IView {
             }
             setCurrentItem(count);
         }
+    }
+
+    private class PageChangeListener implements OnPageChangeListener {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+
+        @Override
+        public void onPageSelected(int position) {
+            if ( mOldPagePosition < 0 ) {
+                mOldPagePosition = 0;
+            }
+            int end = 0;
+            int pagerPosition = 0;
+            for ( EmoticonSetBean emoticonSetBean : mEmoticonSetBeanList ) {
+                int size = getPageCount(emoticonSetBean);
+                if ( end + size > position ) {
+                    mOnEmoticonsPageViewListener.emoticonsPageViewCountChanged(size);
+                    if (mOldPagePosition - end >= size) {
+                        if (position - end >= 0) {
+                            mOnEmoticonsPageViewListener.moveTo(position - end);
+                        }
+                        if (mIViewListeners != null && !mIViewListeners.isEmpty()) {
+                            for (IView listener : mIViewListeners) {
+                                listener.onPageChangeTo(pagerPosition);
+                            }
+                        }
+                        break;
+                    }
+                    if (mOldPagePosition - end < 0) {
+                        mOnEmoticonsPageViewListener.moveTo(0);
+                        if (mIViewListeners != null && !mIViewListeners.isEmpty()) {
+                            for (IView listener : mIViewListeners) {
+                                listener.onPageChangeTo(pagerPosition);
+                            }
+                        }
+                        break;
+                    }
+                    mOnEmoticonsPageViewListener.moveBy(mOldPagePosition - end, position - end);
+                    break;
+                }
+                pagerPosition++;
+                end += size;
+            }
+            mOldPagePosition = position;
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) { }
     }
 
     public int getPageCount(EmoticonSetBean emoticonSetBean) {

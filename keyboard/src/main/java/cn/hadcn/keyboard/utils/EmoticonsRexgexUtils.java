@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import cn.hadcn.keyboard.db.DBHelper;
+import cn.hadcn.keyboard.db.EmoticonDBHelper;
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
 import cn.hadcn.keyboard.utils.imageloader.ImageLoader;
 import cn.hadcn.keyboard.view.HadEditText;
@@ -47,9 +47,9 @@ public class EmoticonsRexgexUtils {
         if(m != null){
             while (m.find()) {
                 if (emoticonBeanList == null) {
-                    DBHelper dbHelper = new DBHelper(context);
-                    emoticonBeanList = dbHelper.queryAllEmoticonBeans();
-                    dbHelper.cleanup();
+                    EmoticonDBHelper emoticonDbHelper = new EmoticonDBHelper(context);
+                    emoticonBeanList = emoticonDbHelper.queryAllEmoticonBeans();
+                    emoticonDbHelper.cleanup();
                     if (emoticonBeanList == null) {
                         return isEmoticonMatcher;
                     }

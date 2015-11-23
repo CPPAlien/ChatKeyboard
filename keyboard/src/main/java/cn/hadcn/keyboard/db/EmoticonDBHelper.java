@@ -15,12 +15,9 @@ import cn.hadcn.keyboard.emoticon.EmoticonBean;
 import cn.hadcn.keyboard.emoticon.EmoticonSetBean;
 
 
-public class DBHelper {
+public class EmoticonDBHelper {
 
-    /**
-     * 0-->1 add emoticons,emoticonset
-     */
-    private static final int VERSION = 1;
+    private static final int VERSION = 3;
 
     private static final String DATABASE_NAME = "xhsemoticons.db";
     private static final String TABLE_NAME_EMOTICONS = "emoticons";
@@ -29,7 +26,7 @@ public class DBHelper {
     private SQLiteDatabase db;
     private DBOpenHelper dbOpenHelper;
 
-    public DBHelper(Context context) {
+    public EmoticonDBHelper(Context context) {
         this.dbOpenHelper = new DBOpenHelper(context);
         establishDb();
     }
@@ -100,6 +97,7 @@ public class DBHelper {
         values.put(TableColumns.EmoticonSetColumns.ROW, bean.getRow());
         values.put(TableColumns.EmoticonSetColumns.ICONURI, bean.getIconUri());
         values.put(TableColumns.EmoticonSetColumns.ICONNAME, bean.getIconName());
+        values.put(TableColumns.EmoticonSetColumns.ISSHOWNNAME, bean.isShownName());
         values.put(TableColumns.EmoticonSetColumns.ISSHOWDELBTN, bean.isShowDelBtn() ? 1 : 0);
         values.put(TableColumns.EmoticonSetColumns.ITEMPADDING, bean.getItemPadding());
         values.put(TableColumns.EmoticonSetColumns.HORIZONTALSPACING, bean.getHorizontalSpacing());
@@ -212,10 +210,11 @@ public class DBHelper {
                     int row = cursor.getInt(cursor.getColumnIndex(TableColumns.EmoticonSetColumns.ROW));
                     String iconUri = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonSetColumns.ICONURI));
                     String iconName = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonSetColumns.ICONNAME));
-                    boolean isshowdelbtn = cursor.getInt(cursor.getColumnIndex(TableColumns.EmoticonSetColumns.ISSHOWDELBTN)) == 1 ? true : false;
+                    boolean isshowdelbtn = cursor.getInt(cursor.getColumnIndex(TableColumns.EmoticonSetColumns.ISSHOWDELBTN)) == 1;
                     int itempadding = cursor.getInt(cursor.getColumnIndex(TableColumns.EmoticonSetColumns.ITEMPADDING));
                     int horizontalspacing = cursor.getInt(cursor.getColumnIndex(TableColumns.EmoticonSetColumns.HORIZONTALSPACING));
                     int verticalSpacing = cursor.getInt(cursor.getColumnIndex(TableColumns.EmoticonSetColumns.VERTICALSPACING));
+                    boolean isShownName = cursor.getInt(cursor.getColumnIndex(TableColumns.EmoticonSetColumns.ISSHOWNNAME)) == 1;
 
                     ArrayList<EmoticonBean> emoticonList = null;
                     if (!TextUtils.isEmpty(name)) {
@@ -230,7 +229,7 @@ public class DBHelper {
                         pageCount = (int) Math.ceil((double) emoticonList.size() / everyPageMaxSum);
                     }
 
-                    EmoticonSetBean bean = new EmoticonSetBean(name, line, row, iconUri, iconName, isshowdelbtn, itempadding, horizontalspacing, verticalSpacing, emoticonList);
+                    EmoticonSetBean bean = new EmoticonSetBean(name, line, row, iconUri, iconName, isshowdelbtn, isShownName, itempadding, horizontalspacing, verticalSpacing, emoticonList);
                     beanList.add(bean);
                     cursor.moveToNext();
                 }
@@ -277,6 +276,7 @@ public class DBHelper {
                     TableColumns.EmoticonSetColumns.ICONURI + " TEXT, " +
                     TableColumns.EmoticonSetColumns.ICONNAME + " TEXT, " +
                     TableColumns.EmoticonSetColumns.ISSHOWDELBTN + " BOOLEAN, " +
+                    TableColumns.EmoticonSetColumns.ISSHOWNNAME + " BOOLEAN, " +
                     TableColumns.EmoticonSetColumns.ITEMPADDING + " INTEGER, " +
                     TableColumns.EmoticonSetColumns.HORIZONTALSPACING + " INTEGER, " +
                     TableColumns.EmoticonSetColumns.VERTICALSPACING + " TEXT);");
@@ -284,24 +284,14 @@ public class DBHelper {
 
         @Override
         public void onCreate(SQLiteDatabase sqLiteDatabase) {
-            onUpgrade(sqLiteDatabase, 0, VERSION);
+            createEmoticonsTable(sqLiteDatabase);
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int currentVersion) {
-            for (int version = oldVersion + 1; version <= currentVersion; version++) {
-                upgradeTo(sqLiteDatabase, version);
-            }
-        }
-
-        private void upgradeTo(SQLiteDatabase db, int version) {
-            switch (version) {
-                case 1:
-                    createEmoticonsTable(db);
-                    break;
-                default:
-                    throw new IllegalStateException("Don't know how to upgrade to " + version);
-            }
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_EMOTICONS);
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_EMOTICONSET);
+            onCreate(sqLiteDatabase);
         }
     }
 }

@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import cn.hadcn.keyboard.db.DBHelper;
+import cn.hadcn.keyboard.db.EmoticonDBHelper;
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
 import cn.hadcn.keyboard.emoticon.EmoticonSetBean;
 import cn.hadcn.keyboard.utils.DefEmoticons;
@@ -22,7 +22,7 @@ public class EmoticonsUtils {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    DBHelper dbHelper = new DBHelper(context);
+                    EmoticonDBHelper emoticonDbHelper = new EmoticonDBHelper(context);
 
                     /**
                      * FROM DRAWABLE
@@ -34,7 +34,7 @@ public class EmoticonsUtils {
                     emojiEmoticonSetBean.setVerticalSpacing(10);
                     emojiEmoticonSetBean.setShowDelBtn(true);
                     emojiEmoticonSetBean.setEmoticonList(emojiArray);
-                    dbHelper.insertEmoticonSet(emojiEmoticonSetBean);
+                    emoticonDbHelper.insertEmoticonSet(emojiEmoticonSetBean);
 
                     /**
                      * FROM ASSETS
@@ -46,7 +46,7 @@ public class EmoticonsUtils {
                     xhsEmoticonSetBean.setVerticalSpacing(10);
                     xhsEmoticonSetBean.setShowDelBtn(true);
                     xhsEmoticonSetBean.setEmoticonList(xhsfaceArray);
-                    dbHelper.insertEmoticonSet(xhsEmoticonSetBean);
+                    emoticonDbHelper.insertEmoticonSet(xhsEmoticonSetBean);
 
                     /**
                      * FROM FILE
@@ -64,7 +64,7 @@ public class EmoticonsUtils {
                     bean.setItemPadding(20);
                     bean.setVerticalSpacing(5);
                     bean.setIconUri("file://" + filePath + "/icon_030_cover.png");
-                    dbHelper.insertEmoticonSet(bean);
+                    emoticonDbHelper.insertEmoticonSet(bean);
 
                     /**
                      * FROM HTTP/HTTPS
@@ -80,7 +80,7 @@ public class EmoticonsUtils {
                      * FROM USER_DEFINED
                      */
 
-                    dbHelper.cleanup();
+                    emoticonDbHelper.cleanup();
                     Utils.setIsInitDb(context, true);
                 }
             }).start();
@@ -89,9 +89,9 @@ public class EmoticonsUtils {
 
     public static EmoticonsKeyboardBuilder getSimpleBuilder(Context context) {
 
-        DBHelper dbHelper = new DBHelper(context);
-        ArrayList<EmoticonSetBean> mEmoticonSetBeanList = dbHelper.queryEmoticonSet("emoji","xhs");
-        dbHelper.cleanup();
+        EmoticonDBHelper emoticonDbHelper = new EmoticonDBHelper(context);
+        ArrayList<EmoticonSetBean> mEmoticonSetBeanList = emoticonDbHelper.queryEmoticonSet("emoji","xhs");
+        emoticonDbHelper.cleanup();
 
         return new EmoticonsKeyboardBuilder.Builder()
                 .setEmoticonSetBeanList(mEmoticonSetBeanList)
@@ -100,9 +100,9 @@ public class EmoticonsUtils {
 
     public static EmoticonsKeyboardBuilder getBuilder(Context context) {
 
-        DBHelper dbHelper = new DBHelper(context);
-        ArrayList<EmoticonSetBean> mEmoticonSetBeanList = dbHelper.queryAllEmoticonSet();
-        dbHelper.cleanup();
+        EmoticonDBHelper emoticonDbHelper = new EmoticonDBHelper(context);
+        ArrayList<EmoticonSetBean> mEmoticonSetBeanList = emoticonDbHelper.queryAllEmoticonSet();
+        emoticonDbHelper.cleanup();
 
         return new EmoticonsKeyboardBuilder.Builder()
                 .setEmoticonSetBeanList(mEmoticonSetBeanList)

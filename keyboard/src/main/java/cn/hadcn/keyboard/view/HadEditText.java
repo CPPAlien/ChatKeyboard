@@ -11,7 +11,7 @@ import android.widget.EditText;
 
 import java.util.ArrayList;
 
-import cn.hadcn.keyboard.db.DBHelper;
+import cn.hadcn.keyboard.db.EmoticonDBHelper;
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
 import cn.hadcn.keyboard.utils.imageloader.ImageLoader;
 
@@ -42,9 +42,9 @@ public class HadEditText extends EditText {
         mItemWidth = mFontSize;
 
         if (emoticonBeanList == null) {
-            DBHelper dbHelper = new DBHelper(mContext);
-            emoticonBeanList = dbHelper.queryAllEmoticonBeans();
-            dbHelper.cleanup();
+            EmoticonDBHelper emoticonDbHelper = new EmoticonDBHelper(mContext);
+            emoticonBeanList = emoticonDbHelper.queryAllEmoticonBeans();
+            emoticonDbHelper.cleanup();
         }
     }
 

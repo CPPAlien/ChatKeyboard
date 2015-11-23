@@ -49,7 +49,7 @@ public class EmoticonSetBean {
         this.row = row;
     }
 
-    public EmoticonSetBean(String name , int line , int row , String iconUri , String iconName , boolean isShowDelBtn ,
+    public EmoticonSetBean(String name , int line , int row , String iconUri , String iconName , boolean isShowDelBtn , boolean isShownName,
                            int itemPadding , int horizontalSpacing , int verticalSpacing , ArrayList<EmoticonBean> emoticonList){
         this.name = name;
         this.line = line;
@@ -61,6 +61,7 @@ public class EmoticonSetBean {
         this.horizontalSpacing = horizontalSpacing;
         this.verticalSpacing = verticalSpacing;
         this.emoticonList = emoticonList;
+        this.isShownName = isShownName;
     }
 
     public boolean isShownName() {
