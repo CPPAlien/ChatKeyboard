@@ -30,26 +30,38 @@ public class MediaGridAdapter extends BaseAdapter {
 	}
 
 	public View getView(final int position, View convertView, ViewGroup parent){
-		View v = convertView;
-		if (v == null) {
+		ViewHolder viewHolder;
+		if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.media_item, parent, false);
-        }
+			convertView = inflater.inflate(R.layout.media_item, parent, false);
+			viewHolder = new ViewHolder(convertView);
+			convertView.setTag(viewHolder);
+        } else {
+			viewHolder = (ViewHolder)convertView.getTag();
+		}
 
-        ImageView image = (ImageView) v.findViewById(R.id.media_item_image);
-		image.setImageDrawable(ContextCompat.getDrawable(mContext, getItem(position).getDrawableId()));
+		viewHolder.ivImage.setImageDrawable(ContextCompat.getDrawable(mContext, getItem(position).getDrawableId()));
 
-        TextView text = (TextView) v.findViewById(R.id.media_item_text);
-        text.setText(getItem(position).getText());
+        viewHolder.tvText.setText(getItem(position).getText());
 
-		v.setOnClickListener(new OnClickListener() {
+		convertView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
                 getItem(position).getMediaListener().onMediaClick(getItem(position).getId());
 			}
 		});
 
-		return v;
+		return convertView;
+	}
+
+	static class ViewHolder {
+		public ImageView ivImage;
+		public TextView tvText;
+
+		public ViewHolder(View view) {
+			ivImage = (ImageView)view.findViewById(R.id.media_item_image);
+			tvText = (TextView)view.findViewById(R.id.media_item_text);
+		}
 	}
 	
 	@Override

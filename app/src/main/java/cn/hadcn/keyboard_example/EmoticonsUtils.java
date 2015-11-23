@@ -62,7 +62,6 @@ public class EmoticonsUtils {
                     EmoticonSetBean bean =  xmlUtil.ParserXml(xmlUtil.getXmlFromSD(filePath + "/wxemoticons.xml"));
                     bean.setIsShownName(true);
                     bean.setItemPadding(20);
-                    bean.setVerticalSpacing(5);
                     bean.setIconUri("file://" + filePath + "/icon_030_cover.png");
                     emoticonDbHelper.insertEmoticonSet(bean);
 

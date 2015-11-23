@@ -54,7 +54,7 @@ public class EmoticonsAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.emoticons_item, parent, false);
             convertView.setLayoutParams(new AbsListView.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, mItemHeight));
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(mImgHeight, mImgHeight);
-            params.addRule(RelativeLayout.CENTER_IN_PARENT);
+            params.addRule(RelativeLayout.CENTER_HORIZONTAL);
             viewHolder = new ViewHolder(convertView);
             viewHolder.ivEmoticon.setLayoutParams(params);
             convertView.setTag(viewHolder);
