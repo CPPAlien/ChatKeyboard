@@ -163,7 +163,6 @@ public class EmoticonsToolBarView extends RelativeLayout {
         for(EmoticonSetBean bean : mEmoticonSetBeanList){
             LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View toolBtnView = inflater.inflate(R.layout.emoticonstoolbar_item, null);
-            View v_spit = (View)toolBtnView.findViewById(R.id.v_spit);
             ImageView iv_icon = (ImageView)toolBtnView.findViewById(R.id.iv_icon);
             LinearLayout.LayoutParams imgParams = new LinearLayout.LayoutParams(Utils.dip2px(mContext, mBtnWidth), LayoutParams.MATCH_PARENT);
             iv_icon.setLayoutParams(imgParams);

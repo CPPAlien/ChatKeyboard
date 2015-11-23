@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -22,11 +23,12 @@ import cn.hadcn.keyboard.emoticon.EmoticonsToolBarView;
 import cn.hadcn.keyboard.media.MediaBean;
 import cn.hadcn.keyboard.media.MediaLayout;
 import cn.hadcn.keyboard.utils.EmoticonsKeyboardBuilder;
+import cn.hadcn.keyboard.utils.Utils;
 import cn.hadcn.keyboard.view.HadEditText;
 import cn.hadcn.keyboard.view.SoftHandleLayout;
 
 
-public class ChatKeyboardLayout extends SoftHandleLayout implements View.OnClickListener,EmoticonsToolBarView.OnToolBarItemClickListener {
+public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToolBarView.OnToolBarItemClickListener {
 
     public int FUNC_EMOTICON_POS = 0; //display emoticons area
     public int FUNC_MEDIA_POS = 0;    //display medias area
@@ -55,7 +57,6 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements View.OnClick
     }
 
     private void initView() {
-
         rl_input = (RelativeLayout) findViewById(R.id.rl_input);
         ly_foot_func = (LinearLayout) findViewById(R.id.ly_foot_func);
         btn_face = (ImageView) findViewById(R.id.btn_face);
@@ -66,11 +67,11 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements View.OnClick
         et_chat = (HadEditText) findViewById(R.id.et_chat);
 
         setAutoHeightLayoutView(ly_foot_func);
-        btn_voice_or_text.setOnClickListener(this);
-        btn_multimedia.setOnClickListener(this);
-        btn_face.setOnClickListener(this);
-        btn_send.setOnClickListener(this);
-        btn_voice.setOnClickListener(this);
+        btn_voice_or_text.setOnClickListener(new VoiceTextClickListener());
+        btn_multimedia.setOnClickListener(new MediaClickListener());
+        btn_face.setOnClickListener(new FaceClickListener());
+        btn_send.setOnClickListener(new SendClickListener());
+        btn_voice.setOnTouchListener(new RecordingTouchListener());
 
         et_chat.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -90,19 +91,6 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements View.OnClick
                 } else {
                     setEditableState(false);
                 }
-            }
-        });
-        et_chat.setOnSizeChangedListener(new HadEditText.OnSizeChangedListener() {
-            @Override
-            public void onSizeChanged() {
-                post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(mKeyBoardBarViewListener != null){
-                            mKeyBoardBarViewListener.OnKeyBoardStateChange(mKeyboardState,-1);
-                        }
-                    }
-                });
             }
         });
         et_chat.setOnTextChangedInterface(new HadEditText.OnTextChangedInterface() {
@@ -145,11 +133,11 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements View.OnClick
         }
     }
 
-    public HadEditText getEt_chat() {
+    public HadEditText getInputArea() {
         return et_chat;
     }
 
-    public void clearEditText(){
+    public void clearInputArea(){
         if(et_chat != null){
             et_chat.setText("");
         }
@@ -163,29 +151,6 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements View.OnClick
             et_chat.onKeyDown(KeyEvent.KEYCODE_DEL, event);
         }
     }
-
-    public void setVideoVisibility(boolean b){
-        if(b){
-            btn_voice_or_text.setVisibility(VISIBLE);
-        }
-        else{
-            btn_voice_or_text.setVisibility(GONE);
-        }
-    }
-
-    public void setMultimediaVisibility(boolean b){
-        mIsMultimediaVisibility = b;
-        if(b){
-            btn_multimedia.setVisibility(VISIBLE);
-            btn_send.setVisibility(GONE);
-        }
-        else{
-            btn_send.setVisibility(VISIBLE);
-            btn_multimedia.setVisibility(GONE);
-        }
-    }
-
-
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
@@ -202,10 +167,38 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements View.OnClick
         return super.dispatchKeyEvent(event);
     }
 
-    @Override
-    public void onClick(View view) {
-        int id = view.getId();
-        if ( id == R.id.btn_face ) {
+    private class SendClickListener implements OnClickListener {
+
+        @Override
+        public void onClick(View view) {
+            if(mOnChatKeyBoardListener != null){
+                mOnChatKeyBoardListener.onSendBtnClick(et_chat.getText().toString());
+            }
+        }
+    }
+
+    private class VoiceTextClickListener implements OnClickListener {
+
+        @Override
+        public void onClick(View view) {
+            if ( rl_input.isShown() ) {
+                hideAutoView();
+                closeSoftKeyboard(et_chat);
+                rl_input.setVisibility(GONE);
+                btn_voice.setVisibility(VISIBLE);
+            } else {
+                rl_input.setVisibility(VISIBLE);
+                btn_voice.setVisibility(GONE);
+                setEditableState(true);
+                openSoftKeyboard(et_chat);
+            }
+        }
+    }
+
+    private class FaceClickListener implements OnClickListener {
+
+        @Override
+        public void onClick(View view) {
             switch (mKeyboardState){
                 case KEYBOARD_STATE_BOTH:
                     closeSoftKeyboard(et_chat);
@@ -228,11 +221,13 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements View.OnClick
                     }
                     break;
             }
-        } else if (id == R.id.btn_send) {
-            if(mKeyBoardBarViewListener != null){
-                mKeyBoardBarViewListener.OnSendBtnClick(et_chat.getText().toString());
-            }
-        } else if (id == R.id.btn_multimedia) {
+        }
+    }
+
+    private class MediaClickListener implements OnClickListener {
+
+        @Override
+        public void onClick(View view) {
             switch (mKeyboardState){
                 case KEYBOARD_STATE_BOTH:
                     closeSoftKeyboard(et_chat);
@@ -240,9 +235,9 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements View.OnClick
                 case KEYBOARD_STATE_NONE:
                     btn_face.setImageResource(R.drawable.icon_face_nomal);
                     rl_input.setVisibility(VISIBLE);
-                    btn_voice.setVisibility(GONE);
+                    btn_voice.setVisibility(GONE);/*
                     et_chat.setFocusableInTouchMode(true);
-                    et_chat.requestFocus();
+                    et_chat.requestFocus();*/
                     showAutoView();
                     show(FUNC_MEDIA_POS);
                     break;
@@ -255,21 +250,30 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements View.OnClick
                     }
                     break;
             }
-        } else if (id == R.id.btn_voice_or_text) {
-            if ( rl_input.isShown() ) {
-                hideAutoView();
-                rl_input.setVisibility(GONE);
-                btn_voice.setVisibility(VISIBLE);
-            } else {
-                rl_input.setVisibility(VISIBLE);
-                btn_voice.setVisibility(GONE);
-                setEditableState(true);
-                openSoftKeyboard(et_chat);
+        }
+    }
+
+    private class RecordingTouchListener implements OnTouchListener {
+        float startY;
+
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if ( motionEvent.getAction() == MotionEvent.ACTION_DOWN ) {
+                startY = motionEvent.getRawY();
+                if ( mOnChatKeyBoardListener != null ) {
+                    mOnChatKeyBoardListener.onRecordingAction(RecordingAction.START );
+                }
+            } else if ( motionEvent.getAction() == MotionEvent.ACTION_UP ) {
+                if ( mOnChatKeyBoardListener != null ) {
+                    mOnChatKeyBoardListener.onRecordingAction(RecordingAction.END );
+                }
+            } else if ( motionEvent.getAction() == MotionEvent.ACTION_MOVE ) {
+                //todo the num can be set by up layer
+                if ( startY - motionEvent.getRawY() > Utils.dip2px(mContext, 50) && mOnChatKeyBoardListener != null ) {
+                    mOnChatKeyBoardListener.onRecordingAction(RecordingAction.CANCEL);
+                }
             }
-        } else if (id == R.id.btn_voice) {
-            if(mKeyBoardBarViewListener != null){
-                mKeyBoardBarViewListener.OnVideoBtnClick();
-            }
+            return false;
         }
     }
 
@@ -336,31 +340,24 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements View.OnClick
                 }
             }
         }
-        post(new Runnable() {
-            @Override
-            public void run() {
-                if(mKeyBoardBarViewListener != null){
-                    mKeyBoardBarViewListener.OnKeyBoardStateChange(mKeyboardState,-1);
-                }
-            }
-        });
     }
 
-    KeyBoardBarViewListener mKeyBoardBarViewListener;
-    public void setOnKeyBoardBarViewListener(KeyBoardBarViewListener l) { this.mKeyBoardBarViewListener = l; }
+    OnChatKeyBoardListener mOnChatKeyBoardListener;
+    public void setOnKeyBoardBarListener( OnChatKeyBoardListener l ) { this.mOnChatKeyBoardListener = l; }
 
     @Override
     public void onToolBarItemClick(int position) {
 
     }
 
-    public interface KeyBoardBarViewListener {
-        void OnKeyBoardStateChange(int state, int height);
+    public interface OnChatKeyBoardListener {
+        void onSendBtnClick(String msg);
+        void onRecordingAction(RecordingAction action);
+    }
 
-        void OnSendBtnClick(String msg);
-
-        void OnVideoBtnClick();
-
-        void OnMultimediaBtnClick();
+    public enum RecordingAction {
+        START,
+        END,
+        CANCEL
     }
 }

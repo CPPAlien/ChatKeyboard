@@ -88,7 +88,7 @@ public class SoftHandleLayout extends SoftListenLayout {
                 setAutoViewHeight(Utils.dip2px(mContext, mAutoViewHeight));
             }
         });
-
+        isAutoViewNeedHide = true;
         mKeyboardState = KEYBOARD_STATE_FUNC;
     }
 
@@ -114,7 +114,6 @@ public class SoftHandleLayout extends SoftListenLayout {
         // if keyboard closed isn't by calling close, but by pressing back button or keyboard hide, hide auto view
         if ( isAutoViewNeedHide ) {
             hideAutoView();
-            mKeyboardState = KEYBOARD_STATE_NONE;
         }
         isAutoViewNeedHide = true;
     }
@@ -135,6 +134,6 @@ public class SoftHandleLayout extends SoftListenLayout {
         if (inputMethodManager != null && ((Activity) mContext).getCurrentFocus() != null) {
             inputMethodManager.hideSoftInputFromWindow(et.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
-        isAutoViewNeedHide = false;
+        isAutoViewNeedHide = false; //only if you close keyboard by calling method, auto view don't need hide
     }
 }

@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <solid android:color="#E2E2E2" />
+    <solid android:color="#DDDDDD" />
 
     <corners
         android:bottomLeftRadius="3dp"
         android:bottomRightRadius="3dp"
         android:topLeftRadius="3dp"
         android:topRightRadius="3dp" />
-
-    <!-- 渐变 -->
-    <gradient
-        android:angle="270"
-        android:endColor="#FFFFFF"
-        android:startColor="#FFFFFF" />
 
     <!-- 描边 -->
     <stroke
