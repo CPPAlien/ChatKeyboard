@@ -28,15 +28,15 @@
             android:src="@drawable/btn_voice_or_text_bg" />
         <!--语音输入-->
         <Button
-            android:id="@+id/btn_voice"
+            android:id="@+id/bar_recording"
             android:layout_width="match_parent"
             android:layout_height="34dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
             android:layout_toLeftOf="@+id/rl_multi_and_send"
             android:layout_toRightOf="@+id/btn_voice_or_text"
-            android:background="@drawable/btn_voice"
-            android:text="@string/btn_text_speak"
+            android:background="@drawable/recording_n"
+            android:text="@string/recording_start"
             android:textColor="#727272"
             android:visibility="gone"/>
 

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -42,7 +41,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     private ImageView btn_face;
     private ImageView btn_multimedia;
     private Button btn_send;
-    private Button btn_voice;
+    private Button btnRecording;
     private ImageView btn_voice_or_text;
     private Context mContext;
 
@@ -61,7 +60,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         ly_foot_func = (LinearLayout) findViewById(R.id.ly_foot_func);
         btn_face = (ImageView) findViewById(R.id.btn_face);
         btn_voice_or_text = (ImageView) findViewById(R.id.btn_voice_or_text);
-        btn_voice = (Button) findViewById(R.id.btn_voice);
+        btnRecording = (Button) findViewById(R.id.bar_recording);
         btn_multimedia = (ImageView) findViewById(R.id.btn_multimedia);
         btn_send = (Button) findViewById(R.id.btn_send);
         et_chat = (HadEditText) findViewById(R.id.et_chat);
@@ -71,7 +70,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         btn_multimedia.setOnClickListener(new MediaClickListener());
         btn_face.setOnClickListener(new FaceClickListener());
         btn_send.setOnClickListener(new SendClickListener());
-        btn_voice.setOnTouchListener(new RecordingTouchListener());
+        btnRecording.setOnTouchListener(new RecordingTouchListener());
 
         et_chat.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -185,10 +184,12 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                 hideAutoView();
                 closeSoftKeyboard(et_chat);
                 rl_input.setVisibility(GONE);
-                btn_voice.setVisibility(VISIBLE);
+                btnRecording.setVisibility(VISIBLE);
+                //// TODO: 2015/11/23 change icon when switched
+                //btn_voice_or_text.setImageDrawable();
             } else {
                 rl_input.setVisibility(VISIBLE);
-                btn_voice.setVisibility(GONE);
+                btnRecording.setVisibility(GONE);
                 setEditableState(true);
                 openSoftKeyboard(et_chat);
             }
@@ -235,9 +236,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                 case KEYBOARD_STATE_NONE:
                     btn_face.setImageResource(R.drawable.icon_face_nomal);
                     rl_input.setVisibility(VISIBLE);
-                    btn_voice.setVisibility(GONE);/*
-                    et_chat.setFocusableInTouchMode(true);
-                    et_chat.requestFocus();*/
+                    btnRecording.setVisibility(GONE);
                     showAutoView();
                     show(FUNC_MEDIA_POS);
                     break;
@@ -255,22 +254,35 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
 
     private class RecordingTouchListener implements OnTouchListener {
         float startY;
+        float endY;
+        boolean isCanceled = false;
 
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if ( motionEvent.getAction() == MotionEvent.ACTION_DOWN ) {
                 startY = motionEvent.getRawY();
+                btnRecording.setText(getResources().getString(R.string.recording_end));
+                btnRecording.setBackgroundResource(R.drawable.recording_p);
                 if ( mOnChatKeyBoardListener != null ) {
                     mOnChatKeyBoardListener.onRecordingAction(RecordingAction.START );
                 }
             } else if ( motionEvent.getAction() == MotionEvent.ACTION_UP ) {
-                if ( mOnChatKeyBoardListener != null ) {
-                    mOnChatKeyBoardListener.onRecordingAction(RecordingAction.END );
+                btnRecording.setText(getResources().getString(R.string.recording_start));
+                btnRecording.setBackgroundResource(R.drawable.recording_n);
+                if ( mOnChatKeyBoardListener != null && !isCanceled ) {
+                    mOnChatKeyBoardListener.onRecordingAction(RecordingAction.COMPLETE);
+                } else if ( mOnChatKeyBoardListener != null && isCanceled ) {
+                    mOnChatKeyBoardListener.onRecordingAction(RecordingAction.CANCELED);
                 }
             } else if ( motionEvent.getAction() == MotionEvent.ACTION_MOVE ) {
                 //todo the num can be set by up layer
-                if ( startY - motionEvent.getRawY() > Utils.dip2px(mContext, 50) && mOnChatKeyBoardListener != null ) {
-                    mOnChatKeyBoardListener.onRecordingAction(RecordingAction.CANCEL);
+                endY = motionEvent.getRawY();
+                if ( startY - endY > Utils.dip2px(mContext, 50)) {
+                    btnRecording.setText(getResources().getString(R.string.recording_cancel));
+                    isCanceled = true;
+                } else {
+                    btnRecording.setText(getResources().getString(R.string.recording_end));
+                    isCanceled = false;
                 }
             }
             return false;
@@ -357,7 +369,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
 
     public enum RecordingAction {
         START,
-        END,
-        CANCEL
+        COMPLETE,
+        CANCELED
     }
 }

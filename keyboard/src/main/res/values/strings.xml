@@ -6,5 +6,7 @@
     <string name="hello_world">Hello world!</string>
 
     <string name="btn_text_send">发送</string>
-    <string name="btn_text_speak">按住 说话</string>
+    <string name="recording_start">按住 说话</string>
+    <string name="recording_end">松开 结束</string>
+    <string name="recording_cancel">松开手指，取消发送</string>
 </resources>
