@@ -24,9 +24,9 @@ import cn.hadcn.keyboard.ChatKeyboardLayout;
 import cn.hadcn.keyboard.db.EmoticonDBHelper;
 import cn.hadcn.keyboard.emoticon.EmoticonSetBean;
 import cn.hadcn.keyboard.media.MediaBean;
-import cn.hadcn.keyboard.utils.EmoticonsKeyboardBuilder;
-import cn.hadcn.keyboard.utils.imageloader.ImageBase;
-import cn.hadcn.keyboard.utils.imageloader.ImageLoader;
+import cn.hadcn.keyboard.emoticon.util.EmoticonsKeyboardBuilder;
+import cn.hadcn.keyboard.utils.imageloader.EmoticonBase;
+import cn.hadcn.keyboard.utils.imageloader.EmoticonLoader;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, MediaBean.MediaListener, ChatKeyboardLayout.OnChatKeyBoardListener {
     ChatKeyboardLayout keyboardLayout = null;
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         keyboardLayout = (ChatKeyboardLayout)findViewById(R.id.kv_bar);
-        keyboardLayout.setEmoticonContents(EmoticonsUtils.getBuilder(this));
+        keyboardLayout.setEmoticonContents(this);
 
 
         ArrayList<MediaBean> popupModels = new ArrayList<>();
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     protected void displayImageFromAssets(String imageUri, ImageView imageView) throws IOException {
-        String filePath = ImageBase.Scheme.ASSETS.crop(imageUri);
+        String filePath = EmoticonBase.Scheme.ASSETS.crop(imageUri);
         Bitmap bitmap = null;
         try {
             bitmap = BitmapFactory.decodeStream(getAssets().open(filePath));
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onUserDefEmoticonClicked(String name, String uri) {
         Map<String, Drawable> map = new HashMap<>();
-        map.put("image", ImageLoader.getInstance(this).getDrawable(uri));
+        map.put("image", EmoticonLoader.getInstance(this).getDrawable(uri));
         mMapList.add(map);
         mAdapter.notifyDataSetChanged();
     }

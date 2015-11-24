@@ -1,4 +1,4 @@
-package cn.hadcn.keyboard.utils;
+package cn.hadcn.keyboard.emoticon.util;
 
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
 

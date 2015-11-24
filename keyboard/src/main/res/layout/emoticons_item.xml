@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitCenter"/>
     <TextView
         android:id="@+id/emoticon_item_text"
         android:layout_width="wrap_content"

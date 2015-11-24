@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import cn.hadcn.keyboard.db.EmoticonDBHelper;
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
-import cn.hadcn.keyboard.utils.imageloader.ImageLoader;
+import cn.hadcn.keyboard.utils.imageloader.EmoticonLoader;
 
 public class HadEditText extends EditText {
 
@@ -69,9 +69,9 @@ public class HadEditText extends EditText {
         int end = start + after;
         String keyStr = arg0.toString().substring(start, end);
         boolean isEmoticonMatcher = false;
-        for (EmoticonBean bean : emoticonBeanList) {
-            if (!TextUtils.isEmpty(bean.getContent()) && bean.getContent().equals(keyStr)) {
-                Drawable drawable = ImageLoader.getInstance(mContext).getDrawable(bean.getIconUri());
+        for ( EmoticonBean bean : emoticonBeanList ) {
+            if ( !TextUtils.isEmpty(bean.getContent()) && bean.getContent().equals(keyStr) ) {
+                Drawable drawable = EmoticonLoader.getInstance(mContext).getDrawable(bean.getIconUri());
                 if (drawable != null) {
                     int itemHeight;
                     if (mItemHeight == WRAP_DRAWABLE) {

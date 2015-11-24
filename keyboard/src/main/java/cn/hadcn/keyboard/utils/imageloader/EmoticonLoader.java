@@ -9,29 +9,60 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.ImageView;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class ImageLoader implements ImageBase {
+public class EmoticonLoader implements EmoticonBase {
+    protected final Context mContext;
+    private volatile static EmoticonLoader instance;
+    private final static String emoticonConfigFileName = "config.xml";
 
-    protected final Context context;
-
-    private volatile static ImageLoader instance;
-
-    public static ImageLoader getInstance(Context context) {
+    public static EmoticonLoader getInstance(Context context) {
         if (instance == null) {
-            synchronized (ImageLoader.class) {
+            synchronized (EmoticonLoader.class) {
                 if (instance == null) {
-                    instance = new ImageLoader(context);
+                    instance = new EmoticonLoader(context);
                 }
             }
         }
         return instance;
     }
 
-    public ImageLoader(Context context) {
-        this.context = context.getApplicationContext();
+    public EmoticonLoader(Context context) {
+        this.mContext = context.getApplicationContext();
+    }
+
+    /**
+     * get the config file stream in emoticon directory, name of config
+     * is config.xml
+     * @param path path of directory
+     * @param scheme scheme
+     * @return file input stream
+     */
+    public InputStream getConfigStream( String path, Scheme scheme ) {
+        switch ( scheme ) {
+            case FILE:
+                try {
+                    File file = new File(path + "/" + emoticonConfigFileName);
+                    if (file.exists()) {
+                        return new FileInputStream(file);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            case ASSETS:
+                try {
+                    return mContext.getAssets().open(path + "/" + emoticonConfigFileName);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+        }
+        return null;
     }
 
     /**
@@ -49,7 +80,7 @@ public class ImageLoader implements ImageBase {
                 Bitmap fileBitmap = null;
                 try {
                     fileBitmap = BitmapFactory.decodeFile(filePath);
-                    return new BitmapDrawable(context.getResources(), fileBitmap);
+                    return new BitmapDrawable(mContext.getResources(), fileBitmap);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -58,18 +89,18 @@ public class ImageLoader implements ImageBase {
                 return null;
             case ASSETS:
                 String assetsPath = Scheme.ASSETS.crop(imageUri);
-                Bitmap assetsBitmap = null;
+                Bitmap assetsBitmap;
                 try {
-                    assetsBitmap = BitmapFactory.decodeStream(context.getAssets().open(assetsPath));
-                    return new BitmapDrawable(context.getResources(), assetsBitmap);
+                    assetsBitmap = BitmapFactory.decodeStream(mContext.getAssets().open(assetsPath));
+                    return new BitmapDrawable(mContext.getResources(), assetsBitmap);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 return null;
             case DRAWABLE:
                 String drawableIdString = Scheme.DRAWABLE.crop(imageUri);
-                int resID = context.getResources().getIdentifier(drawableIdString, "drawable", context.getPackageName());
-                return context.getResources().getDrawable((int) resID);
+                int resID = mContext.getResources().getIdentifier(drawableIdString, "drawable", mContext.getPackageName());
+                return mContext.getResources().getDrawable((int) resID);
             case UNKNOWN:
             default:
                 return null;
@@ -143,10 +174,9 @@ public class ImageLoader implements ImageBase {
      * @throws IOException
      */
     protected void displayImageFromContent(String imageUri, ImageView imageView) throws FileNotFoundException {
-        ContentResolver res = context.getContentResolver();
+        ContentResolver res = mContext.getContentResolver();
         Uri uri = Uri.parse(imageUri);
         InputStream inputStream = res.openInputStream(uri);
-        return ;
     }
 
     /**
@@ -159,12 +189,11 @@ public class ImageLoader implements ImageBase {
         String filePath = Scheme.ASSETS.crop(imageUri);
         Bitmap bitmap = null;
         try {
-            bitmap = BitmapFactory.decodeStream(context.getAssets().open(filePath));
+            bitmap = BitmapFactory.decodeStream(mContext.getAssets().open(filePath));
         } catch (IOException e) {
             e.printStackTrace();
         }
         imageView.setImageBitmap(bitmap);
-        return ;
     }
 
     /**
@@ -175,12 +204,11 @@ public class ImageLoader implements ImageBase {
      */
     protected void displayImageFromDrawable(String imageUri, ImageView imageView) {
         String drawableIdString = Scheme.DRAWABLE.crop(imageUri);
-        int resID = context.getResources().getIdentifier(drawableIdString, "drawable", context.getPackageName());
+        int resID = mContext.getResources().getIdentifier(drawableIdString, "drawable", mContext.getPackageName());
 
         if (imageView != null) {
             imageView.setImageResource(resID);
         }
-        return ;
     }
 
     /**
@@ -190,6 +218,5 @@ public class ImageLoader implements ImageBase {
      * @throws IOException
      */
     protected void displayImageFromOtherSource(String imageUri, ImageView imageView) throws IOException {
-        return ;
     }
 }

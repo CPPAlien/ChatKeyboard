@@ -1,4 +1,4 @@
-package cn.hadcn.keyboard.emoticon;
+package cn.hadcn.keyboard.emoticon.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,7 +14,8 @@ import java.io.IOException;
 import java.util.List;
 
 import cn.hadcn.keyboard.R;
-import cn.hadcn.keyboard.utils.imageloader.ImageLoader;
+import cn.hadcn.keyboard.emoticon.EmoticonBean;
+import cn.hadcn.keyboard.utils.imageloader.EmoticonLoader;
 import cn.hadcn.keyboard.view.I.IView;
 
 
@@ -73,7 +74,7 @@ public class EmoticonsAdapter extends BaseAdapter {
             }
 
             try {
-                ImageLoader.getInstance(mContext).displayImage(emoticonBean.getIconUri(), viewHolder.ivEmoticon);
+                EmoticonLoader.getInstance(mContext).displayImage(emoticonBean.getIconUri(), viewHolder.ivEmoticon);
             } catch (IOException e) {
                 e.printStackTrace();
             }

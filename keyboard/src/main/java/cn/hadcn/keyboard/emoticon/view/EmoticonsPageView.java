@@ -1,4 +1,4 @@
-package cn.hadcn.keyboard.emoticon;
+package cn.hadcn.keyboard.emoticon.view;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -15,7 +15,9 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.hadcn.keyboard.utils.EmoticonsKeyboardBuilder;
+import cn.hadcn.keyboard.emoticon.EmoticonBean;
+import cn.hadcn.keyboard.emoticon.EmoticonSetBean;
+import cn.hadcn.keyboard.emoticon.util.EmoticonsKeyboardBuilder;
 import cn.hadcn.keyboard.utils.Utils;
 import cn.hadcn.keyboard.view.I.IView;
 import cn.hadcn.keyboard.view.SoftListenLayout;

@@ -1,4 +1,4 @@
-package cn.hadcn.keyboard.emoticon;
+package cn.hadcn.keyboard.emoticon.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -7,7 +7,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import cn.hadcn.keyboard.R;
-import cn.hadcn.keyboard.utils.EmoticonsKeyboardBuilder;
+import cn.hadcn.keyboard.emoticon.EmoticonBean;
+import cn.hadcn.keyboard.emoticon.util.EmoticonsKeyboardBuilder;
 import cn.hadcn.keyboard.view.I.IView;
 import cn.hadcn.keyboard.view.IndicatorView;
 

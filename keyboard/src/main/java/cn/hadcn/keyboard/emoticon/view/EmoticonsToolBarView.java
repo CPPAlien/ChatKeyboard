@@ -1,4 +1,4 @@
-package cn.hadcn.keyboard.emoticon;
+package cn.hadcn.keyboard.emoticon.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -15,9 +15,10 @@ import java.util.List;
 import java.util.Random;
 
 import cn.hadcn.keyboard.R;
-import cn.hadcn.keyboard.utils.EmoticonsKeyboardBuilder;
+import cn.hadcn.keyboard.emoticon.EmoticonSetBean;
+import cn.hadcn.keyboard.emoticon.util.EmoticonsKeyboardBuilder;
 import cn.hadcn.keyboard.utils.Utils;
-import cn.hadcn.keyboard.utils.imageloader.ImageLoader;
+import cn.hadcn.keyboard.utils.imageloader.EmoticonLoader;
 
 public class EmoticonsToolBarView extends RelativeLayout {
 
@@ -169,7 +170,7 @@ public class EmoticonsToolBarView extends RelativeLayout {
             ly_tool.addView(toolBtnView);
 
             try {
-                ImageLoader.getInstance(mContext).displayImage(bean.getIconUri(),iv_icon);
+                EmoticonLoader.getInstance(mContext).displayImage(bean.getIconUri(),iv_icon);
             } catch (IOException e) {
                 e.printStackTrace();
             }

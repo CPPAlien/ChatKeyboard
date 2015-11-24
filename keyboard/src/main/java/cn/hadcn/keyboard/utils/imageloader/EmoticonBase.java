@@ -20,11 +20,11 @@ import android.widget.ImageView;
 import java.io.IOException;
 import java.util.Locale;
 
-public interface ImageBase {
+public interface EmoticonBase {
 
 	void displayImage(String imageUri, ImageView imageView) throws IOException;
 
-	public enum Scheme {
+	enum Scheme {
 		HTTP("http"),
         HTTPS("https"),
         FILE("file"),

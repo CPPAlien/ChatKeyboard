@@ -4,9 +4,23 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Xml;
 import android.view.View;
 import android.view.ViewGroup;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+
+import cn.hadcn.keyboard.emoticon.EmoticonBean;
+import cn.hadcn.keyboard.emoticon.EmoticonSetBean;
+import cn.hadcn.keyboard.utils.imageloader.EmoticonBase;
+import cn.hadcn.keyboard.utils.imageloader.EmoticonLoader;
 
 
 public class Utils {
@@ -89,5 +103,115 @@ public class Utils {
         return ((ViewGroup) context.findViewById(android.R.id.content)).getChildAt(0);
     }
 
+    public static ArrayList<EmoticonBean> ParseData(String[] arry, long eventType, EmoticonBase.Scheme scheme) {
+        try {
+            ArrayList<EmoticonBean> emojis = new ArrayList<>();
+            for (int i = 0; i < arry.length; i++) {
+                if (!TextUtils.isEmpty(arry[i])) {
+                    String temp = arry[i].trim();
+                    String[] text = temp.split(",");
+                    if ( text.length == 2 ) {
+                        String fileName;
+                        if (scheme == EmoticonBase.Scheme.DRAWABLE) {
+                            if(text[0].contains(".")){
+                                fileName = scheme.toUri(text[0].substring(0, text[0].lastIndexOf(".")));
+                            }
+                            else {
+                                fileName = scheme.toUri(text[0]);
+                            }
+                        } else {
+                            fileName = scheme.toUri(text[0]);
+                        }
+                        String content = text[1];
+                        EmoticonBean bean = new EmoticonBean(eventType, fileName, content);
+                        emojis.add(bean);
+                    }
+                }
+            }
+            return emojis;
+        } catch ( Exception e ) {
+            e.printStackTrace();
+        }
 
+        return null;
+    }
+
+    public static EmoticonSetBean ParseEmoticons(Context context, String path, EmoticonBase.Scheme scheme) throws IOException, XmlPullParserException {
+        String arrayParentKey = "EmoticonBean";
+        EmoticonSetBean emoticonSetBean = new EmoticonSetBean();
+        ArrayList<EmoticonBean> emoticonList = new ArrayList<>();
+        emoticonSetBean.setEmoticonList(emoticonList);
+        EmoticonBean emoticonBeanTemp = null;
+
+        EmoticonLoader emoticonLoader = EmoticonLoader.getInstance(context);
+        InputStream inStream = emoticonLoader.getConfigStream(path, scheme);
+        if ( inStream == null ) {
+            throw new IOException("Read config.xml in emoticon directory failed");
+        }
+
+        boolean isChildCheck = false;
+        XmlPullParser pullParser = Xml.newPullParser();
+        pullParser.setInput(inStream, "UTF-8");
+        int event = pullParser.getEventType();
+
+        while (event != XmlPullParser.END_DOCUMENT) {
+            if (event == XmlPullParser.START_TAG ) {
+                String skeyName = pullParser.getName();
+                if ( isChildCheck ) {
+                    if (skeyName.equals("eventType")) {
+                        String value = pullParser.nextText();
+                        emoticonBeanTemp.setEventType(Integer.parseInt(value));
+                    } else if (skeyName.equals("iconUri")) {
+                        String value = pullParser.nextText();
+                        emoticonBeanTemp.setIconUri(scheme.toUri(path + "/" + value));
+                    } else if (skeyName.equals("content")) {
+                        String value = pullParser.nextText();
+                        emoticonBeanTemp.setContent(value);
+                    }
+                } else {
+                    if (skeyName.equals("name")) {
+                        String value = pullParser.nextText();
+                        emoticonSetBean.setName(value);
+                    } else if (skeyName.equals("line")) {
+                        String value = pullParser.nextText();
+                        emoticonSetBean.setLine(Integer.parseInt(value));
+                    } else if (skeyName.equals("row")) {
+                        String value = pullParser.nextText();
+                        emoticonSetBean.setRow(Integer.parseInt(value));
+                    } else if (skeyName.equals("iconUri")) {
+                        String value = pullParser.nextText();
+                        emoticonSetBean.setIconUri(scheme.toUri(path + "/" + value));
+                    } else if (skeyName.equals("iconName")) {
+                        String value = pullParser.nextText();
+                        emoticonSetBean.setIconName(value);
+                    } else if (skeyName.equals("isShowDelBtn")) {
+                        String value = pullParser.nextText();
+                        emoticonSetBean.setShowDelBtn(Integer.parseInt(value) == 1);
+                    } else if (skeyName.equals("itemPadding")) {
+                        String value = pullParser.nextText();
+                        emoticonSetBean.setItemPadding(Integer.parseInt(value));
+                    } else if (skeyName.equals("horizontalSpacing")) {
+                        String value = pullParser.nextText();
+                        emoticonSetBean.setHorizontalSpacing(Integer.parseInt(value));
+                    } else if (skeyName.equals("verticalSpacing")) {
+                        String value = pullParser.nextText();
+                        emoticonSetBean.setVerticalSpacing(Integer.parseInt(value));
+                    }
+                }
+
+                if (skeyName.equals(arrayParentKey)) {
+                    isChildCheck = true;
+                    emoticonBeanTemp = new EmoticonBean();
+                }
+            } else if ( event == XmlPullParser.END_TAG ) {
+                String ekeyName = pullParser.getName();
+                if (isChildCheck && ekeyName.equals(arrayParentKey)) {
+                    isChildCheck = false;
+                    emoticonList.add(emoticonBeanTemp);
+                }
+            }
+            event = pullParser.next();
+        }
+        return emoticonSetBean;
+    }
 }

@@ -2,7 +2,7 @@ package cn.hadcn.keyboard.emoticon;
 
 public class EmoticonBean {
 
-    public final static int FACE_TYPE_NOMAL = 0;
+    public final static int FACE_TYPE_NORMAL = 0;
     public final static int FACE_TYPE_DEL = 1;
     public final static int FACE_TYPE_USERDEF = 2; // user downloaded emoticons
 

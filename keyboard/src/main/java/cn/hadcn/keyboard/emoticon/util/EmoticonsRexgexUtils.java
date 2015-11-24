@@ -1,4 +1,4 @@
-package cn.hadcn.keyboard.utils;
+package cn.hadcn.keyboard.emoticon.util;
 
 import android.content.Context;
 import android.graphics.Paint;
@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 import cn.hadcn.keyboard.db.EmoticonDBHelper;
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
-import cn.hadcn.keyboard.utils.imageloader.ImageLoader;
+import cn.hadcn.keyboard.utils.imageloader.EmoticonLoader;
 import cn.hadcn.keyboard.view.HadEditText;
 import cn.hadcn.keyboard.view.VerticalImageSpan;
 
@@ -60,7 +60,7 @@ public class EmoticonsRexgexUtils {
                 String key = content.substring(start, end).toString();
                 for (EmoticonBean bean : emoticonBeanList) {
                     if (!TextUtils.isEmpty(bean.getContent()) && bean.getContent().equals(key)) {
-                        Drawable drawable = ImageLoader.getInstance(context).getDrawable(bean.getIconUri());
+                        Drawable drawable = EmoticonLoader.getInstance(context).getDrawable(bean.getIconUri());
                         if (drawable != null) {
                             int itemHeight;
                             if (height == HadEditText.WRAP_DRAWABLE) {

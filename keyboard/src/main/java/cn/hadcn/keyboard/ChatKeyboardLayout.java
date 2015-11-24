@@ -17,11 +17,12 @@ import android.widget.RelativeLayout;
 import java.util.List;
 
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
-import cn.hadcn.keyboard.emoticon.EmoticonLayout;
-import cn.hadcn.keyboard.emoticon.EmoticonsToolBarView;
+import cn.hadcn.keyboard.emoticon.EmoticonsUtils;
+import cn.hadcn.keyboard.emoticon.view.EmoticonLayout;
+import cn.hadcn.keyboard.emoticon.view.EmoticonsToolBarView;
 import cn.hadcn.keyboard.media.MediaBean;
 import cn.hadcn.keyboard.media.MediaLayout;
-import cn.hadcn.keyboard.utils.EmoticonsKeyboardBuilder;
+import cn.hadcn.keyboard.emoticon.util.EmoticonsKeyboardBuilder;
 import cn.hadcn.keyboard.utils.Utils;
 import cn.hadcn.keyboard.view.HadEditText;
 import cn.hadcn.keyboard.view.SoftHandleLayout;
@@ -307,7 +308,8 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         ++FUNC_ORDER_COUNT;
     }
 
-    public void setEmoticonContents(EmoticonsKeyboardBuilder builder) {
+    public void setEmoticonContents( Context context ) {
+        EmoticonsKeyboardBuilder builder = EmoticonsUtils.getBuilder(context);
         EmoticonLayout layout = new EmoticonLayout(mContext);
         layout.setContents(builder, new EmoticonLayout.OnEmoticonListener() {
             @Override

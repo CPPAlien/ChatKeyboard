@@ -11,7 +11,7 @@
         android:layout_height="@dimen/horizontalspit_view_height"
         android:layout_alignParentTop="true"/>
 
-    <cn.hadcn.keyboard.emoticon.EmoticonsPageView
+    <cn.hadcn.keyboard.emoticon.view.EmoticonsPageView
         android:id="@+id/view_epv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -36,7 +36,7 @@
         android:layout_height="@dimen/horizontalspit_view_height"
         android:layout_above="@+id/view_etv"/>
 
-    <cn.hadcn.keyboard.emoticon.EmoticonsToolBarView
+    <cn.hadcn.keyboard.emoticon.view.EmoticonsToolBarView
         android:id="@+id/view_etv"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bar_height"
