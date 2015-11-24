@@ -184,9 +184,10 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                 setEditableState(true);
                 openSoftKeyboard(et_chat);
                 btn_voice_or_text.setImageResource(R.drawable.recording_icon);
-
-                btn_multimedia.setVisibility(GONE);
-                btn_send.setVisibility(VISIBLE);
+                if ( !TextUtils.isEmpty(et_chat.getText().toString()) ) {
+                    btn_multimedia.setVisibility(GONE);
+                    btn_send.setVisibility(VISIBLE);
+                }
             }
         }
     }
@@ -235,6 +236,8 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                     rl_input.setVisibility(VISIBLE);
                     btnRecording.setVisibility(GONE);
                     btn_voice_or_text.setImageResource(R.drawable.recording_icon);
+                    et_chat.setFocusableInTouchMode(true);
+                    et_chat.requestFocus();
                     showAutoView();
                     show(FUNC_MEDIA_POS);
                     break;

@@ -71,7 +71,6 @@
                 android:paddingRight="8dp"
                 android:paddingTop="6dp">
             </cn.hadcn.keyboard.view.HadEditText>
-
             <!--表情-->
             <ImageView
                 android:id="@+id/btn_face"
@@ -80,8 +79,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                android:src="@drawable/icon_face_nomal"
-                />
+                android:src="@drawable/icon_face_nomal"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -122,6 +120,5 @@
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:visibility="gone">
-
     </LinearLayout>
 </LinearLayout>
