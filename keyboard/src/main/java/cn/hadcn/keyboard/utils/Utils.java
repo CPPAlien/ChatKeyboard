@@ -123,7 +123,7 @@ public class Utils {
                             fileName = scheme.toUri(text[0]);
                         }
                         String content = text[1];
-                        EmoticonBean bean = new EmoticonBean(eventType, fileName, content);
+                        EmoticonBean bean = new EmoticonBean(eventType, fileName, content, content);
                         emojis.add(bean);
                     }
                 }
@@ -164,9 +164,12 @@ public class Utils {
                     } else if (skeyName.equals("iconUri")) {
                         String value = pullParser.nextText();
                         emoticonBeanTemp.setIconUri(scheme.toUri(path + "/" + value));
-                    } else if (skeyName.equals("content")) {
+                    } else if (skeyName.equals("tag")) {
                         String value = pullParser.nextText();
-                        emoticonBeanTemp.setContent(value);
+                        emoticonBeanTemp.setTag(value);
+                    } else if (skeyName.equals("name")) {
+                        String value = pullParser.nextText();
+                        emoticonBeanTemp.setName(value);
                     }
                 } else {
                     if (skeyName.equals("name")) {
@@ -181,10 +184,7 @@ public class Utils {
                     } else if (skeyName.equals("iconUri")) {
                         String value = pullParser.nextText();
                         emoticonSetBean.setIconUri(scheme.toUri(path + "/" + value));
-                    } else if (skeyName.equals("iconName")) {
-                        String value = pullParser.nextText();
-                        emoticonSetBean.setIconName(value);
-                    } else if (skeyName.equals("isShowDelBtn")) {
+                    }  else if (skeyName.equals("isShowDelBtn")) {
                         String value = pullParser.nextText();
                         emoticonSetBean.setShowDelBtn(Integer.parseInt(value) == 1);
                     } else if (skeyName.equals("itemPadding")) {
@@ -196,6 +196,9 @@ public class Utils {
                     } else if (skeyName.equals("verticalSpacing")) {
                         String value = pullParser.nextText();
                         emoticonSetBean.setVerticalSpacing(Integer.parseInt(value));
+                    } else if (skeyName.equals("isShowName")) {
+                        String value = pullParser.nextText();
+                        emoticonSetBean.setIsShownName(Integer.parseInt(value) == 1);
                     }
                 }
 

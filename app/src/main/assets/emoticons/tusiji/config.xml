@@ -1,10 +1,10 @@
 <?xml version="1.0" standalone="yes"?>
 <EmoticonSet>
-    <name>test</name>
+    <name>tusiji</name>
     <line>2</line>
     <row>4</row>
+    <isShowName>1</isShowName>
     <iconUri>icon_030_cover.png</iconUri>
-    <iconName></iconName>
     <isShowDelBtn>0</isShowDelBtn>
     <itemPadding>20</itemPadding>
     <horizontalSpacing>0</horizontalSpacing>
@@ -13,82 +13,98 @@
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>icon_002_cover.png</iconUri>  
-            <content>哭</content> 
+            <name>哭</name>
+            <tag>tusiji_cry</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>icon_007_cover.png</iconUri> 
-            <content>嘚瑟</content> 
+            <name>嘚瑟</name>
+            <tag>tusiji_dese</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>icon_010_cover.png</iconUri> 
-            <content>手舞足蹈</content> 
+            <name>手舞足蹈</name>
+            <tag>tusiji_dance</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>icon_012_cover.png</iconUri> 
-            <content>叮铃</content> 
+            <name>叮铃</name>
+            <tag>tusiji_dingling</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>icon_013_cover.png</iconUri> 
-            <content>拜拜</content> 
+            <name>拜拜</name>
+            <tag>tusiji_bye</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>icon_018_cover.png</iconUri> 
-            <content>闪亮</content> 
+            <name>闪亮</name>
+            <tag>tusiji_shining</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>icon_019_cover.png</iconUri> 
-            <content>抱奶瓶</content> 
+            <name>抱奶瓶</name>
+            <tag>tusiji_milk</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>icon_020_cover.png</iconUri> 
-            <content>晚安</content> 
+            <name>晚安</name>
+            <tag>tusiji_goodnight</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>icon_021_cover.png</iconUri> 
-            <content>飞吻</content> 
+            <name>飞吻</name>
+            <tag>tusiji_kiss</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>icon_022_cover.png</iconUri> 
-            <content>切</content> 
+            <name>切</name>
+            <tag>tusiji_qie</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>icon_024_cover.png</iconUri> 
-            <content>使劲摇</content> 
+            <name>使劲摇</name>
+            <tag>tusiji_shake</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>icon_027_cover.png</iconUri> 
-            <content>生日快乐</content> 
+            <name>生日快乐</name>
+            <tag>tusiji_happybirthday</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>icon_029_cover.png</iconUri> 
-            <content>我最帅</content> 
+            <name>我最帅</name>
+            <tag>tusiji_handsome</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>icon_030_cover.png</iconUri> 
-            <content>抓墙</content> 
+            <name>抓墙</name>
+            <tag>tusiji_zhuaqiang</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>icon_035_cover.png</iconUri> 
-            <content>扭屁股</content> 
+            <name>扭屁股</name>
+            <tag>tusiji_niupigu</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>icon_040_cover.png</iconUri> 
-            <content>印度舞</content> 
+            <name>印度舞</name>
+            <tag>tusiji_india</tag>
         </EmoticonBean>  
     </EmoticonBeans>
 </EmoticonSet>

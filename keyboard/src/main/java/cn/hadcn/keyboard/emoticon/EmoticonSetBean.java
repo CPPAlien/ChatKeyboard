@@ -20,10 +20,6 @@ public class EmoticonSetBean {
      */
     private String iconUri;
     /**
-     * icon name
-     */
-    private String iconName;
-    /**
      * is show delete button
      */
     private boolean isShowDelBtn;
@@ -49,13 +45,12 @@ public class EmoticonSetBean {
         this.row = row;
     }
 
-    public EmoticonSetBean(String name , int line , int row , String iconUri , String iconName , boolean isShowDelBtn , boolean isShownName,
+    public EmoticonSetBean(String name , int line , int row , String iconUri, boolean isShowDelBtn , boolean isShownName,
                            int itemPadding , int horizontalSpacing , int verticalSpacing , ArrayList<EmoticonBean> emoticonList){
         this.name = name;
         this.line = line;
         this.row = row;
         this.iconUri = iconUri;
-        this.iconName = iconName;
         this.isShowDelBtn = isShowDelBtn;
         this.itemPadding = itemPadding;
         this.horizontalSpacing = horizontalSpacing;
@@ -102,14 +97,6 @@ public class EmoticonSetBean {
 
     public void setIconUri(String iconUri) {
         this.iconUri = iconUri;
-    }
-
-    public String getIconName() {
-        return iconName;
-    }
-
-    public void setIconName(String iconName) {
-        this.iconName = iconName;
     }
 
     public boolean isShowDelBtn() {

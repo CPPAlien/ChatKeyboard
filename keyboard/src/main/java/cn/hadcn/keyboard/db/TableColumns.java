@@ -4,17 +4,12 @@ import android.provider.BaseColumns;
 
 public final class TableColumns {
 
-    private TableColumns() {}
-
     public interface EmoticonColumns extends BaseColumns {
-
         String EVENTTYPE = "eventtype";
-        String CONTENT = "content";
-
+        String TAG = "tag";   //for matching, should be unique
+        String NAME = "name";  //for displaying
         String ICONURI = "iconuri";
-
-        String EMOTICONSET_NAME = "emoticonset_name";
-
+        String EMOTICONSET_NAME = "emoticonset_name";  //unique
     }
 
     public interface EmoticonSetColumns extends BaseColumns {
@@ -22,7 +17,6 @@ public final class TableColumns {
         String LINE = "line";
         String ROW = "row";
         String ICONURI = "iconuri";
-        String ICONNAME = "iconname";
         String ISSHOWDELBTN = "isshowdelbtn";
         String ITEMPADDING = "itempadding";
         String HORIZONTALSPACING = "horizontalspacing";

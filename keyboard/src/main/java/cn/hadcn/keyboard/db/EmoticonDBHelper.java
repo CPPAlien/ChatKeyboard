@@ -17,7 +17,7 @@ import cn.hadcn.keyboard.emoticon.EmoticonSetBean;
 
 public class EmoticonDBHelper {
 
-    private static final int VERSION = 3;
+    private static final int VERSION = 4;
 
     private static final String DATABASE_NAME = "xhsemoticons.db";
     private static final String TABLE_NAME_EMOTICONS = "emoticons";
@@ -43,7 +43,8 @@ public class EmoticonDBHelper {
         }
         ContentValues values = new ContentValues();
         values.put(TableColumns.EmoticonColumns.EVENTTYPE, bean.getEventType());
-        values.put(TableColumns.EmoticonColumns.CONTENT, bean.getContent());
+        values.put(TableColumns.EmoticonColumns.TAG, bean.getTag());
+        values.put(TableColumns.EmoticonColumns.NAME, bean.getName());
         values.put(TableColumns.EmoticonColumns.ICONURI, bean.getIconUri());
         values.put(TableColumns.EmoticonColumns.EMOTICONSET_NAME, beanSetName);
         return values;
@@ -57,7 +58,8 @@ public class EmoticonDBHelper {
         }
         ContentValues values = new ContentValues();
         values.put(TableColumns.EmoticonColumns.EVENTTYPE, bean.getEventType());
-        values.put(TableColumns.EmoticonColumns.CONTENT, bean.getContent());
+        values.put(TableColumns.EmoticonColumns.TAG, bean.getTag());
+        values.put(TableColumns.EmoticonColumns.NAME, bean.getName());
         values.put(TableColumns.EmoticonColumns.ICONURI, bean.getIconUri());
         values.put(TableColumns.EmoticonColumns.EMOTICONSET_NAME, beanSetName);
         try {
@@ -96,7 +98,6 @@ public class EmoticonDBHelper {
         values.put(TableColumns.EmoticonSetColumns.LINE, bean.getLine());
         values.put(TableColumns.EmoticonSetColumns.ROW, bean.getRow());
         values.put(TableColumns.EmoticonSetColumns.ICONURI, bean.getIconUri());
-        values.put(TableColumns.EmoticonSetColumns.ICONNAME, bean.getIconName());
         values.put(TableColumns.EmoticonSetColumns.ISSHOWNNAME, bean.isShownName());
         values.put(TableColumns.EmoticonSetColumns.ISSHOWDELBTN, bean.isShowDelBtn() ? 1 : 0);
         values.put(TableColumns.EmoticonSetColumns.ITEMPADDING, bean.getItemPadding());
@@ -117,15 +118,16 @@ public class EmoticonDBHelper {
     }
 
     public EmoticonBean queryEmoticonBean(String contentStr) {
-        String sql = "select * from " + TABLE_NAME_EMOTICONS + " where " + TableColumns.EmoticonColumns.CONTENT + " = '" + contentStr + "'";
+        String sql = "select * from " + TABLE_NAME_EMOTICONS + " where " + TableColumns.EmoticonColumns.TAG + " = '" + contentStr + "'";
         Cursor cursor = db.rawQuery(sql, null);
         try {
             if (cursor.getCount() > 0) {
                 cursor.moveToFirst();
                 long eventType = cursor.getLong(cursor.getColumnIndex(TableColumns.EmoticonColumns.EVENTTYPE));
-                String content = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonColumns.CONTENT));
+                String tag = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonColumns.TAG));
                 String iconUri = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonColumns.ICONURI));
-                return new EmoticonBean(eventType, iconUri, content);
+                String name = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonColumns.NAME));
+                return new EmoticonBean(eventType, iconUri, tag, name);
             }
         } finally {
             cursor.close();
@@ -142,9 +144,10 @@ public class EmoticonDBHelper {
                 cursor.moveToFirst();
                 for (int i = 0; i < count; i++) {
                     long eventType = cursor.getLong(cursor.getColumnIndex(TableColumns.EmoticonColumns.EVENTTYPE));
-                    String content = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonColumns.CONTENT));
+                    String tag = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonColumns.TAG));
+                    String name = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonColumns.NAME));
                     String iconUri = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonColumns.ICONURI));
-                    EmoticonBean bean = new EmoticonBean(eventType, iconUri, content);
+                    EmoticonBean bean = new EmoticonBean(eventType, iconUri, tag, name);
                     beanList.add(bean);
                     cursor.moveToNext();
                 }
@@ -209,7 +212,6 @@ public class EmoticonDBHelper {
                     int line = cursor.getInt(cursor.getColumnIndex(TableColumns.EmoticonSetColumns.LINE));
                     int row = cursor.getInt(cursor.getColumnIndex(TableColumns.EmoticonSetColumns.ROW));
                     String iconUri = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonSetColumns.ICONURI));
-                    String iconName = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonSetColumns.ICONNAME));
                     boolean isshowdelbtn = cursor.getInt(cursor.getColumnIndex(TableColumns.EmoticonSetColumns.ISSHOWDELBTN)) == 1;
                     int itempadding = cursor.getInt(cursor.getColumnIndex(TableColumns.EmoticonSetColumns.ITEMPADDING));
                     int horizontalspacing = cursor.getInt(cursor.getColumnIndex(TableColumns.EmoticonSetColumns.HORIZONTALSPACING));
@@ -229,7 +231,7 @@ public class EmoticonDBHelper {
                         pageCount = (int) Math.ceil((double) emoticonList.size() / everyPageMaxSum);
                     }
 
-                    EmoticonSetBean bean = new EmoticonSetBean(name, line, row, iconUri, iconName, isshowdelbtn, isShownName, itempadding, horizontalspacing, verticalSpacing, emoticonList);
+                    EmoticonSetBean bean = new EmoticonSetBean(name, line, row, iconUri, isshowdelbtn, isShownName, itempadding, horizontalspacing, verticalSpacing, emoticonList);
                     beanList.add(bean);
                     cursor.moveToNext();
                 }
@@ -263,7 +265,8 @@ public class EmoticonDBHelper {
             db.execSQL("CREATE TABLE " + TABLE_NAME_EMOTICONS + " ( " +
                     TableColumns.EmoticonColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     TableColumns.EmoticonColumns.EVENTTYPE + " INTEGER, " +
-                    TableColumns.EmoticonColumns.CONTENT + " TEXT NOT NULL, " +
+                    TableColumns.EmoticonColumns.TAG + " TEXT NOT NULL, " +
+                    TableColumns.EmoticonColumns.NAME + " TEXT, " +
                     TableColumns.EmoticonColumns.ICONURI + " TEXT NOT NULL, " +
                     TableColumns.EmoticonColumns.EMOTICONSET_NAME + " TEXT NOT NULL);");
 
@@ -274,7 +277,6 @@ public class EmoticonDBHelper {
                     TableColumns.EmoticonSetColumns.LINE + " INTEGER, " +
                     TableColumns.EmoticonSetColumns.ROW + " INTEGER, " +
                     TableColumns.EmoticonSetColumns.ICONURI + " TEXT, " +
-                    TableColumns.EmoticonSetColumns.ICONNAME + " TEXT, " +
                     TableColumns.EmoticonSetColumns.ISSHOWDELBTN + " BOOLEAN, " +
                     TableColumns.EmoticonSetColumns.ISSHOWNNAME + " BOOLEAN, " +
                     TableColumns.EmoticonSetColumns.ITEMPADDING + " INTEGER, " +

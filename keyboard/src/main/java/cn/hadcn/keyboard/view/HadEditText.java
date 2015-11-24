@@ -70,7 +70,7 @@ public class HadEditText extends EditText {
         String keyStr = arg0.toString().substring(start, end);
         boolean isEmoticonMatcher = false;
         for ( EmoticonBean bean : emoticonBeanList ) {
-            if ( !TextUtils.isEmpty(bean.getContent()) && bean.getContent().equals(keyStr) ) {
+            if ( !TextUtils.isEmpty(bean.getTag()) && bean.getTag().equals(keyStr) ) {
                 Drawable drawable = EmoticonLoader.getInstance(mContext).getDrawable(bean.getIconUri());
                 if (drawable != null) {
                     int itemHeight;

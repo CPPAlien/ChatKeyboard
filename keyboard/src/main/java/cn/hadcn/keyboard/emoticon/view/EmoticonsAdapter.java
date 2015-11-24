@@ -68,7 +68,7 @@ public class EmoticonsAdapter extends BaseAdapter {
             viewHolder.ivEmoticon.setBackgroundResource(R.drawable.emoticon_bg);
             if ( isDisplayName ) {
                 viewHolder.tvName.setVisibility(View.VISIBLE);
-                viewHolder.tvName.setText(getItem(position).getContent());
+                viewHolder.tvName.setText(getItem(position).getName());
             } else {
                 viewHolder.tvName.setVisibility(View.GONE);
             }

@@ -23,7 +23,6 @@ import cn.hadcn.keyboard.view.I.IView;
 import cn.hadcn.keyboard.view.SoftListenLayout;
 
 public class EmoticonsPageView extends ViewPager implements IView {
-
     private Context mContext;
     private int mHeight = 0;
     private int mMaxEmoticonSetPageCount = 0;
@@ -113,7 +112,7 @@ public class EmoticonsPageView extends ViewPager implements IView {
                         while (list.size() < count - 1) {
                             list.add(null);
                         }
-                        list.add(new EmoticonBean(EmoticonBean.FACE_TYPE_DEL, "drawable://icon_del", null));
+                        list.add(new EmoticonBean(EmoticonBean.FACE_TYPE_DEL, "drawable://icon_del", null, null));
                     } else {
                         int count = bean.getLine() * bean.getRow();
                         while (list.size() < count) {

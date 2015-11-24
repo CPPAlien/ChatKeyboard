@@ -4,7 +4,7 @@
     <line>2</line>
     <row>4</row>
     <iconUri>cry.gif</iconUri>
-    <iconName></iconName>
+    <isShowName>1</isShowName>
     <isShowDelBtn>0</isShowDelBtn>
     <itemPadding>20</itemPadding>
     <horizontalSpacing>0</horizontalSpacing>
@@ -13,42 +13,50 @@
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>cry.gif</iconUri>
-            <content>大哭</content>
+            <name>大哭</name>
+            <tag>qbi_cry</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>fadai.gif</iconUri>
-            <content>发呆</content>
+            <name>发呆</name>
+            <tag>qbi_fadai</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>fighting.gif</iconUri>
-            <content>奋斗</content>
+            <name>奋斗</name>
+            <tag>qbi_fighting</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>jump.gif</iconUri>
-            <content>跳跳</content>
+            <name>跳跳</name>
+            <tag>qbi_jump</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>laugh.gif</iconUri>
-            <content>大笑</content>
+            <name>大笑</name>
+            <tag>qbi_laugh</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>miao.gif</iconUri>
-            <content>喵喵</content>
+            <name>喵喵</name>
+            <tag>qbi_miao</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>moving.gif</iconUri>
-            <content>感动</content>
+            <name>感动</name>
+            <tag>qbi_moving</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
             <iconUri>sese.gif</iconUri>
-            <content>色色</content>
+            <name>色色</name>
+            <tag>qbi_sese</tag>
         </EmoticonBean>
     </EmoticonBeans>
 </EmoticonSet>

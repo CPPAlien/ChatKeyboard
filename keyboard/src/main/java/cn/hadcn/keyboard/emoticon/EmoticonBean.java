@@ -6,18 +6,10 @@ public class EmoticonBean {
     public final static int FACE_TYPE_DEL = 1;
     public final static int FACE_TYPE_USERDEF = 2; // user downloaded emoticons
 
-    /**
-     *  event type
-     */
     private long eventType;
-    /**
-     * icon uri
-     */
     private String iconUri;
-    /**
-     * description
-     */
-    private String content;
+    private String tag;
+    private String name;
 
     public long getEventType() { return eventType; }
 
@@ -31,12 +23,20 @@ public class EmoticonBean {
         this.iconUri = iconUri;
     }
 
-    public String getContent() {
-        return content;
+    public String getTag() {
+        return tag;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public static String fromChars(String chars) { return chars; }
@@ -53,11 +53,13 @@ public class EmoticonBean {
         }
     }
 
-    public EmoticonBean(long eventType , String iconUri , String content){
+    public EmoticonBean(long eventType , String iconUri , String tag, String name){
         this.eventType = eventType;
         this.iconUri = iconUri;
-        this.content = content;
+        this.tag = tag;
+        this.name = name;
     }
 
-    public EmoticonBean(){ }
+    public EmoticonBean() {
+    }
 }

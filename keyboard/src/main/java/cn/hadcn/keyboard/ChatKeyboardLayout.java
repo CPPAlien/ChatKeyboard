@@ -323,16 +323,16 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                         et_chat.onKeyDown(KeyEvent.KEYCODE_DEL, event);
                         return;
                     } else if (bean.getEventType() == EmoticonBean.FACE_TYPE_USERDEF) {
-                        mOnChatKeyBoardListener.onUserDefEmoticonClicked(bean.getContent(), bean.getIconUri());
+                        mOnChatKeyBoardListener.onUserDefEmoticonClicked(bean.getTag(), bean.getIconUri());
                         return;
                     }
 
                     int index = et_chat.getSelectionStart();
                     Editable editable = et_chat.getEditableText();
                     if (index < 0) {
-                        editable.append(bean.getContent());
+                        editable.append(bean.getTag());
                     } else {
-                        editable.insert(index, bean.getContent());
+                        editable.insert(index, bean.getTag());
                     }
                 }
             }

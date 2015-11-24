@@ -59,7 +59,7 @@ public class EmoticonsRexgexUtils {
                 int end = m.end();
                 String key = content.substring(start, end).toString();
                 for (EmoticonBean bean : emoticonBeanList) {
-                    if (!TextUtils.isEmpty(bean.getContent()) && bean.getContent().equals(key)) {
+                    if (!TextUtils.isEmpty(bean.getTag()) && bean.getTag().equals(key)) {
                         Drawable drawable = EmoticonLoader.getInstance(context).getDrawable(bean.getIconUri());
                         if (drawable != null) {
                             int itemHeight;
