@@ -46,8 +46,6 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     private ImageView btn_voice_or_text;
     private Context mContext;
 
-    private boolean mIsMultimediaVisibility = true;
-
     public ChatKeyboardLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
@@ -98,23 +96,11 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
             public void onTextChanged(CharSequence arg0) {
                 String str = arg0.toString();
                 if (TextUtils.isEmpty(str)) {
-                    if(mIsMultimediaVisibility){
-                        btn_multimedia.setVisibility(VISIBLE);
-                        btn_send.setVisibility(GONE);
-                    }
-                    else{
-                        btn_send.setBackgroundResource(R.drawable.btn_send_bg_disable);
-                    }
-                }
-                else {
-                    if(mIsMultimediaVisibility){
-                        btn_multimedia.setVisibility(GONE);
-                        btn_send.setVisibility(VISIBLE);
-                        btn_send.setBackgroundResource(R.drawable.btn_send_bg);
-                    }
-                    else{
-                        btn_send.setBackgroundResource(R.drawable.btn_send_bg);
-                    }
+                    btn_multimedia.setVisibility(VISIBLE);
+                    btn_send.setVisibility(GONE);
+                } else {
+                    btn_multimedia.setVisibility(GONE);
+                    btn_send.setVisibility(VISIBLE);
                 }
             }
         });
@@ -182,17 +168,25 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         @Override
         public void onClick(View view) {
             if ( rl_input.isShown() ) {
+                // switch to voice recording bar
                 hideAutoView();
                 closeSoftKeyboard(et_chat);
                 rl_input.setVisibility(GONE);
                 btnRecording.setVisibility(VISIBLE);
                 btn_voice_or_text.setImageResource(R.drawable.keyboard_icon);
+
+                btn_multimedia.setVisibility(VISIBLE);
+                btn_send.setVisibility(GONE);
             } else {
+                // switch to text input bar
                 rl_input.setVisibility(VISIBLE);
                 btnRecording.setVisibility(GONE);
                 setEditableState(true);
                 openSoftKeyboard(et_chat);
                 btn_voice_or_text.setImageResource(R.drawable.recording_icon);
+
+                btn_multimedia.setVisibility(GONE);
+                btn_send.setVisibility(VISIBLE);
             }
         }
     }

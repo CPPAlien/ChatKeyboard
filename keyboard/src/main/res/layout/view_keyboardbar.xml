@@ -92,7 +92,6 @@
             android:layout_centerVertical="true"
             android:focusableInTouchMode="true"
             android:orientation="horizontal">
-
             <!--apps 功能-->
             <ImageView
                 android:id="@+id/btn_multimedia"
@@ -104,17 +103,15 @@
                 android:background="@drawable/circle_button_bg"/>
             <Button
                 android:id="@+id/btn_send"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
+                android:layout_width="45dp"
+                android:layout_height="32dp"
+                android:gravity="center"
                 android:layout_centerInParent="true"
-                android:background="@drawable/btn_send_bg_disable"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:background="@drawable/send_button_bg"
                 android:text="@string/btn_text_send"
-                android:textColor="@color/btn_send_textcolor"
-                android:textSize="12sp"
-                android:visibility="gone"
-                />
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:visibility="gone"/>
         </RelativeLayout>
     </RelativeLayout>
 

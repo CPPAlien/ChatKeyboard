@@ -2,7 +2,6 @@
 <resources>
     <color name="white">#FFFFFF</color>
     <color name="spilt_line">#CFCFCF</color>
-    <color name="btn_send_textcolor">@color/white</color>
     <color name="btn_select">#888888</color>
     <color name="common_bg">@color/white</color>
 
