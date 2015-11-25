@@ -19,7 +19,6 @@ import cn.hadcn.keyboard.emoticon.EmoticonBean;
 import cn.hadcn.keyboard.emoticon.EmoticonSetBean;
 import cn.hadcn.keyboard.emoticon.util.EmoticonsKeyboardBuilder;
 import cn.hadcn.keyboard.utils.Utils;
-import cn.hadcn.keyboard.view.I.IView;
 import cn.hadcn.keyboard.view.SoftListenLayout;
 
 public class EmoticonsPageView extends ViewPager implements IView {
@@ -241,11 +240,6 @@ public class EmoticonsPageView extends ViewPager implements IView {
                 listener.onItemClick(bean);
             }
         }
-    }
-
-    @Override
-    public void onItemDisplay(EmoticonBean bean) {
-
     }
 
     @Override

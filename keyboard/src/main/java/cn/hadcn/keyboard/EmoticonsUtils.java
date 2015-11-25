@@ -1,19 +1,25 @@
-package cn.hadcn.keyboard.emoticon;
+package cn.hadcn.keyboard;
 
 import android.content.Context;
 
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.hadcn.keyboard.db.EmoticonDBHelper;
+import cn.hadcn.keyboard.emoticon.EmoticonBean;
+import cn.hadcn.keyboard.emoticon.EmoticonSetBean;
 import cn.hadcn.keyboard.emoticon.util.DefEmoticons;
 import cn.hadcn.keyboard.emoticon.util.EmoticonsKeyboardBuilder;
+import cn.hadcn.keyboard.utils.HadLog;
 import cn.hadcn.keyboard.utils.Utils;
 import cn.hadcn.keyboard.utils.EmoticonBase;
 
 public class EmoticonsUtils {
 
-    public static void initEmoticonsDB(final Context context, final boolean isShowEmoji, final List<EmoticonSetBean> emoticonSetList) {
+    public static void initEmoticonsDB(final Context context, final boolean isShowEmoji, final List<EmoticonEntity> emoticonEntities) {
         if (!Utils.isInitDb(context)) {
             new Thread(new Runnable() {
                 @Override
@@ -34,11 +40,22 @@ public class EmoticonsUtils {
                         emoticonDbHelper.insertEmoticonSet(emojiEmoticonSetBean);
                     }
 
-
-                    if ( emoticonSetList != null && emoticonSetList.size() > 0 ) {
-                        for ( EmoticonSetBean setBean : emoticonSetList ) {
-                            emoticonDbHelper.insertEmoticonSet(setBean);
+                    List<EmoticonSetBean> emoticonSetBeans = new ArrayList<>();
+                    for ( EmoticonEntity entity : emoticonEntities ) {
+                        try {
+                            EmoticonSetBean bean = Utils.ParseEmoticons(context, entity.getPath(), entity.getScheme());
+                            emoticonSetBeans.add(bean);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            HadLog.e( String.format("read %s config.xml error", entity.getPath()) );
+                        } catch (XmlPullParserException e) {
+                            e.printStackTrace();
+                            HadLog.e( String.format("parse %s config.xml error", entity.getPath()) );
                         }
+                    }
+
+                    for ( EmoticonSetBean setBean : emoticonSetBeans ) {
+                        emoticonDbHelper.insertEmoticonSet(setBean);
                     }
 
                     emoticonDbHelper.cleanup();

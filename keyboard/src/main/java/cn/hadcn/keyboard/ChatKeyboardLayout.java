@@ -17,7 +17,6 @@ import android.widget.RelativeLayout;
 import java.util.List;
 
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
-import cn.hadcn.keyboard.emoticon.EmoticonsUtils;
 import cn.hadcn.keyboard.emoticon.view.EmoticonLayout;
 import cn.hadcn.keyboard.emoticon.view.EmoticonsToolBarView;
 import cn.hadcn.keyboard.media.MediaBean;

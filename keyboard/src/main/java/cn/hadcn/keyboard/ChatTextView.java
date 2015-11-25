@@ -1,4 +1,4 @@
-package cn.hadcn.keyboard.view;
+package cn.hadcn.keyboard;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -13,23 +13,24 @@ import java.util.ArrayList;
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
 import cn.hadcn.keyboard.emoticon.util.EmoticonHandler;
 import cn.hadcn.keyboard.utils.EmoticonLoader;
+import cn.hadcn.keyboard.view.VerticalImageSpan;
 
 /**
  * HadTextView
  * Created by 90Chris on 2015/11/24.
  */
-public class HadTextView extends TextView{
-    public HadTextView(Context context) {
+public class ChatTextView extends TextView{
+    public ChatTextView(Context context) {
         super(context);
         init(context);
     }
 
-    public HadTextView(Context context, AttributeSet attrs) {
+    public ChatTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public HadTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ChatTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
