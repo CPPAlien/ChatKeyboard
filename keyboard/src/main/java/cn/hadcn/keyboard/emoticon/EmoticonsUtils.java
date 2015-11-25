@@ -9,7 +9,7 @@ import cn.hadcn.keyboard.db.EmoticonDBHelper;
 import cn.hadcn.keyboard.emoticon.util.DefEmoticons;
 import cn.hadcn.keyboard.emoticon.util.EmoticonsKeyboardBuilder;
 import cn.hadcn.keyboard.utils.Utils;
-import cn.hadcn.keyboard.utils.imageloader.EmoticonBase;
+import cn.hadcn.keyboard.utils.EmoticonBase;
 
 public class EmoticonsUtils {
 

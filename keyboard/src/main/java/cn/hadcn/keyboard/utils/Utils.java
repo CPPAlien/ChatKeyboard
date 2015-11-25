@@ -19,8 +19,6 @@ import java.util.ArrayList;
 
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
 import cn.hadcn.keyboard.emoticon.EmoticonSetBean;
-import cn.hadcn.keyboard.utils.imageloader.EmoticonBase;
-import cn.hadcn.keyboard.utils.imageloader.EmoticonLoader;
 
 
 public class Utils {

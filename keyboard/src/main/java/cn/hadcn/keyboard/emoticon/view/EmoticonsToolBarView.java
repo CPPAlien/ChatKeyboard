@@ -18,7 +18,7 @@ import cn.hadcn.keyboard.R;
 import cn.hadcn.keyboard.emoticon.EmoticonSetBean;
 import cn.hadcn.keyboard.emoticon.util.EmoticonsKeyboardBuilder;
 import cn.hadcn.keyboard.utils.Utils;
-import cn.hadcn.keyboard.utils.imageloader.EmoticonLoader;
+import cn.hadcn.keyboard.utils.EmoticonLoader;
 
 public class EmoticonsToolBarView extends RelativeLayout {
 

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import cn.hadcn.keyboard.db.EmoticonDBHelper;
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
-import cn.hadcn.keyboard.utils.imageloader.EmoticonLoader;
+import cn.hadcn.keyboard.utils.EmoticonLoader;
 
 public class HadEditText extends EditText {
 

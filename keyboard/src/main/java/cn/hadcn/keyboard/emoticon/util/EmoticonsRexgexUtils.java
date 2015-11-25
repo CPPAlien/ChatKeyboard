@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 import cn.hadcn.keyboard.db.EmoticonDBHelper;
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
-import cn.hadcn.keyboard.utils.imageloader.EmoticonLoader;
+import cn.hadcn.keyboard.utils.EmoticonLoader;
 import cn.hadcn.keyboard.view.HadEditText;
 import cn.hadcn.keyboard.view.VerticalImageSpan;
 

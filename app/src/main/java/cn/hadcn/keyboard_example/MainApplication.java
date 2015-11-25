@@ -13,7 +13,7 @@ import cn.hadcn.keyboard.emoticon.EmoticonBean;
 import cn.hadcn.keyboard.emoticon.EmoticonSetBean;
 import cn.hadcn.keyboard.emoticon.EmoticonsUtils;
 import cn.hadcn.keyboard.utils.Utils;
-import cn.hadcn.keyboard.utils.imageloader.EmoticonBase;
+import cn.hadcn.keyboard.utils.EmoticonBase;
 
 /**
  * MainApplication
@@ -37,7 +37,6 @@ public class MainApplication extends Application {
 
         try {
             EmoticonSetBean bean = Utils.ParseEmoticons(this, "emoticons/tusiji", EmoticonBase.Scheme.ASSETS);
-            bean.setIsShownName(true);
             emoticonSetBeans.add(bean);
         } catch (IOException e) {
             e.printStackTrace();

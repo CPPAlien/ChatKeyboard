@@ -1,4 +1,4 @@
-package cn.hadcn.keyboard.utils.imageloader;
+package cn.hadcn.keyboard.utils;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -65,11 +65,6 @@ public class EmoticonLoader implements EmoticonBase {
         return null;
     }
 
-    /**
-     *
-     * @param imageUri
-     * @return
-     */
     public Drawable getDrawable(String imageUri){
         switch (Scheme.ofUri(imageUri)) {
             case HTTP:
