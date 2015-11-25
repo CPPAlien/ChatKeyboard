@@ -11,8 +11,8 @@ import android.widget.EditText;
 
 import java.util.ArrayList;
 
-import cn.hadcn.keyboard.db.EmoticonDBHelper;
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
+import cn.hadcn.keyboard.emoticon.util.EmoticonHandler;
 import cn.hadcn.keyboard.utils.EmoticonLoader;
 
 public class HadEditText extends EditText {
@@ -40,20 +40,7 @@ public class HadEditText extends EditText {
         mFontSize = getFontSize();
         mItemHeight = mFontSize;
         mItemWidth = mFontSize;
-
-        if (emoticonBeanList == null) {
-            EmoticonDBHelper emoticonDbHelper = new EmoticonDBHelper(mContext);
-            emoticonBeanList = emoticonDbHelper.queryAllEmoticonBeans();
-            emoticonDbHelper.cleanup();
-        }
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        if(oldh > 0 && onSizeChangedListener != null){
-            onSizeChangedListener.onSizeChanged();
-        }
+        emoticonBeanList = EmoticonHandler.getAllEmoticons(context);
     }
 
     @Override
@@ -159,16 +146,5 @@ public class HadEditText extends EditText {
 
     public void setOnTextChangedInterface(OnTextChangedInterface i) {
         onTextChangedInterface = i;
-    }
-
-
-    public interface OnSizeChangedListener {
-        void onSizeChanged();
-    }
-
-    OnSizeChangedListener onSizeChangedListener;
-
-    public void setOnSizeChangedListener(OnSizeChangedListener i) {
-        onSizeChangedListener = i;
     }
 }

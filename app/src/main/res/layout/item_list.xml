@@ -7,7 +7,7 @@
         android:src="@drawable/ic_launcher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <TextView
+    <cn.hadcn.keyboard.view.HadTextView
         android:id="@+id/item_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
