@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+
 public class EmoticonLoader implements EmoticonBase {
     protected final Context mContext;
     private volatile static EmoticonLoader instance;

@@ -58,7 +58,7 @@ public class EmoticonsPageView extends ViewPager implements IView {
         if (mEmoticonsViewPagerAdapter == null) {
             mEmoticonsViewPagerAdapter = new EmoticonsViewPagerAdapter();
             setAdapter(mEmoticonsViewPagerAdapter);
-            addOnPageChangeListener(new PageChangeListener());
+            setOnPageChangeListener(new PageChangeListener());
         }
 
         int screenWidth = Utils.getDisplayWidthPixels(mContext);

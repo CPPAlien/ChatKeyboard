@@ -1,4 +1,4 @@
-package cn.hadcn.keyboard.db;
+package cn.hadcn.keyboard.emoticon.db;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -261,7 +261,7 @@ public class EmoticonDBHelper {
             db.execSQL("CREATE TABLE " + TABLE_NAME_EMOTICONS + " ( " +
                     TableColumns.EmoticonColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     TableColumns.EmoticonColumns.EVENTTYPE + " INTEGER, " +
-                    TableColumns.EmoticonColumns.TAG + " TEXT NOT NULL, " +
+                    TableColumns.EmoticonColumns.TAG + " TEXT NOT NULL UNIQUE, " +
                     TableColumns.EmoticonColumns.NAME + " TEXT, " +
                     TableColumns.EmoticonColumns.ICONURI + " TEXT NOT NULL, " +
                     TableColumns.EmoticonColumns.EMOTICONSET_NAME + " TEXT NOT NULL);");

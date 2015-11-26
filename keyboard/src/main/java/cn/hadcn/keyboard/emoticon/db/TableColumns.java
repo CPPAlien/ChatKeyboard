@@ -1,4 +1,4 @@
-package cn.hadcn.keyboard.db;
+package cn.hadcn.keyboard.emoticon.db;
 
 import android.provider.BaseColumns;
 

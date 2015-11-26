@@ -326,7 +326,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
 
     public void showEmoticons( ) {
         btnEmoticon.setVisibility(VISIBLE);
-        EmoticonsKeyboardBuilder builder = EmoticonsUtils.getBuilder(mContext);
+        EmoticonsKeyboardBuilder builder = EmoticonUtil.getBuilder(mContext);
         EmoticonLayout layout = new EmoticonLayout(mContext);
         layout.setContents(builder, new EmoticonLayout.OnEmoticonListener() {
             @Override

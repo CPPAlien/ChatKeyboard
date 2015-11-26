@@ -4,7 +4,7 @@ import android.content.Context;
 
 import java.util.ArrayList;
 
-import cn.hadcn.keyboard.db.EmoticonDBHelper;
+import cn.hadcn.keyboard.emoticon.db.EmoticonDBHelper;
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
 
 /**
