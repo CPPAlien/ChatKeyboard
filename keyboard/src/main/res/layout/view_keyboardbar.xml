@@ -108,8 +108,7 @@
                 android:background="@drawable/send_button_bg"
                 android:text="@string/btn_text_send"
                 android:textColor="@color/white"
-                android:textSize="14sp"
-                android:visibility="gone"/>
+                android:textSize="14sp"/>
         </RelativeLayout>
     </RelativeLayout>
 

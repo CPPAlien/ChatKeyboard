@@ -137,26 +137,22 @@ public class EmoticonDBHelper {
 
     public ArrayList<EmoticonBean> queryEmoticonBeanList(String sql) {
         Cursor cursor = db.rawQuery(sql, null);
-        try {
-            int count = cursor.getCount();
-            ArrayList<EmoticonBean> beanList = new ArrayList<EmoticonBean>();
-            if (count > 0) {
-                cursor.moveToFirst();
-                for (int i = 0; i < count; i++) {
-                    long eventType = cursor.getLong(cursor.getColumnIndex(TableColumns.EmoticonColumns.EVENTTYPE));
-                    String tag = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonColumns.TAG));
-                    String name = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonColumns.NAME));
-                    String iconUri = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonColumns.ICONURI));
-                    EmoticonBean bean = new EmoticonBean(eventType, iconUri, tag, name);
-                    beanList.add(bean);
-                    cursor.moveToNext();
-                }
-                return beanList;
+        int count = cursor.getCount();
+        ArrayList<EmoticonBean> beanList = new ArrayList<>();
+        if (count > 0) {
+            cursor.moveToFirst();
+            for (int i = 0; i < count; i++) {
+                long eventType = cursor.getLong(cursor.getColumnIndex(TableColumns.EmoticonColumns.EVENTTYPE));
+                String tag = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonColumns.TAG));
+                String name = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonColumns.NAME));
+                String iconUri = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonColumns.ICONURI));
+                EmoticonBean bean = new EmoticonBean(eventType, iconUri, tag, name);
+                beanList.add(bean);
+                cursor.moveToNext();
             }
-        } finally {
-            cursor.close();
         }
-        return null;
+        cursor.close();
+        return beanList;
     }
 
     public ArrayList<EmoticonBean> queryAllEmoticonBeans() {

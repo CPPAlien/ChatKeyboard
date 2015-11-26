@@ -35,15 +35,16 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
 
     public int mChildViewPosition = -1;
     
-    private HadEditText et_chat;
+    private HadEditText etInputArea;
     private RelativeLayout rl_input;
-    private LinearLayout ly_foot_func;
-    private ImageView btn_face;
-    private ImageView btn_multimedia;
-    private Button btn_send;
+    private LinearLayout lyBottomLayout;
+    private ImageView btnEmoticon;
+    private ImageView btnMedia;
+    private Button btnSend;
     private Button btnRecording;
-    private ImageView btn_voice_or_text;
+    private ImageView btnVoiceOrText;
     private Context mContext;
+    private boolean isShowMediaButton = false;   //media func button on or off
 
     public ChatKeyboardLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -55,32 +56,34 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
 
     private void initView() {
         rl_input = (RelativeLayout) findViewById(R.id.rl_input);
-        ly_foot_func = (LinearLayout) findViewById(R.id.ly_foot_func);
-        btn_face = (ImageView) findViewById(R.id.btn_face);
-        btn_voice_or_text = (ImageView) findViewById(R.id.btn_voice_or_text);
+        lyBottomLayout = (LinearLayout) findViewById(R.id.ly_foot_func);
+        btnEmoticon = (ImageView) findViewById(R.id.btn_face);
+        btnVoiceOrText = (ImageView) findViewById(R.id.btn_voice_or_text);
         btnRecording = (Button) findViewById(R.id.bar_recording);
-        btn_multimedia = (ImageView) findViewById(R.id.btn_multimedia);
-        btn_send = (Button) findViewById(R.id.btn_send);
-        et_chat = (HadEditText) findViewById(R.id.et_chat);
+        btnMedia = (ImageView) findViewById(R.id.btn_multimedia);
+        btnSend = (Button) findViewById(R.id.btn_send);
+        etInputArea = (HadEditText) findViewById(R.id.et_chat);
 
-        setAutoHeightLayoutView(ly_foot_func);
-        btn_voice_or_text.setOnClickListener(new VoiceTextClickListener());
-        btn_multimedia.setOnClickListener(new MediaClickListener());
-        btn_face.setOnClickListener(new FaceClickListener());
-        btn_send.setOnClickListener(new SendClickListener());
+        setAutoHeightLayoutView(lyBottomLayout);
+        btnVoiceOrText.setOnClickListener(new VoiceTextClickListener());
+        btnMedia.setOnClickListener(new MediaClickListener());
+        btnMedia.setVisibility(GONE);
+        btnEmoticon.setOnClickListener(new FaceClickListener());
+        btnEmoticon.setVisibility(GONE);
+        btnSend.setOnClickListener(new SendClickListener());
         btnRecording.setOnTouchListener(new RecordingTouchListener());
 
-        et_chat.setOnTouchListener(new View.OnTouchListener() {
+        etInputArea.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (!et_chat.isFocused()) {
-                    et_chat.setFocusable(true);
-                    et_chat.setFocusableInTouchMode(true);
+                if (!etInputArea.isFocused()) {
+                    etInputArea.setFocusable(true);
+                    etInputArea.setFocusableInTouchMode(true);
                 }
                 return false;
             }
         });
-        et_chat.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        etInputArea.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (b) {
@@ -90,16 +93,19 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                 }
             }
         });
-        et_chat.setOnTextChangedInterface(new HadEditText.OnTextChangedInterface() {
+        etInputArea.setOnTextChangedInterface(new HadEditText.OnTextChangedInterface() {
             @Override
             public void onTextChanged(CharSequence arg0) {
+                if ( isShowMediaButton ) {
+                    return;
+                }
                 String str = arg0.toString();
                 if (TextUtils.isEmpty(str)) {
-                    btn_multimedia.setVisibility(VISIBLE);
-                    btn_send.setVisibility(GONE);
+                    btnMedia.setVisibility(VISIBLE);
+                    btnSend.setVisibility(GONE);
                 } else {
-                    btn_multimedia.setVisibility(GONE);
-                    btn_send.setVisibility(VISIBLE);
+                    btnMedia.setVisibility(GONE);
+                    btnSend.setVisibility(VISIBLE);
                 }
             }
         });
@@ -107,33 +113,33 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
 
     private void setEditableState(boolean b) {
         if (b) {
-            et_chat.setFocusable(true);
-            et_chat.setFocusableInTouchMode(true);
-            et_chat.requestFocus();
+            etInputArea.setFocusable(true);
+            etInputArea.setFocusableInTouchMode(true);
+            etInputArea.requestFocus();
             rl_input.setBackgroundResource(R.drawable.input_bg_green);
         } else {
-            et_chat.setFocusable(false);
-            et_chat.setFocusableInTouchMode(false);
+            etInputArea.setFocusable(false);
+            etInputArea.setFocusableInTouchMode(false);
             rl_input.setBackgroundResource(R.drawable.input_bg_gray);
         }
     }
 
     public HadEditText getInputArea() {
-        return et_chat;
+        return etInputArea;
     }
 
     public void clearInputArea(){
-        if(et_chat != null){
-            et_chat.setText("");
+        if(etInputArea != null){
+            etInputArea.setText("");
         }
     }
 
     public void del(){
-        if(et_chat != null){
+        if(etInputArea != null){
             int action = KeyEvent.ACTION_DOWN;
             int code = KeyEvent.KEYCODE_DEL;
             KeyEvent event = new KeyEvent(action, code);
-            et_chat.onKeyDown(KeyEvent.KEYCODE_DEL, event);
+            etInputArea.onKeyDown(KeyEvent.KEYCODE_DEL, event);
         }
     }
 
@@ -141,9 +147,9 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     public boolean dispatchKeyEvent(KeyEvent event) {
         switch (event.getKeyCode()) {
             case KeyEvent.KEYCODE_BACK:
-                if (ly_foot_func != null && ly_foot_func.isShown()) {
+                if (lyBottomLayout != null && lyBottomLayout.isShown()) {
                     hideAutoView();
-                    btn_face.setImageResource(R.drawable.icon_face_nomal);
+                    btnEmoticon.setImageResource(R.drawable.icon_face_nomal);
                     return true;
                 } else {
                     return super.dispatchKeyEvent(event);
@@ -157,7 +163,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         @Override
         public void onClick(View view) {
             if(mOnChatKeyBoardListener != null){
-                mOnChatKeyBoardListener.onSendBtnClick(et_chat.getText().toString());
+                mOnChatKeyBoardListener.onSendBtnClick(etInputArea.getText().toString());
             }
         }
     }
@@ -169,23 +175,23 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
             if ( rl_input.isShown() ) {
                 // switch to voice recording bar
                 hideAutoView();
-                closeSoftKeyboard(et_chat);
+                closeSoftKeyboard(etInputArea);
                 rl_input.setVisibility(GONE);
                 btnRecording.setVisibility(VISIBLE);
-                btn_voice_or_text.setImageResource(R.drawable.keyboard_icon);
+                btnVoiceOrText.setImageResource(R.drawable.keyboard_icon);
 
-                btn_multimedia.setVisibility(VISIBLE);
-                btn_send.setVisibility(GONE);
+                btnMedia.setVisibility(VISIBLE);
+                btnSend.setVisibility(GONE);
             } else {
                 // switch to text input bar
                 rl_input.setVisibility(VISIBLE);
                 btnRecording.setVisibility(GONE);
                 setEditableState(true);
-                openSoftKeyboard(et_chat);
-                btn_voice_or_text.setImageResource(R.drawable.recording_icon);
-                if ( !TextUtils.isEmpty(et_chat.getText().toString()) ) {
-                    btn_multimedia.setVisibility(GONE);
-                    btn_send.setVisibility(VISIBLE);
+                openSoftKeyboard(etInputArea);
+                btnVoiceOrText.setImageResource(R.drawable.recording_icon);
+                if ( !TextUtils.isEmpty(etInputArea.getText().toString()) ) {
+                    btnMedia.setVisibility(GONE);
+                    btnSend.setVisibility(VISIBLE);
                 }
             }
         }
@@ -197,24 +203,24 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         public void onClick(View view) {
             switch (mKeyboardState){
                 case KEYBOARD_STATE_BOTH:
-                    closeSoftKeyboard(et_chat);
+                    closeSoftKeyboard(etInputArea);
                     show(FUNC_EMOTICON_POS);
-                    btn_face.setImageResource(R.drawable.icon_face_pop);
+                    btnEmoticon.setImageResource(R.drawable.icon_face_pop);
                     break;
                 case KEYBOARD_STATE_NONE:
-                    btn_face.setImageResource(R.drawable.icon_face_pop);
-                    et_chat.setFocusableInTouchMode(true);
-                    et_chat.requestFocus();
+                    btnEmoticon.setImageResource(R.drawable.icon_face_pop);
+                    etInputArea.setFocusableInTouchMode(true);
+                    etInputArea.requestFocus();
                     showAutoView();
                     show(FUNC_EMOTICON_POS);
                     break;
                 case KEYBOARD_STATE_FUNC:
                     if ( mChildViewPosition == FUNC_EMOTICON_POS ) {
-                        btn_face.setImageResource(R.drawable.icon_face_nomal);
-                        openSoftKeyboard(et_chat);
+                        btnEmoticon.setImageResource(R.drawable.icon_face_nomal);
+                        openSoftKeyboard(etInputArea);
                     } else {
                         show(FUNC_EMOTICON_POS);
-                        btn_face.setImageResource(R.drawable.icon_face_pop);
+                        btnEmoticon.setImageResource(R.drawable.icon_face_pop);
                     }
                     break;
             }
@@ -227,23 +233,23 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         public void onClick(View view) {
             switch (mKeyboardState){
                 case KEYBOARD_STATE_BOTH:
-                    closeSoftKeyboard(et_chat);
+                    closeSoftKeyboard(etInputArea);
                     show(FUNC_MEDIA_POS);
                     break;
                 case KEYBOARD_STATE_NONE:
-                    btn_face.setImageResource(R.drawable.icon_face_nomal);
+                    btnEmoticon.setImageResource(R.drawable.icon_face_nomal);
                     rl_input.setVisibility(VISIBLE);
                     btnRecording.setVisibility(GONE);
-                    btn_voice_or_text.setImageResource(R.drawable.recording_icon);
-                    et_chat.setFocusableInTouchMode(true);
-                    et_chat.requestFocus();
+                    btnVoiceOrText.setImageResource(R.drawable.recording_icon);
+                    etInputArea.setFocusableInTouchMode(true);
+                    etInputArea.requestFocus();
                     showAutoView();
                     show(FUNC_MEDIA_POS);
                     break;
                 case KEYBOARD_STATE_FUNC:
-                    btn_face.setImageResource(R.drawable.icon_face_nomal);
+                    btnEmoticon.setImageResource(R.drawable.icon_face_nomal);
                     if(mChildViewPosition == FUNC_MEDIA_POS){
-                        openSoftKeyboard(et_chat);
+                        openSoftKeyboard(etInputArea);
                     } else {
                         show(FUNC_MEDIA_POS);
                     }
@@ -292,42 +298,46 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     @Override
     public void OnSoftKeyboardPop(int height) {
         super.OnSoftKeyboardPop(height);
-        btn_face.setImageResource(R.drawable.icon_face_nomal);
+        btnEmoticon.setImageResource(R.drawable.icon_face_nomal);
     }
 
-    public void setMediaContents( List<MediaBean> mediaContents ){
+    public void showMedias(List<MediaBean> mediaContents) {
+        btnMedia.setVisibility(VISIBLE);
+        btnSend.setVisibility(GONE);
+        isShowMediaButton = true;
         MediaLayout mediaLayout = new MediaLayout(mContext);
         mediaLayout.setContents(mediaContents);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        ly_foot_func.addView(mediaLayout, params);
+        lyBottomLayout.addView(mediaLayout, params);
         FUNC_MEDIA_POS = FUNC_ORDER_COUNT;
         ++FUNC_ORDER_COUNT;
     }
 
-    public void setEmoticonContents( Context context ) {
+    public void showEmoticons(Context context) {
+        btnEmoticon.setVisibility(VISIBLE);
         EmoticonsKeyboardBuilder builder = EmoticonsUtils.getBuilder(context);
         EmoticonLayout layout = new EmoticonLayout(mContext);
         layout.setContents(builder, new EmoticonLayout.OnEmoticonListener() {
             @Override
             public void onEmoticonItemClicked(EmoticonBean bean) {
-                if (et_chat != null) {
-                    et_chat.setFocusable(true);
-                    et_chat.setFocusableInTouchMode(true);
-                    et_chat.requestFocus();
+                if (etInputArea != null) {
+                    etInputArea.setFocusable(true);
+                    etInputArea.setFocusableInTouchMode(true);
+                    etInputArea.requestFocus();
 
                     if (bean.getEventType() == EmoticonBean.FACE_TYPE_DEL) {
                         int action = KeyEvent.ACTION_DOWN;
                         int code = KeyEvent.KEYCODE_DEL;
                         KeyEvent event = new KeyEvent(action, code);
-                        et_chat.onKeyDown(KeyEvent.KEYCODE_DEL, event);
+                        etInputArea.onKeyDown(KeyEvent.KEYCODE_DEL, event);
                         return;
                     } else if (bean.getEventType() == EmoticonBean.FACE_TYPE_USERDEF) {
                         mOnChatKeyBoardListener.onUserDefEmoticonClicked(bean.getTag(), bean.getIconUri());
                         return;
                     }
 
-                    int index = et_chat.getSelectionStart();
-                    Editable editable = et_chat.getEditableText();
+                    int index = etInputArea.getSelectionStart();
+                    Editable editable = etInputArea.getEditableText();
                     if (index < 0) {
                         editable.append(bean.getTag());
                     } else {
@@ -337,20 +347,20 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
             }
         });
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        ly_foot_func.addView(layout, params);
+        lyBottomLayout.addView(layout, params);
         FUNC_EMOTICON_POS = FUNC_ORDER_COUNT;
         ++FUNC_ORDER_COUNT;
     }
 
     public void show(int position){
-        int childCount = ly_foot_func.getChildCount();
+        int childCount = lyBottomLayout.getChildCount();
         if(position < childCount){
             for(int i = 0 ; i < childCount ; i++){
                 if(i == position){
-                    ly_foot_func.getChildAt(i).setVisibility(VISIBLE);
+                    lyBottomLayout.getChildAt(i).setVisibility(VISIBLE);
                     mChildViewPosition  = i;
                 } else{
-                    ly_foot_func.getChildAt(i).setVisibility(GONE);
+                    lyBottomLayout.getChildAt(i).setVisibility(GONE);
                 }
             }
         }
