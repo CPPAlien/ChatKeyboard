@@ -19,9 +19,9 @@ public class MainApplication extends Application {
         super.onCreate();
 
         List<EmoticonEntity> entities = new ArrayList<>();
-        entities.add(new EmoticonEntity("emoticons/xhs", EmoticonBase.Scheme.ASSETS));
+        //entities.add(new EmoticonEntity("emoticons/xhs", EmoticonBase.Scheme.ASSETS));
         entities.add(new EmoticonEntity("emoticons/qbi", EmoticonBase.Scheme.ASSETS));
-        entities.add(new EmoticonEntity("emoticons/tusiji", EmoticonBase.Scheme.ASSETS));
+        //entities.add(new EmoticonEntity("emoticons/tusiji", EmoticonBase.Scheme.ASSETS));
         EmoticonsUtils.initEmoticonsDB(this, true, entities);
     }
 }

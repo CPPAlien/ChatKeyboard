@@ -5,7 +5,6 @@
     <color name="btn_select">#888888</color>
     <color name="common_bg">@color/white</color>
 
-    <color name="toolbar_spilt_line">#CDCDCD</color>
     <color name="toolbar_btn_select">#D9D9D9</color>
     <color name="toolbar_btn_nomal">@color/white</color>
 </resources>

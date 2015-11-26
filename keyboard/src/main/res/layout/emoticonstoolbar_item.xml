@@ -5,7 +5,10 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
-    <include layout="@layout/ic_spitview_vertical"/>
+    <View
+        android:layout_width="@dimen/verticalspit_view_width"
+        android:layout_height="match_parent"
+        android:background="@color/spilt_line"/>
 
     <ImageView
         android:id="@+id/iv_icon"

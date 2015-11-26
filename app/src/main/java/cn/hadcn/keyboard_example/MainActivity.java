@@ -22,8 +22,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         keyboardLayout = (ChatKeyboardLayout)findViewById(R.id.kv_bar);
-        keyboardLayout.showEmoticons(this);
-
+        keyboardLayout.showEmoticons();
+/*
 
         ArrayList<MediaBean> popupModels = new ArrayList<>();
         popupModels.add(new MediaBean(0, R.drawable.icon_camera, "拍照", this));
@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         popupModels.add(new MediaBean(9, R.drawable.icon_photo, "照片", this));
         keyboardLayout.showMedias(popupModels);
         keyboardLayout.setOnKeyBoardBarListener(this);
-
         ListView listView = (ListView)findViewById(R.id.list_view);
         mAdapter = new SimpleChatAdapter(this);
         listView.setOnTouchListener(new View.OnTouchListener() {
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return false;
             }
         });
-        listView.setAdapter(mAdapter);
+        listView.setAdapter(mAdapter);*/
     }
 
     @Override

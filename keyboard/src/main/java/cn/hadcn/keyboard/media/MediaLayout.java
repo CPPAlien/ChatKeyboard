@@ -41,10 +41,10 @@ public class MediaLayout extends RelativeLayout implements ViewPager.OnPageChang
 
     private void init( Context context ) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.popup_media, this);
+        inflater.inflate(R.layout.keyboard_bottom_media, this);
         vpContent = (ViewPager) findViewById(R.id.popup_media_pager);
         ivIndicator = (IndicatorView)findViewById(R.id.popup_media_indicator);
-        vpContent.addOnPageChangeListener(this);
+        vpContent.setOnPageChangeListener(this);  //compatible for android 22
     }
 
     public void setContents( List<MediaBean> mediaContents ) {

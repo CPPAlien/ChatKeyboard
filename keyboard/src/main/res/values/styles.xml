@@ -17,4 +17,9 @@
         <item name="android:windowEnterAnimation">@anim/up_in</item>
         <item name="android:windowExitAnimation">@anim/down_out</item>
     </style>
+    <style name="divider_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/horizontalspit_view_height</item>
+        <item name="android:background">@color/spilt_line</item>
+    </style>
 </resources>

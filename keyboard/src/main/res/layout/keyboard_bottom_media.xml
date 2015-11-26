@@ -8,10 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="16dp"/>
-    <include
-        layout="@layout/ic_spitview_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/horizontalspit_view_height"
+    <View
+        style="@style/divider_line"
         android:layout_alignParentTop="true"/>
     <cn.hadcn.keyboard.view.IndicatorView
         android:id="@+id/popup_media_indicator"

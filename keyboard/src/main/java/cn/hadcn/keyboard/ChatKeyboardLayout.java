@@ -324,9 +324,9 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         ++FUNC_ORDER_COUNT;
     }
 
-    public void showEmoticons(Context context) {
+    public void showEmoticons( ) {
         btnEmoticon.setVisibility(VISIBLE);
-        EmoticonsKeyboardBuilder builder = EmoticonsUtils.getBuilder(context);
+        EmoticonsKeyboardBuilder builder = EmoticonsUtils.getBuilder(mContext);
         EmoticonLayout layout = new EmoticonLayout(mContext);
         layout.setContents(builder, new EmoticonLayout.OnEmoticonListener() {
             @Override

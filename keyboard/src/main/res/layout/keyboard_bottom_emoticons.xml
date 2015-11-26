@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    <View
+        style="@style/divider_line"
+        android:id="@+id/view_spit1"
+        android:layout_alignParentTop="true"/>
+
+    <cn.hadcn.keyboard.emoticon.view.EmoticonsToolBarView
+        android:id="@+id/emoticon_page_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bar_height"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"/>
+
+    <View
+        style="@style/divider_line"
+        android:id="@+id/view_spit2"
+        android:layout_above="@id/emoticon_page_toolbar"/>
+
+    <cn.hadcn.keyboard.view.IndicatorView
+        android:id="@+id/emoticon_indicator_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/view_spit2"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/indicator_margin">
+    </cn.hadcn.keyboard.view.IndicatorView>
+
+    <cn.hadcn.keyboard.emoticon.view.EmoticonsPageView
+        android:id="@+id/emoticon_page_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/emoticon_indicator_view"
+        android:layout_below="@id/view_spit1"
+        android:orientation="vertical"/>
+</RelativeLayout>
