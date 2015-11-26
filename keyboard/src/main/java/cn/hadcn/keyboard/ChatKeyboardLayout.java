@@ -96,7 +96,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         etInputArea.setOnTextChangedInterface(new HadEditText.OnTextChangedInterface() {
             @Override
             public void onTextChanged(CharSequence arg0) {
-                if ( isShowMediaButton ) {
+                if ( !isShowMediaButton ) {
                     return;
                 }
                 String str = arg0.toString();
@@ -129,9 +129,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     }
 
     public void clearInputArea(){
-        if(etInputArea != null){
-            etInputArea.setText("");
-        }
+        etInputArea.setText("");
     }
 
     public void del(){
@@ -141,6 +139,15 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
             KeyEvent event = new KeyEvent(action, code);
             etInputArea.onKeyDown(KeyEvent.KEYCODE_DEL, event);
         }
+    }
+
+    /**
+     * hide keyboard or emoticon area or media area
+     */
+    public void hideBottomPop() {
+        hideAutoView();
+        btnEmoticon.setImageResource(R.drawable.icon_face_nomal);
+        closeSoftKeyboard(etInputArea);
     }
 
     @Override
@@ -179,9 +186,10 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                 rl_input.setVisibility(GONE);
                 btnRecording.setVisibility(VISIBLE);
                 btnVoiceOrText.setImageResource(R.drawable.keyboard_icon);
-
-                btnMedia.setVisibility(VISIBLE);
                 btnSend.setVisibility(GONE);
+                if ( isShowMediaButton ) {
+                    btnMedia.setVisibility(VISIBLE);
+                }
             } else {
                 // switch to text input bar
                 rl_input.setVisibility(VISIBLE);
@@ -191,6 +199,9 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                 btnVoiceOrText.setImageResource(R.drawable.recording_icon);
                 if ( !TextUtils.isEmpty(etInputArea.getText().toString()) ) {
                     btnMedia.setVisibility(GONE);
+                    btnSend.setVisibility(VISIBLE);
+                }
+                if ( !isShowMediaButton ) {    //if media button not be shown, show button send every time
                     btnSend.setVisibility(VISIBLE);
                 }
             }

@@ -71,7 +71,7 @@ public class SoftHandleLayout extends SoftListenLayout {
         }
     }
 
-    public void hideAutoView(){
+    protected void hideAutoView(){
         this.post(new Runnable() {
             @Override
             public void run() {
@@ -81,7 +81,7 @@ public class SoftHandleLayout extends SoftListenLayout {
         mKeyboardState = KEYBOARD_STATE_NONE;
     }
 
-    public void showAutoView() {
+    protected void showAutoView() {
         post(new Runnable() {
             @Override
             public void run() {
@@ -120,7 +120,7 @@ public class SoftHandleLayout extends SoftListenLayout {
     /**
      * display soft keyboard
      */
-    public void openSoftKeyboard( EditText et ) {
+    protected void openSoftKeyboard( EditText et ) {
         InputMethodManager inputManager = (InputMethodManager) et.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.showSoftInput(et, 0);
     }
@@ -128,7 +128,7 @@ public class SoftHandleLayout extends SoftListenLayout {
     /**
      * close soft keyboard
      */
-    public void closeSoftKeyboard( EditText et ) {
+    protected void closeSoftKeyboard( EditText et ) {
         InputMethodManager inputMethodManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (inputMethodManager != null && ((Activity) mContext).getCurrentFocus() != null) {
             inputMethodManager.hideSoftInputFromWindow(et.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);

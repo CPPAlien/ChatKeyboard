@@ -3,6 +3,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ListView;
 
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         keyboardLayout = (ChatKeyboardLayout)findViewById(R.id.kv_bar);
-        keyboardLayout.setEmoticonContents(this);
+        keyboardLayout.showEmoticons(this);
 
 
         ArrayList<MediaBean> popupModels = new ArrayList<>();
@@ -35,12 +36,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         popupModels.add(new MediaBean(7, R.drawable.icon_photo, "照片", this));
         popupModels.add(new MediaBean(8, R.drawable.icon_camera, "拍照", this));
         popupModels.add(new MediaBean(9, R.drawable.icon_photo, "照片", this));
-        keyboardLayout.setMediaContents(popupModels);
+        keyboardLayout.showMedias(popupModels);
         keyboardLayout.setOnKeyBoardBarListener(this);
 
         ListView listView = (ListView)findViewById(R.id.list_view);
         mAdapter = new SimpleChatAdapter(this);
-
+        listView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                keyboardLayout.hideBottomPop();
+                return false;
+            }
+        });
         listView.setAdapter(mAdapter);
     }
 
