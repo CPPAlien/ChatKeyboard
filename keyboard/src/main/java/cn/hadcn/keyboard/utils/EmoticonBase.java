@@ -6,9 +6,6 @@ import java.io.IOException;
 import java.util.Locale;
 
 public interface EmoticonBase {
-
-	void displayImage(String imageUri, ImageView imageView) throws IOException;
-
 	enum Scheme {
 		HTTP("http"),
         HTTPS("https"),

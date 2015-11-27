@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.io.IOException;
 import java.util.List;
 
 import cn.hadcn.keyboard.R;
@@ -71,12 +70,7 @@ public class EmoticonsAdapter extends BaseAdapter {
             } else {
                 viewHolder.tvName.setVisibility(View.GONE);
             }
-
-            try {
-                EmoticonLoader.getInstance(mContext).displayImage(emoticonBean.getIconUri(), viewHolder.ivEmoticon);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            viewHolder.ivEmoticon.setImageDrawable(EmoticonLoader.getInstance(mContext).getDrawable(emoticonBean.getIconUri()));
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override

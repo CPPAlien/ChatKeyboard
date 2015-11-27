@@ -12,10 +12,11 @@ public class VerticalImageSpan extends ImageSpan {
         super(drawable);
     }
 
-    public int getSize(Paint paint, CharSequence text, int start, int end, Paint.FontMetricsInt fontMetricsInt) {
+    @Override
+    public int getSize(Paint paint, CharSequence text, int start, int end, Paint.FontMetricsInt fm) {
         Drawable drawable = getDrawable();
         Rect rect = drawable.getBounds();
-        if (fontMetricsInt != null) {
+        if (fm != null) {
             Paint.FontMetricsInt fmPaint = paint.getFontMetricsInt();
             int fontHeight = fmPaint.bottom - fmPaint.top;
             int drHeight = rect.bottom - rect.top;
@@ -23,10 +24,10 @@ public class VerticalImageSpan extends ImageSpan {
             int top = drHeight / 2 - fontHeight / 4;
             int bottom = drHeight / 2 + fontHeight / 4;
 
-            fontMetricsInt.ascent = -bottom;
-            fontMetricsInt.top = -bottom;
-            fontMetricsInt.bottom = top;
-            fontMetricsInt.descent = top;
+            fm.ascent = -bottom;
+            fm.top = -bottom;
+            fm.bottom = top;
+            fm.descent = top;
         }
         return rect.right;
     }

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
 import cn.hadcn.keyboard.emoticon.util.EmoticonHandler;
 import cn.hadcn.keyboard.utils.EmoticonLoader;
+import cn.hadcn.keyboard.utils.Utils;
 import cn.hadcn.keyboard.view.VerticalImageSpan;
 
 /**
@@ -62,7 +63,8 @@ public class ChatTextView extends TextView{
                     break;
                 }
                 Drawable drawable = EmoticonLoader.getInstance(context).getDrawable(bean.getIconUri());
-                drawable.setBounds(0, 0, fontHeight, fontHeight);
+                int extendsPix = Utils.dip2px(context, 10);
+                drawable.setBounds(0, 0, fontHeight + extendsPix, fontHeight + extendsPix);
                 VerticalImageSpan imageSpan = new VerticalImageSpan(drawable);
                 spannable.setSpan(imageSpan, keyIndex, keyIndex + keyLength, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
                 keyIndex += keyLength;

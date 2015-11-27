@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -22,7 +21,6 @@ import cn.hadcn.keyboard.utils.EmoticonLoader;
 
 public class EmoticonsToolBarView extends RelativeLayout {
 
-    private LayoutInflater inflater;
     private Context mContext;
     private HorizontalScrollView hsv_toolbar;
     private LinearLayout ly_tool;
@@ -37,7 +35,7 @@ public class EmoticonsToolBarView extends RelativeLayout {
 
     public EmoticonsToolBarView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.emoticonstoolbar_view, this);
         this.mContext = context;
         findView();
@@ -169,11 +167,8 @@ public class EmoticonsToolBarView extends RelativeLayout {
             iv_icon.setLayoutParams(imgParams);
             ly_tool.addView(toolBtnView);
 
-            try {
-                EmoticonLoader.getInstance(mContext).displayImage(bean.getIconUri(),iv_icon);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            iv_icon.setImageDrawable(EmoticonLoader.getInstance(mContext).getDrawable(bean.getIconUri()));
+
             mToolBtnList.add(iv_icon);
 
             final int finalI = i;

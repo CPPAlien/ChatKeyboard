@@ -343,7 +343,9 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                         etInputArea.onKeyDown(KeyEvent.KEYCODE_DEL, event);
                         return;
                     } else if (bean.getEventType() == EmoticonBean.FACE_TYPE_USERDEF) {
-                        mOnChatKeyBoardListener.onUserDefEmoticonClicked(bean.getTag(), bean.getIconUri());
+                        if ( mOnChatKeyBoardListener != null ) {
+                            mOnChatKeyBoardListener.onUserDefEmoticonClicked(bean.getTag(), bean.getIconUri());
+                        }
                         return;
                     }
 
