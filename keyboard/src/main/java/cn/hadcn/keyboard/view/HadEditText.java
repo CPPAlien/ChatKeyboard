@@ -2,29 +2,18 @@ package cn.hadcn.keyboard.view;
 
 import android.content.Context;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
-import android.text.Spannable;
-import android.text.TextUtils;
-import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
 import cn.hadcn.keyboard.emoticon.util.EmoticonHandler;
-import cn.hadcn.keyboard.utils.EmoticonLoader;
+import cn.hadcn.keyboard.utils.Utils;
 
 public class HadEditText extends EditText {
-
-    public static final int WRAP_DRAWABLE = -1;
-    public static final int WRAP_FONT = -2;
-
     private Context mContext;
-    private ArrayList<EmoticonBean> emoticonBeanList = null;
-    private int mItemHeight;
-    private int mItemWidth;
-    private int mFontSize;
+    List<EmoticonBean> emoticonBeanList;
 
     public HadEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -37,10 +26,8 @@ public class HadEditText extends EditText {
     public HadEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
-        mFontSize = getFontSize();
-        mItemHeight = mFontSize;
-        mItemWidth = mFontSize;
         emoticonBeanList = EmoticonHandler.getAllEmoticons(context);
+        //todo review here
     }
 
     @Override
@@ -49,7 +36,10 @@ public class HadEditText extends EditText {
         if(onTextChangedInterface != null){
             onTextChangedInterface.onTextChanged(arg0);
         }
-        if (after <= 0) {
+
+        EmoticonHandler.getInstance().setTextFace(mContext, arg0.toString(), getText(), Utils.getFontSize(getTextSize()));
+
+        /*if (after <= 0) {
             return;
         }
 
@@ -98,7 +88,7 @@ public class HadEditText extends EditText {
                     }
                 }
             }
-        }
+        }*/
 
     }
 
