@@ -62,6 +62,11 @@ public class EmoticonLoader implements EmoticonBase {
         return null;
     }
 
+    /**
+     * get input stream of emoticon
+     * @param imageUri emoticon uri
+     * @return input stream
+     */
     public InputStream getInputStream( String imageUri ) {
         switch (Scheme.ofUri(imageUri)) {
             case FILE:

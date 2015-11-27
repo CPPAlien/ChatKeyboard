@@ -9,6 +9,7 @@
         android:layout_height="wrap_content" />
     <cn.hadcn.keyboard.ChatTextView
         android:id="@+id/item_text"
+        android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </RelativeLayout>

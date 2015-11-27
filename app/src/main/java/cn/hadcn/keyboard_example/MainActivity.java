@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         keyboardLayout = (ChatKeyboardLayout)findViewById(R.id.kv_bar);
         keyboardLayout.showEmoticons();
-/*
 
         ArrayList<MediaBean> popupModels = new ArrayList<>();
         popupModels.add(new MediaBean(0, R.drawable.icon_camera, "拍照", this));
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return false;
             }
         });
-        listView.setAdapter(mAdapter);*/
+        listView.setAdapter(mAdapter);
     }
 
     @Override

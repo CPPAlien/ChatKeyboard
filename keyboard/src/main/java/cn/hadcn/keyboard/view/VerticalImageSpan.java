@@ -9,7 +9,7 @@ import android.text.style.ImageSpan;
 public class VerticalImageSpan extends ImageSpan {
 
     public VerticalImageSpan(Drawable drawable) {
-        super(drawable);
+        super(drawable, ImageSpan.ALIGN_BOTTOM);
     }
 
     @Override

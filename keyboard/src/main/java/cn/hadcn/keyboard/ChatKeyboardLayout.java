@@ -14,14 +14,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
+import cn.hadcn.keyboard.emoticon.EmoticonSetBean;
+import cn.hadcn.keyboard.emoticon.db.EmoticonDBHelper;
+import cn.hadcn.keyboard.emoticon.util.DefEmoticons;
 import cn.hadcn.keyboard.emoticon.view.EmoticonLayout;
 import cn.hadcn.keyboard.emoticon.view.EmoticonsToolBarView;
 import cn.hadcn.keyboard.media.MediaBean;
 import cn.hadcn.keyboard.media.MediaLayout;
 import cn.hadcn.keyboard.emoticon.util.EmoticonsKeyboardBuilder;
+import cn.hadcn.keyboard.utils.EmoticonBase;
+import cn.hadcn.keyboard.utils.HadLog;
 import cn.hadcn.keyboard.utils.Utils;
 import cn.hadcn.keyboard.view.HadEditText;
 import cn.hadcn.keyboard.view.SoftHandleLayout;
@@ -326,7 +335,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
 
     public void showEmoticons( ) {
         btnEmoticon.setVisibility(VISIBLE);
-        EmoticonsKeyboardBuilder builder = EmoticonUtil.getBuilder(mContext);
+        EmoticonsKeyboardBuilder builder = getBuilder(mContext);
         EmoticonLayout layout = new EmoticonLayout(mContext);
         layout.setContents(builder, new EmoticonLayout.OnEmoticonListener() {
             @Override
@@ -385,6 +394,64 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     @Override
     public void onToolBarItemClick(int position) {
 
+    }
+
+    public static boolean isEmoticonInitSuccess(Context context) {
+        return Utils.isInitDb(context);
+    }
+
+    public static void initEmoticonsDB(final Context context, final boolean isShowEmoji, final List<EmoticonEntity> emoticonEntities) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                EmoticonDBHelper emoticonDbHelper = new EmoticonDBHelper(context);
+
+                if ( isShowEmoji ) {
+                    ArrayList<EmoticonBean> emojiArray = Utils.ParseData(DefEmoticons.emojiArray, EmoticonBean.FACE_TYPE_NORMAL, EmoticonBase.Scheme.DRAWABLE);
+                    EmoticonSetBean emojiEmoticonSetBean = new EmoticonSetBean("emoji", 3, 7);
+                    emojiEmoticonSetBean.setIconUri("drawable://icon_emoji");
+                    emojiEmoticonSetBean.setItemPadding(20);
+                    emojiEmoticonSetBean.setVerticalSpacing(10);
+                    emojiEmoticonSetBean.setShowDelBtn(true);
+                    emojiEmoticonSetBean.setEmoticonList(emojiArray);
+                    emoticonDbHelper.insertEmoticonSet(emojiEmoticonSetBean);
+                }
+
+                List<EmoticonSetBean> emoticonSetBeans = new ArrayList<>();
+                for ( EmoticonEntity entity : emoticonEntities ) {
+                    try {
+                        EmoticonSetBean bean = Utils.ParseEmoticons(context, entity.getPath(), entity.getScheme());
+                        emoticonSetBeans.add(bean);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        HadLog.e(String.format("read %s config.xml error", entity.getPath()));
+                    } catch (XmlPullParserException e) {
+                        e.printStackTrace();
+                        HadLog.e( String.format("parse %s config.xml error", entity.getPath()) );
+                    }
+                }
+
+                for ( EmoticonSetBean setBean : emoticonSetBeans ) {
+                    emoticonDbHelper.insertEmoticonSet(setBean);
+                }
+                emoticonDbHelper.cleanup();
+
+                if ( emoticonSetBeans.size() == emoticonEntities.size() ) {
+                    Utils.setIsInitDb(context, true);
+                }
+            }
+        }).start();
+    }
+
+    private EmoticonsKeyboardBuilder getBuilder(Context context) {
+
+        EmoticonDBHelper emoticonDbHelper = new EmoticonDBHelper(context);
+        ArrayList<EmoticonSetBean> mEmoticonSetBeanList = emoticonDbHelper.queryAllEmoticonSet();
+        emoticonDbHelper.cleanup();
+
+        return new EmoticonsKeyboardBuilder.Builder()
+                .setEmoticonSetBeanList(mEmoticonSetBeanList)
+                .build();
     }
 
     public interface OnChatKeyBoardListener {

@@ -5,8 +5,8 @@ import android.app.Application;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.hadcn.keyboard.ChatKeyboardLayout;
 import cn.hadcn.keyboard.EmoticonEntity;
-import cn.hadcn.keyboard.EmoticonUtil;
 import cn.hadcn.keyboard.utils.EmoticonBase;
 
 /**
@@ -18,10 +18,12 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        List<EmoticonEntity> entities = new ArrayList<>();
-        entities.add(new EmoticonEntity("emoticons/xhs", EmoticonBase.Scheme.ASSETS));
-        entities.add(new EmoticonEntity("emoticons/qbi", EmoticonBase.Scheme.ASSETS));
-        entities.add(new EmoticonEntity("emoticons/tusiji", EmoticonBase.Scheme.ASSETS));
-        EmoticonUtil.initEmoticonsDB(this, true, entities);
+        if ( !ChatKeyboardLayout.isEmoticonInitSuccess(this) ) {
+            List<EmoticonEntity> entities = new ArrayList<>();
+            entities.add(new EmoticonEntity("emoticons/xhs", EmoticonBase.Scheme.ASSETS));
+            entities.add(new EmoticonEntity("emoticons/qbi", EmoticonBase.Scheme.ASSETS));
+            entities.add(new EmoticonEntity("emoticons/tusiji", EmoticonBase.Scheme.ASSETS));
+            ChatKeyboardLayout.initEmoticonsDB(this, true, entities);
+        }
     }
 }

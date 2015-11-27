@@ -3,6 +3,7 @@ package cn.hadcn.keyboard.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -214,5 +215,12 @@ public class Utils {
             event = pullParser.next();
         }
         return emoticonSetBean;
+    }
+
+    public static int getFontSize( float textSize ) {
+        Paint paint = new Paint();
+        paint.setTextSize(textSize);
+        Paint.FontMetrics fm = paint.getFontMetrics();
+        return (int) (Math.ceil(fm.bottom - fm.top) + 0.5);
     }
 }
