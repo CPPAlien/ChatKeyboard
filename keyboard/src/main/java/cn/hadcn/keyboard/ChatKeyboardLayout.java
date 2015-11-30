@@ -24,6 +24,7 @@ import cn.hadcn.keyboard.emoticon.EmoticonBean;
 import cn.hadcn.keyboard.emoticon.EmoticonSetBean;
 import cn.hadcn.keyboard.emoticon.db.EmoticonDBHelper;
 import cn.hadcn.keyboard.emoticon.util.DefEmoticons;
+import cn.hadcn.keyboard.emoticon.util.EmoticonHandler;
 import cn.hadcn.keyboard.emoticon.view.EmoticonLayout;
 import cn.hadcn.keyboard.emoticon.view.EmoticonsToolBarView;
 import cn.hadcn.keyboard.media.MediaBean;
@@ -61,6 +62,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.view_keyboardbar, this);
         initView();
+        EmoticonHandler.getInstance().init(mContext);  //init handler previously
     }
 
     private void initView() {

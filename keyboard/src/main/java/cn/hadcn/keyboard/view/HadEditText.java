@@ -1,19 +1,15 @@
 package cn.hadcn.keyboard.view;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
-import java.util.List;
 
-import cn.hadcn.keyboard.emoticon.EmoticonBean;
 import cn.hadcn.keyboard.emoticon.util.EmoticonHandler;
 import cn.hadcn.keyboard.utils.Utils;
 
 public class HadEditText extends EditText {
     private Context mContext;
-    List<EmoticonBean> emoticonBeanList;
 
     public HadEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -26,8 +22,6 @@ public class HadEditText extends EditText {
     public HadEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
-        emoticonBeanList = EmoticonHandler.getAllEmoticons(context);
-        //todo review here
     }
 
     @Override
@@ -37,7 +31,7 @@ public class HadEditText extends EditText {
             onTextChangedInterface.onTextChanged(arg0);
         }
 
-        EmoticonHandler.getInstance().setTextFace(mContext, arg0.toString(), getText(), Utils.getFontSize(getTextSize()));
+        EmoticonHandler.getInstance().setTextFace( arg0.toString(), getText(), Utils.getFontSize(getTextSize()));
 
         /*if (after <= 0) {
             return;
@@ -119,13 +113,6 @@ public class HadEditText extends EditText {
         } catch (ArrayIndexOutOfBoundsException e) {
             setText(text.toString());
         }
-    }
-
-    private int getFontSize() {
-        Paint paint = new Paint();
-        paint.setTextSize(getTextSize());
-        Paint.FontMetrics fm = paint.getFontMetrics();
-        return (int) Math.ceil(fm.bottom - fm.top);
     }
 
     public interface OnTextChangedInterface {

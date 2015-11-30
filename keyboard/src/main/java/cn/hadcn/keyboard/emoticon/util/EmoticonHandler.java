@@ -18,6 +18,7 @@ import cn.hadcn.keyboard.view.VerticalImageSpan;
 public class EmoticonHandler {
     private static ArrayList<EmoticonBean> mEmoticonBeans = null;
     private static EmoticonHandler sEmoticonHandler = null;
+    private Context mContext;
 
     public static EmoticonHandler getInstance() {
         if ( sEmoticonHandler == null ) {
@@ -30,7 +31,8 @@ public class EmoticonHandler {
 
     }
 
-    public static ArrayList<EmoticonBean> getAllEmoticons(Context context) {
+    public ArrayList<EmoticonBean> init(Context context) {
+        mContext = context;
         if ( mEmoticonBeans == null ) {
             EmoticonDBHelper emoticonDbHelper = new EmoticonDBHelper(context);
             mEmoticonBeans = emoticonDbHelper.queryAllEmoticonBeans();
@@ -39,7 +41,7 @@ public class EmoticonHandler {
         return mEmoticonBeans;
     }
 
-    public void setTextFace( Context context, String content, Spannable spannable, int size ) {
+    public void setTextFace( String content, Spannable spannable, int size ) {
         if ( content.length() <= 0 ) {
             return;
         }
@@ -51,7 +53,7 @@ public class EmoticonHandler {
                 if ( keyIndex < 0 ) {
                     break;
                 }
-                Drawable drawable = EmoticonLoader.getInstance(context).getDrawable(bean.getIconUri());
+                Drawable drawable = EmoticonLoader.getInstance(mContext).getDrawable(bean.getIconUri());
                 drawable.setBounds(0, 0, size, size);
                 VerticalImageSpan imageSpan = new VerticalImageSpan(drawable);
                 spannable.setSpan(imageSpan, keyIndex, keyIndex + keyLength, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
