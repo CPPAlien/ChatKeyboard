@@ -153,8 +153,8 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         }
     }
 
-    public void hideLayout() {
-        setVisibility(GONE);
+    public void hideKeyboard() {
+        findViewById(R.id.main_view_id).setVisibility(GONE);
     }
 
     public void limitOnlyText() {
