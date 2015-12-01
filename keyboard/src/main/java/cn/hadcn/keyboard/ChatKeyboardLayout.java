@@ -55,6 +55,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     private ImageView btnVoiceOrText;
     private Context mContext;
     private boolean isShowMediaButton = false;   //media func button on or off
+    private boolean isLimitedOnlyText = false;
 
     public ChatKeyboardLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -107,7 +108,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         etInputArea.setOnTextChangedInterface(new HadEditText.OnTextChangedInterface() {
             @Override
             public void onTextChanged(CharSequence arg0) {
-                if ( !isShowMediaButton ) {
+                if ( !isShowMediaButton || isLimitedOnlyText ) {
                     return;
                 }
                 String str = arg0.toString();
@@ -150,6 +151,20 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
             KeyEvent event = new KeyEvent(action, code);
             etInputArea.onKeyDown(KeyEvent.KEYCODE_DEL, event);
         }
+    }
+
+    public void hideLayout() {
+        setVisibility(GONE);
+    }
+
+    public void limitOnlyText() {
+        btnEmoticon.setVisibility(GONE);
+        btnMedia.setVisibility(GONE);
+        btnSend.setVisibility(VISIBLE);
+        etInputArea.setVisibility(VISIBLE);
+        btnRecording.setVisibility(GONE);
+        btnVoiceOrText.setVisibility(GONE);
+        isLimitedOnlyText = true;
     }
 
     /**
