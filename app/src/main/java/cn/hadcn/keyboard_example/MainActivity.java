@@ -1,12 +1,12 @@
 package cn.hadcn.keyboard_example;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ChatKeyboardLayout keyboardLayout = null;
     SimpleChatAdapter mAdapter;
     RecordingLayout rlRecordArea;
+    String mVoicePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,17 +97,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onRecordingAction(ChatKeyboardLayout.RecordingAction action) {
         switch (action) {
             case START:
+                mVoicePath = AudioLib.getInstance().generatePath(this);
+                AudioLib.getInstance().start(mVoicePath, new AudioListener());
                 rlRecordArea.show(1);
                 break;
-            case INCANCEL:
+            case RESTORE:
+                rlRecordArea.show(1);
+                break;
+            case WILLCANCEL:
                 rlRecordArea.show(0);
                 break;
             case CANCELED:
+                AudioLib.getInstance().cancel();
                 rlRecordArea.hide();
                 break;
             case COMPLETE:
+                AudioLib.getInstance().stop();
                 rlRecordArea.hide();
                 break;
+        }
+    }
+
+    private class AudioListener implements AudioLib.OnAudioListener {
+
+        @Override
+        public void onDbChange(double db) {
+            int level = 0;
+            Log.e("pengtao", "onDbChange db = " + db);
+            if ( db > 40 ) {
+                level = ((int)db - 40) / 7;
+            }
+            Log.e("pengtao", "onDbChange level = " + level);
+            rlRecordArea.setVoiceLevel(level);
         }
     }
 

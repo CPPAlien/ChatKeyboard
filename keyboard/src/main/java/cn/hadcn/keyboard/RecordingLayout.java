@@ -72,6 +72,9 @@ public class RecordingLayout extends RelativeLayout{
 
     public void setVoiceLevel( int level ) {
         //if set voice again, cancel actions already in queue
+        if ( level == mCurrentVoiceLevel ) {
+            return;
+        }
         for ( Runnable r : levelActions ) {
             removeCallbacks(r);
         }
@@ -87,7 +90,7 @@ public class RecordingLayout extends RelativeLayout{
             }
         }
         for ( int i = 0; i < levelActions.size(); ++i ) {
-            postDelayed(levelActions.get(i), 300 * (i + 1));
+            postDelayed(levelActions.get(i), 10 * (i + 1));
         }
     }
 

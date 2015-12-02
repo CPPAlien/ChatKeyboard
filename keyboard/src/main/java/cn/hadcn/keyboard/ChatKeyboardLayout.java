@@ -315,7 +315,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                 btnRecording.setBackgroundResource(R.drawable.recording_n);
                 if ( mOnChatKeyBoardListener != null && !isCanceled ) {
                     mOnChatKeyBoardListener.onRecordingAction(RecordingAction.COMPLETE);
-                } else if ( mOnChatKeyBoardListener != null && isCanceled ) {
+                } else if ( mOnChatKeyBoardListener != null ) {
                     mOnChatKeyBoardListener.onRecordingAction(RecordingAction.CANCELED);
                 }
             } else if ( motionEvent.getAction() == MotionEvent.ACTION_MOVE ) {
@@ -325,11 +325,11 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                     btnRecording.setText(getResources().getString(R.string.recording_cancel));
                     isCanceled = true;
                     if ( mOnChatKeyBoardListener != null ) {
-                        mOnChatKeyBoardListener.onRecordingAction( RecordingAction.INCANCEL );
+                        mOnChatKeyBoardListener.onRecordingAction( RecordingAction.WILLCANCEL);
                     }
                 } else {
                     if ( mOnChatKeyBoardListener != null ) {
-                        mOnChatKeyBoardListener.onRecordingAction( RecordingAction.START );
+                        mOnChatKeyBoardListener.onRecordingAction( RecordingAction.RESTORE );
                     }
                     btnRecording.setText(getResources().getString(R.string.recording_end));
                     isCanceled = false;
@@ -490,6 +490,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         START,    // start recording
         COMPLETE,  // recording end
         CANCELED,  // recording canceled
-        INCANCEL   // state which can be canceled
+        WILLCANCEL,   // state which can be canceled
+        RESTORE     // state which is restored from WILLCANCEL
     }
 }
