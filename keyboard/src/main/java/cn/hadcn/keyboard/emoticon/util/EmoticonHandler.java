@@ -2,6 +2,7 @@ package cn.hadcn.keyboard.emoticon.util;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.text.Spannable;
 
 import java.util.ArrayList;
@@ -16,28 +17,31 @@ import cn.hadcn.keyboard.view.VerticalImageSpan;
  * Created by 90Chris on 2015/11/25.
  */
 public class EmoticonHandler {
-    private static ArrayList<EmoticonBean> mEmoticonBeans = null;
+    private static ArrayList<EmoticonBean> mEmoticonBeans = new ArrayList<>();
     private static EmoticonHandler sEmoticonHandler = null;
     private Context mContext;
+    EmoticonDBHelper emoticonDbHelper = null;
 
-    public static EmoticonHandler getInstance() {
+    public static EmoticonHandler getInstance( @NonNull Context context ) {
         if ( sEmoticonHandler == null ) {
-            sEmoticonHandler = new EmoticonHandler();
+            sEmoticonHandler = new EmoticonHandler( context );
         }
         return sEmoticonHandler;
     }
 
-    private EmoticonHandler() {
-
+    private EmoticonHandler( Context context ) {
+        mContext = context;
+        emoticonDbHelper = new EmoticonDBHelper(context);
     }
 
-    public ArrayList<EmoticonBean> init(Context context) {
-        mContext = context;
-        if ( mEmoticonBeans == null ) {
-            EmoticonDBHelper emoticonDbHelper = new EmoticonDBHelper(context);
-            mEmoticonBeans = emoticonDbHelper.queryAllEmoticonBeans();
-            emoticonDbHelper.cleanup();
-        }
+    public EmoticonDBHelper getEmoticonDbHelper() {
+        return emoticonDbHelper;
+    }
+
+    public ArrayList<EmoticonBean> loadEmoticonsToMemory() {
+        mEmoticonBeans = emoticonDbHelper.queryAllEmoticonBeans();
+        emoticonDbHelper.cleanup();
+
         return mEmoticonBeans;
     }
 

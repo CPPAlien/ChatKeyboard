@@ -24,17 +24,10 @@ public class EmoticonDBHelper {
     private static final String TABLE_NAME_EMOTICONSET = "emoticonset";
 
     private SQLiteDatabase db;
-    private DBOpenHelper dbOpenHelper;
 
     public EmoticonDBHelper(Context context) {
-        this.dbOpenHelper = new DBOpenHelper(context);
-        establishDb();
-    }
-
-    private void establishDb() {
-        if (this.db == null) {
-            this.db = this.dbOpenHelper.getWritableDatabase();
-        }
+        DBOpenHelper dbOpenHelper = new DBOpenHelper(context);
+        db = dbOpenHelper.getWritableDatabase();
     }
 
     public ContentValues createEmoticonSetContentValues(EmoticonBean bean, String beanSetName) {

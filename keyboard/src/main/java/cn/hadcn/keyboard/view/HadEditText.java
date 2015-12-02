@@ -13,10 +13,12 @@ public class HadEditText extends EditText {
 
     public HadEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        mContext = context;
     }
 
     public HadEditText(Context context) {
         super(context);
+        mContext = context;
     }
 
     public HadEditText(Context context, AttributeSet attrs) {
@@ -31,59 +33,7 @@ public class HadEditText extends EditText {
             onTextChangedInterface.onTextChanged(arg0);
         }
 
-        EmoticonHandler.getInstance().setTextFace( arg0.toString(), getText(), Utils.getFontSize(getTextSize()));
-
-        /*if (after <= 0) {
-            return;
-        }
-
-        int end = start + after;
-        String keyStr = arg0.toString().substring(start, end);
-        boolean isEmoticonMatcher = false;
-        for ( EmoticonBean bean : emoticonBeanList ) {
-            if ( !TextUtils.isEmpty(bean.getTag()) && bean.getTag().equals(keyStr) ) {
-                Drawable drawable = EmoticonLoader.getInstance(mContext).getDrawable(bean.getIconUri());
-                if (drawable != null) {
-                    int itemHeight;
-                    if (mItemHeight == WRAP_DRAWABLE) {
-                        itemHeight = drawable.getIntrinsicHeight();
-                    } else if (mItemHeight == WRAP_FONT) {
-                        itemHeight = mFontSize;
-                    } else {
-                        itemHeight = mItemHeight;
-                    }
-
-                    int itemWidth;
-                    if (mItemWidth == WRAP_DRAWABLE) {
-                        itemWidth = drawable.getIntrinsicWidth();
-                    } else if (mItemWidth == WRAP_FONT) {
-                        itemWidth = mFontSize;
-                    } else {
-                        itemWidth = mItemWidth;
-                    }
-
-                    drawable.setBounds(0, 0, itemWidth, itemHeight);
-                    VerticalImageSpan imageSpan = new VerticalImageSpan(drawable);
-                    getText().setSpan(imageSpan, start, end, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-                    isEmoticonMatcher = true;
-                }
-            }
-        }
-
-        if (!isEmoticonMatcher) {
-            ImageSpan[] oldSpans = getText().getSpans(start, end, ImageSpan.class);
-            if ( oldSpans != null ) {
-                for ( ImageSpan span : oldSpans ) {
-                    int endOld = after + getText().getSpanEnd(span) - 1;
-                    if ( end >= 0 && endOld > end ) {
-                        ImageSpan imageSpan = new ImageSpan(span.getDrawable(), ImageSpan.ALIGN_BASELINE);
-                        getText().removeSpan(span);
-                        getText().setSpan(imageSpan, end, endOld, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-                    }
-                }
-            }
-        }*/
-
+        EmoticonHandler.getInstance(mContext).setTextFace( arg0.toString(), getText(), Utils.getFontSize(getTextSize()));
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.util.Xml;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -62,8 +63,10 @@ public class Utils {
     private static int DisplayHeightPixels = 0;
 
     private static void getDisplayMetrics(Context context) {
+        WindowManager wm = (WindowManager)context.
+                getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
-        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(dm);
+        wm.getDefaultDisplay().getMetrics(dm);
         DisplayWidthPixels = dm.widthPixels;
         DisplayHeightPixels = dm.heightPixels;
     }

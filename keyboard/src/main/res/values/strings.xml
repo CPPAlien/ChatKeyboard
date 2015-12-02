@@ -2,11 +2,9 @@
 <resources>
 
     <string name="app_name">KeyBoard</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-
     <string name="btn_text_send">发送</string>
     <string name="recording_start">按住 说话</string>
     <string name="recording_end">松开 结束</string>
     <string name="recording_cancel">松开手指，取消发送</string>
+    <string name="recording_cancel_notice">手指上滑，取消发送</string>
 </resources>

@@ -29,6 +29,7 @@ public class SoftHandleLayout extends SoftListenLayout {
     public SoftHandleLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.mContext = context;
+
         mAutoViewHeight = Utils.getDefKeyboardHeight(mContext);
     }
 

@@ -6,15 +6,18 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
 import cn.hadcn.keyboard.ChatKeyboardLayout;
+import cn.hadcn.keyboard.RecordingLayout;
 import cn.hadcn.keyboard.media.MediaBean;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, MediaBean.MediaListener, ChatKeyboardLayout.OnChatKeyBoardListener {
     ChatKeyboardLayout keyboardLayout = null;
     SimpleChatAdapter mAdapter;
+    RecordingLayout rlRecordArea;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         listView.setAdapter(mAdapter);
 
+        rlRecordArea = (RecordingLayout)findViewById(R.id.recording_area);
     }
 
     @Override
@@ -90,7 +94,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onRecordingAction(ChatKeyboardLayout.RecordingAction action) {
-
+        switch (action) {
+            case START:
+                rlRecordArea.show(1);
+                break;
+            case INCANCEL:
+                rlRecordArea.show(0);
+                break;
+            case CANCELED:
+                rlRecordArea.hide();
+                break;
+            case COMPLETE:
+                rlRecordArea.hide();
+                break;
+        }
     }
 
     @Override

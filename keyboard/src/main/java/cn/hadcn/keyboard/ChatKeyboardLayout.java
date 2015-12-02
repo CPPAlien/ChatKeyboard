@@ -56,14 +56,15 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     private Context mContext;
     private boolean isShowMediaButton = false;   //media func button on or off
     private boolean isLimitedOnlyText = false;
+    private static EmoticonDBHelper emoticonDbHelper;
 
     public ChatKeyboardLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.view_keyboardbar, this);
+        // must be before inflate
+        emoticonDbHelper = EmoticonHandler.getInstance(mContext).getEmoticonDbHelper();
+        LayoutInflater.from(context).inflate(R.layout.view_keyboardbar, this);
         initView();
-        EmoticonHandler.getInstance().init(mContext);  //init handler previously
     }
 
     private void initView() {
@@ -323,7 +324,13 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                 if ( startY - endY > Utils.dip2px(mContext, 50)) {
                     btnRecording.setText(getResources().getString(R.string.recording_cancel));
                     isCanceled = true;
+                    if ( mOnChatKeyBoardListener != null ) {
+                        mOnChatKeyBoardListener.onRecordingAction( RecordingAction.INCANCEL );
+                    }
                 } else {
+                    if ( mOnChatKeyBoardListener != null ) {
+                        mOnChatKeyBoardListener.onRecordingAction( RecordingAction.START );
+                    }
                     btnRecording.setText(getResources().getString(R.string.recording_end));
                     isCanceled = false;
                 }
@@ -421,7 +428,6 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         new Thread(new Runnable() {
             @Override
             public void run() {
-                EmoticonDBHelper emoticonDbHelper = new EmoticonDBHelper(context);
 
                 if ( isShowEmoji ) {
                     ArrayList<EmoticonBean> emojiArray = Utils.ParseData(DefEmoticons.emojiArray, EmoticonBean.FACE_TYPE_NORMAL, EmoticonBase.Scheme.DRAWABLE);
@@ -455,13 +461,16 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
 
                 if ( emoticonSetBeans.size() == emoticonEntities.size() ) {
                     Utils.setIsInitDb(context, true);
+                    EmoticonHandler.getInstance(context).loadEmoticonsToMemory();
                 }
             }
         }).start();
     }
 
     private EmoticonsKeyboardBuilder getBuilder(Context context) {
-
+        if ( context == null ) {
+            throw new RuntimeException(" Context is null, cannot create db helper" );
+        }
         EmoticonDBHelper emoticonDbHelper = new EmoticonDBHelper(context);
         ArrayList<EmoticonSetBean> mEmoticonSetBeanList = emoticonDbHelper.queryAllEmoticonSet();
         emoticonDbHelper.cleanup();
@@ -478,8 +487,9 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     }
 
     public enum RecordingAction {
-        START,
-        COMPLETE,
-        CANCELED
+        START,    // start recording
+        COMPLETE,  // recording end
+        CANCELED,  // recording canceled
+        INCANCEL   // state which can be canceled
     }
 }

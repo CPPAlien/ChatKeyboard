@@ -1,11 +1,21 @@
-<cn.hadcn.keyboard.ChatKeyboardLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/kv_bar"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ListView
-        android:id="@+id/list_view"
-        android:transcriptMode="alwaysScroll"
+    <cn.hadcn.keyboard.ChatKeyboardLayout
+        android:id="@+id/kv_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</cn.hadcn.keyboard.ChatKeyboardLayout>
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/list_view"
+            android:transcriptMode="alwaysScroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </cn.hadcn.keyboard.ChatKeyboardLayout>
+    <cn.hadcn.keyboard.RecordingLayout
+        android:id="@+id/recording_area"
+        android:visibility="gone"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>
