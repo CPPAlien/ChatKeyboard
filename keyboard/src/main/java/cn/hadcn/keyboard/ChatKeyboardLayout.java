@@ -63,6 +63,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         mContext = context;
         // must be before inflate
         emoticonDbHelper = EmoticonHandler.getInstance(mContext).getEmoticonDbHelper();
+        EmoticonHandler.getInstance(context).loadEmoticonsToMemory();
         LayoutInflater.from(context).inflate(R.layout.view_keyboardbar, this);
         initView();
     }

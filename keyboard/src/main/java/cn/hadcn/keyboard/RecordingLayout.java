@@ -105,7 +105,6 @@ public class RecordingLayout extends RelativeLayout{
         public void run() {
             ivVoiceLevel.setImageResource(chooseLevelDrawable(level));
             mCurrentVoiceLevel = level;
-            Log.e("pengtao", "level = " + level );
         }
     }
 
