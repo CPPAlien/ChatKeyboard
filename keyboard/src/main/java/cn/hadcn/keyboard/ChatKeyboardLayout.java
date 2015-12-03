@@ -56,13 +56,11 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     private Context mContext;
     private boolean isShowMediaButton = false;   //media func button on or off
     private boolean isLimitedOnlyText = false;
-    private static EmoticonDBHelper emoticonDbHelper;
 
     public ChatKeyboardLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
         // must be before inflate
-        emoticonDbHelper = EmoticonHandler.getInstance(mContext).getEmoticonDbHelper();
         EmoticonHandler.getInstance(context).loadEmoticonsToMemory();
         LayoutInflater.from(context).inflate(R.layout.view_keyboardbar, this);
         initView();
@@ -429,7 +427,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         new Thread(new Runnable() {
             @Override
             public void run() {
-
+                EmoticonDBHelper emoticonDbHelper = EmoticonHandler.getInstance(context).getEmoticonDbHelper();
                 if ( isShowEmoji ) {
                     ArrayList<EmoticonBean> emojiArray = Utils.ParseData(DefEmoticons.emojiArray, EmoticonBean.FACE_TYPE_NORMAL, EmoticonBase.Scheme.DRAWABLE);
                     EmoticonSetBean emojiEmoticonSetBean = new EmoticonSetBean("emoji", 3, 7);
@@ -462,7 +460,6 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
 
                 if ( emoticonSetBeans.size() == emoticonEntities.size() ) {
                     Utils.setIsInitDb(context, true);
-                    EmoticonHandler.getInstance(context).loadEmoticonsToMemory();
                 }
             }
         }).start();

@@ -23,11 +23,10 @@ public class EmoticonDBHelper {
     private static final String TABLE_NAME_EMOTICONS = "emoticons";
     private static final String TABLE_NAME_EMOTICONSET = "emoticonset";
 
-    private SQLiteDatabase db;
+    private DBOpenHelper mOpenDbHelper;
 
     public EmoticonDBHelper(Context context) {
-        DBOpenHelper dbOpenHelper = new DBOpenHelper(context);
-        db = dbOpenHelper.getWritableDatabase();
+        mOpenDbHelper = new DBOpenHelper(context);
     }
 
     public ContentValues createEmoticonSetContentValues(EmoticonBean bean, String beanSetName) {
@@ -43,8 +42,8 @@ public class EmoticonDBHelper {
         return values;
     }
 
-    public long insertEmoticonBean(EmoticonBean bean, String beanSetName) {
-
+    public synchronized long insertEmoticonBean(EmoticonBean bean, String beanSetName) {
+        SQLiteDatabase db = mOpenDbHelper.getWritableDatabase();
         long result = -1;
         if (bean == null || db == null) {
             return result;
@@ -62,7 +61,8 @@ public class EmoticonDBHelper {
         return result;
     }
 
-    public long insertEmoticonBeans(ContentValues[] values) {
+    public synchronized long insertEmoticonBeans(ContentValues[] values) {
+        SQLiteDatabase db = mOpenDbHelper.getWritableDatabase();
         db.beginTransaction();
         int insertSuccessCount = values.length;
         try {
@@ -80,7 +80,8 @@ public class EmoticonDBHelper {
         return insertSuccessCount;
     }
 
-    public long insertEmoticonSet(EmoticonSetBean bean) {
+    public synchronized long insertEmoticonSet(EmoticonSetBean bean) {
+        SQLiteDatabase db = mOpenDbHelper.getWritableDatabase();
         long result = -1;
         if (bean == null || db == null || TextUtils.isEmpty(bean.getName())) {
             return result;
@@ -110,7 +111,8 @@ public class EmoticonDBHelper {
         return result;
     }
 
-    public EmoticonBean queryEmoticonBean(String contentStr) {
+    public synchronized EmoticonBean queryEmoticonBean(String contentStr) {
+        SQLiteDatabase db = mOpenDbHelper.getReadableDatabase();
         String sql = "select * from " + TABLE_NAME_EMOTICONS + " where " + TableColumns.EmoticonColumns.TAG + " = '" + contentStr + "'";
         Cursor cursor = db.rawQuery(sql, null);
         try {
@@ -128,7 +130,8 @@ public class EmoticonDBHelper {
         return null;
     }
 
-    public ArrayList<EmoticonBean> queryEmoticonBeanList(String sql) {
+    public synchronized ArrayList<EmoticonBean> queryEmoticonBeanList(String sql) {
+        SQLiteDatabase db = mOpenDbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
         int count = cursor.getCount();
         ArrayList<EmoticonBean> beanList = new ArrayList<>();
@@ -148,12 +151,12 @@ public class EmoticonDBHelper {
         return beanList;
     }
 
-    public ArrayList<EmoticonBean> queryAllEmoticonBeans() {
+    public synchronized ArrayList<EmoticonBean> queryAllEmoticonBeans() {
         String sql = "select * from " + TABLE_NAME_EMOTICONS;
         return queryEmoticonBeanList(sql);
     }
 
-    public ArrayList<EmoticonSetBean> queryEmoticonSet(String... setNames) {
+    public synchronized ArrayList<EmoticonSetBean> queryEmoticonSet(String... setNames) {
         if(setNames == null || setNames.length == 0){
             return null;
         }
@@ -167,7 +170,7 @@ public class EmoticonDBHelper {
         return queryEmoticonSet(sql);
     }
 
-    public ArrayList<EmoticonSetBean> queryEmoticonSet(ArrayList<String> setNameList) {
+    public synchronized ArrayList<EmoticonSetBean> queryEmoticonSet(ArrayList<String> setNameList) {
         if(setNameList == null || setNameList.size() == 0){
             return null;
         }
@@ -183,12 +186,13 @@ public class EmoticonDBHelper {
         return queryEmoticonSet(sql);
     }
 
-    public ArrayList<EmoticonSetBean> queryAllEmoticonSet() {
+    public synchronized ArrayList<EmoticonSetBean> queryAllEmoticonSet() {
         String sql = "select * from " + TABLE_NAME_EMOTICONSET;
         return queryEmoticonSet(sql);
     }
 
-    public ArrayList<EmoticonSetBean> queryEmoticonSet(String sql) {
+    public synchronized ArrayList<EmoticonSetBean> queryEmoticonSet(String sql) {
+        SQLiteDatabase db = mOpenDbHelper.getReadableDatabase();
         Cursor cursor = null;
         try {
             cursor = db.rawQuery(sql, null);
@@ -237,11 +241,8 @@ public class EmoticonDBHelper {
     }
 
 
-    public void cleanup() {
-        if (this.db != null) {
-            this.db.close();
-            this.db = null;
-        }
+    public synchronized void cleanup() {
+        mOpenDbHelper.close();
     }
 
     private static class DBOpenHelper extends SQLiteOpenHelper {
@@ -250,7 +251,7 @@ public class EmoticonDBHelper {
             super(context, DATABASE_NAME, null, VERSION);
         }
 
-        private static void createEmoticonsTable(SQLiteDatabase db) {
+        private void createEmoticonsTable(SQLiteDatabase db) {
             db.execSQL("CREATE TABLE " + TABLE_NAME_EMOTICONS + " ( " +
                     TableColumns.EmoticonColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     TableColumns.EmoticonColumns.EVENTTYPE + " INTEGER, " +

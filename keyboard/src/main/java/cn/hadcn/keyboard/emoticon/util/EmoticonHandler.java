@@ -35,6 +35,9 @@ public class EmoticonHandler {
     }
 
     public EmoticonDBHelper getEmoticonDbHelper() {
+        if ( emoticonDbHelper == null ) {
+            emoticonDbHelper = new EmoticonDBHelper(mContext);
+        }
         return emoticonDbHelper;
     }
 
@@ -46,6 +49,10 @@ public class EmoticonHandler {
     }
 
     public void setTextFace( String content, Spannable spannable, int size ) {
+        if ( mEmoticonBeans == null ) {
+            mEmoticonBeans = emoticonDbHelper.queryAllEmoticonBeans();
+            emoticonDbHelper.cleanup();
+        }
         if ( content.length() <= 0 ) {
             return;
         }
