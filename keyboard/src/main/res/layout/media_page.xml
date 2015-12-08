@@ -2,13 +2,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
+    android:padding="10dp"
     android:gravity="center"
     android:orientation="vertical" >
     <GridView
         android:id="@+id/media_grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:horizontalSpacing="4dp"        
+        android:horizontalSpacing="10dp"
         android:numColumns="4"
         android:verticalSpacing="8dp" />
 </LinearLayout>

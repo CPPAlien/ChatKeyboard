@@ -8,6 +8,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -18,16 +19,22 @@ import cn.hadcn.keyboard.R;
 public class MediaGridAdapter extends BaseAdapter {
 	private ArrayList<MediaBean> mediaModels;
 	Context mContext;
+    int mSize = 0;
 
     /**
      * MediaGridAdapter
      * @param context context
      * @param mediaModels data
      */
-	public MediaGridAdapter(Context context, ArrayList<MediaBean> mediaModels ) {
+	public MediaGridAdapter(Context context, ArrayList<MediaBean> mediaModels, int size ) {
         this.mContext = context;
 		this.mediaModels = mediaModels;
+        mSize = size;
 	}
+
+    public void resizeItem(int size) {
+        mSize = size;
+    }
 
 	public View getView(final int position, View convertView, ViewGroup parent){
 		ViewHolder viewHolder;
@@ -35,6 +42,7 @@ public class MediaGridAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(R.layout.media_item, parent, false);
 			viewHolder = new ViewHolder(convertView);
+            viewHolder.ivImage.setLayoutParams(new LinearLayout.LayoutParams(mSize, mSize));
 			convertView.setTag(viewHolder);
         } else {
 			viewHolder = (ViewHolder)convertView.getTag();

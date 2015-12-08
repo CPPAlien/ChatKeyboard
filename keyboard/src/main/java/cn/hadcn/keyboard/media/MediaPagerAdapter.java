@@ -18,16 +18,18 @@ public class MediaPagerAdapter extends PagerAdapter {
 	Context mContext;
     List<MediaGridAdapter> gridAdapterList = new ArrayList<>();
     int mPageNum = 0;
+    int mColumnWidth = 0;
 
-    public MediaPagerAdapter(Context context, List<MediaBean> mediaModels) {
+    public MediaPagerAdapter(Context context, List<MediaBean> mediaModels, int columnWidth) {
         mContext = context;
+        mColumnWidth = columnWidth;
         mPageNum = (int) Math.ceil((float) mediaModels.size() / MAX_NUM_PER_PAGE);
         for (int i = 0; i < mPageNum; ++i) {
             ArrayList<MediaBean> mediaItems = new ArrayList<>();
             for (int j = i * MAX_NUM_PER_PAGE; j < (i+1) * MAX_NUM_PER_PAGE && j < mediaModels.size(); ++j) {
                 mediaItems.add(mediaModels.get(j));
             }
-            MediaGridAdapter adapter = new MediaGridAdapter( mContext, mediaItems );
+            MediaGridAdapter adapter = new MediaGridAdapter( mContext, mediaItems, mColumnWidth );
             gridAdapterList.add(adapter);
         }
     }
@@ -47,6 +49,7 @@ public class MediaPagerAdapter extends PagerAdapter {
         View layout = inflater.inflate(R.layout.media_page, container, false);
 
         GridView grid = (GridView) layout.findViewById(R.id.media_grid);
+        grid.setColumnWidth(mColumnWidth);
         grid.setAdapter(gridAdapterList.get(position));
 
         container.addView(layout);

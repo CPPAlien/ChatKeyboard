@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import java.util.List;
 
 import cn.hadcn.keyboard.R;
+import cn.hadcn.keyboard.utils.Utils;
 import cn.hadcn.keyboard.view.IndicatorView;
 
 
@@ -48,7 +49,8 @@ public class MediaLayout extends RelativeLayout implements ViewPager.OnPageChang
     }
 
     public void setContents( List<MediaBean> mediaContents ) {
-        MediaPagerAdapter adapter = new MediaPagerAdapter(mContext, mediaContents);
+        int size = getResources().getDimensionPixelSize(R.dimen.media_item_size);
+        MediaPagerAdapter adapter = new MediaPagerAdapter(mContext, mediaContents, size);
         vpContent.setAdapter(adapter);
         ivIndicator.setIndicatorCount(adapter.getPageNum());
     }
