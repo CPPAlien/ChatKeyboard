@@ -11,6 +11,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import cn.hadcn.keyboard.emoticon.util.EmoticonHandler;
+
 
 public class EmoticonLoader implements EmoticonBase {
     protected final Context mContext;
@@ -90,6 +92,11 @@ public class EmoticonLoader implements EmoticonBase {
                 }
         }
         return null;
+    }
+
+    public Drawable getDrawableByTag( String tag ) {
+        String uri = EmoticonHandler.getInstance(mContext).getEmoticonUriByTag(tag);
+        return getDrawable(uri);
     }
 
     public Drawable getDrawable(String imageUri){

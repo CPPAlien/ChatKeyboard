@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         popupModels.add(new MediaBean(6, R.drawable.icon_camera, "拍照", this));
         popupModels.add(new MediaBean(7, R.drawable.icon_photo, "照片", this));
         popupModels.add(new MediaBean(8, R.drawable.icon_camera, "拍照", this));
-        popupModels.add(new MediaBean(9, R.drawable.icon_photo, "照片", this));
+        popupModels.add(new MediaBean(9, R.drawable.pic_select_n, "照片", this));
         keyboardLayout.showMedias(popupModels);
         keyboardLayout.setOnKeyBoardBarListener(this);
         ListView listView = (ListView)findViewById(R.id.list_view);
@@ -112,7 +113,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 rlRecordArea.hide();
                 break;
             case COMPLETE:
-                AudioLib.getInstance().stop();
+                if ( AudioLib.getInstance().complete() < 0 ) {
+                    Toast.makeText(this, "time is too short", Toast.LENGTH_SHORT).show();
+                }
                 rlRecordArea.hide();
                 break;
         }
@@ -133,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onUserDefEmoticonClicked(String name, String uri) {
-        mAdapter.addItem(new ChatBean(uri, null));
+    public void onUserDefEmoticonClicked(String tag, String uri) {
+        mAdapter.addItem(new ChatBean(tag, null));
     }
 }

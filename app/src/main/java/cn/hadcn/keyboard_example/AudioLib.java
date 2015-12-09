@@ -1,13 +1,14 @@
 package cn.hadcn.keyboard_example;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-import android.os.Environment;
 import android.os.Handler;
 
 import java.io.File;
 import java.io.IOException;
-
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * AudioLib
@@ -18,6 +19,8 @@ public class AudioLib {
     private static AudioLib sAudioLib = null;
     private MediaRecorder recorder;
     private String mPath;
+    private Timer mTimer = null;
+    private int mPeriod = 0;
 
     public static AudioLib getInstance() {
         if ( sAudioLib == null ) {
@@ -26,15 +29,26 @@ public class AudioLib {
         return sAudioLib;
     }
 
+    private class AudioTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+            ++mPeriod;
+        }
+    }
+
     public void start( String path, OnAudioListener listener ) {
         LogUtil.d(TAG, "start recording");
-        mPath = path;
+        mTimer = new Timer();
+        mTimer.schedule(new AudioTimerTask(), 0, 1000);
+        mPeriod = 0;
+
         mListener = listener;
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        recorder.setOutputFile( path );
+        recorder.setOutputFile(path);
         try {
             recorder.prepare();
             recorder.start();
@@ -46,6 +60,8 @@ public class AudioLib {
             e.printStackTrace();
             LogUtil.e(TAG, "IOException");
         }
+
+        mPath = path;
     }
 
     /**
@@ -57,37 +73,66 @@ public class AudioLib {
         if ( recorder == null ) {
             return false;
         }
+        try {
+            stopRecord();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            LogUtil.e(TAG, "illegal state happened when cancel");
+        }
 
-        recorder.stop();
-        recorder.release();
-        recorder = null;
         File file = new File(mPath);
         return file.exists() && file.delete();
     }
 
+
     /**
-     * record success
+     * complete the recording
+     * @return recording last time
      */
-    public void stop() {
-        LogUtil.d(TAG, "stop recording");
+    public int complete() {
+        LogUtil.i(TAG, "complete recording");
         if ( recorder == null ) {
             LogUtil.e(TAG, "recorder is not start yet");
-            return;
+            return -1;
         }
-        recorder.stop();
-        recorder.release();
-        recorder = null;
+        if ( mPeriod < 2 ) {
+            LogUtil.i(TAG, "record time is too short");
+            return -1;
+        }
+        try {
+            stopRecord();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            LogUtil.e(TAG, "illegal state happened when complete");
+            return -1;
+        }
+
+        return mPeriod;
     }
 
     public String generatePath(Context context) {
-        return getDiskCacheDir(context) + File.separator + System.currentTimeMillis() + ".amr";
+        boolean isSuccess = true;
+        final String CACHE_DIR_NAME = "audioCache";
+        final String cachePath = context.getCacheDir().getAbsolutePath() + File.separator + CACHE_DIR_NAME;
+        File file = new File(cachePath);
+        if ( !file.exists() ) {
+            isSuccess = file.mkdirs();
+        }
+        if ( isSuccess ) {
+            return cachePath + File.separator + System.currentTimeMillis() + ".amr";
+        } else {
+            return null;
+        }
     }
 
-    private String getDiskCacheDir(Context context) {
-        final String CACHE_DIR_NAME = "audioCache";
-        final String cachePath = context.getCacheDir().getPath();
-        //return cachePath + File.separator + CACHE_DIR_NAME;
-        return Environment.getExternalStorageDirectory().getAbsolutePath() + "/360";
+    private void stopRecord() throws IllegalStateException {
+        mHandler.removeCallbacks(mUpdateMicStatusTimer);
+        mTimer.cancel();
+        mTimer = null;
+
+        recorder.stop();
+        recorder.release();
+        recorder = null;
     }
 
     private final Handler mHandler = new Handler();
@@ -114,5 +159,56 @@ public class AudioLib {
     private OnAudioListener mListener = null;
     public interface OnAudioListener {
         void onDbChange(double db);
+    }
+
+    private MediaPlayer mMediaPlayer = null;
+    private String mCurrentPlayingAudioPath = null;
+    private OnMediaPlayComplete mPlayListener = null;
+
+    /**
+     * play the audio
+     * @param path path of the audio file
+     */
+    public void playAudio( String path, OnMediaPlayComplete listener ) {
+        mPlayListener = listener;
+        if ( mMediaPlayer != null ) {
+            stopPlay();
+        }
+        mMediaPlayer = new MediaPlayer();
+        mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                stopPlay();
+                if (mPlayListener != null) {
+                    mPlayListener.onPlayComplete(true);
+                }
+            }
+        });
+        try {
+            mMediaPlayer.setDataSource(path);
+            mMediaPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+            mPlayListener.onPlayComplete(false);
+        }
+
+        mMediaPlayer.start();
+
+        mCurrentPlayingAudioPath = path;
+    }
+
+    public void stopPlay() {
+        mMediaPlayer.stop();
+        mMediaPlayer.release();
+        mMediaPlayer = null;
+        mCurrentPlayingAudioPath = null;
+    }
+
+    public boolean isPlaying( String path ) {
+        return (mMediaPlayer != null) && mMediaPlayer.isPlaying() && (path.equals(mCurrentPlayingAudioPath));
+    }
+
+    public interface OnMediaPlayComplete {
+        void onPlayComplete(boolean isSuccess);
     }
 }

@@ -66,9 +66,9 @@ public class SimpleChatAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder)view.getTag();
         }
-        if ( getItem(i).getEmoticonUri() != null ) {
+        if ( getItem(i).getTag() != null ) {
             viewHolder.ivEmoticon.setVisibility(View.VISIBLE);
-            viewHolder.ivEmoticon.setImageDrawable(EmoticonLoader.getInstance(mContext).getDrawable(getItem(i).getEmoticonUri()));
+            viewHolder.ivEmoticon.setImageDrawable(EmoticonLoader.getInstance(mContext).getDrawableByTag(getItem(i).getTag()));
         } else {
             viewHolder.ivEmoticon.setVisibility(View.GONE);
         }

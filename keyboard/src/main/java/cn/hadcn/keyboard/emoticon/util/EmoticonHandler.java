@@ -48,6 +48,10 @@ public class EmoticonHandler {
         return mEmoticonBeans;
     }
 
+    public String getEmoticonUriByTag( String tag ) {
+        return emoticonDbHelper.getUriByTag(tag);
+    }
+
     public void setTextFace( String content, Spannable spannable, int size ) {
         if ( mEmoticonBeans == null ) {
             mEmoticonBeans = emoticonDbHelper.queryAllEmoticonBeans();

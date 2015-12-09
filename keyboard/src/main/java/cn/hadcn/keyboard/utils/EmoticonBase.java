@@ -1,8 +1,5 @@
 package cn.hadcn.keyboard.utils;
 
-import android.widget.ImageView;
-
-import java.io.IOException;
 import java.util.Locale;
 
 public interface EmoticonBase {

@@ -115,18 +115,27 @@ public class EmoticonDBHelper {
         SQLiteDatabase db = mOpenDbHelper.getReadableDatabase();
         String sql = "select * from " + TABLE_NAME_EMOTICONS + " where " + TableColumns.EmoticonColumns.TAG + " = '" + contentStr + "'";
         Cursor cursor = db.rawQuery(sql, null);
-        try {
-            if (cursor.getCount() > 0) {
-                cursor.moveToFirst();
-                long eventType = cursor.getLong(cursor.getColumnIndex(TableColumns.EmoticonColumns.EVENTTYPE));
-                String tag = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonColumns.TAG));
-                String iconUri = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonColumns.ICONURI));
-                String name = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonColumns.NAME));
-                return new EmoticonBean(eventType, iconUri, tag, name);
-            }
-        } finally {
-            cursor.close();
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            long eventType = cursor.getLong(cursor.getColumnIndex(TableColumns.EmoticonColumns.EVENTTYPE));
+            String tag = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonColumns.TAG));
+            String iconUri = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonColumns.ICONURI));
+            String name = cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonColumns.NAME));
+            return new EmoticonBean(eventType, iconUri, tag, name);
         }
+        cursor.close();
+        return null;
+    }
+
+    public synchronized String getUriByTag(String tag) {
+        SQLiteDatabase db = mOpenDbHelper.getReadableDatabase();
+        String sql = "select * from " + TABLE_NAME_EMOTICONS + " where " + TableColumns.EmoticonColumns.TAG + " = '" + tag + "'";
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            return cursor.getString(cursor.getColumnIndex(TableColumns.EmoticonColumns.ICONURI));
+        }
+        cursor.close();
         return null;
     }
 

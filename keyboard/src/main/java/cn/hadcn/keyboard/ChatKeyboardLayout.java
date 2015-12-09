@@ -481,7 +481,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     public interface OnChatKeyBoardListener {
         void onSendBtnClick(String msg);
         void onRecordingAction(RecordingAction action);
-        void onUserDefEmoticonClicked(String name, String uri);
+        void onUserDefEmoticonClicked(String tag, String uri);
     }
 
     public enum RecordingAction {
