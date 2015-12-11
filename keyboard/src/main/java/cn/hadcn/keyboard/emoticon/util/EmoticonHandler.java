@@ -52,7 +52,7 @@ public class EmoticonHandler {
         return emoticonDbHelper.getUriByTag(tag);
     }
 
-    public void setTextFace( String content, Spannable spannable, int size ) {
+    public void setTextFace( String content, Spannable spannable, int start, int size ) {
         if ( mEmoticonBeans == null ) {
             mEmoticonBeans = emoticonDbHelper.queryAllEmoticonBeans();
             emoticonDbHelper.cleanup();
@@ -60,21 +60,22 @@ public class EmoticonHandler {
         if ( content.length() <= 0 ) {
             return;
         }
-        int keyIndex = 0;
+        int keyIndex = start;
         for ( EmoticonBean bean : mEmoticonBeans ) {
-            int keyLength = bean.getTag().length();
+            String key = bean.getTag();
+            int keyLength = key.length();
             while ( keyIndex >= 0 ) {
-                keyIndex = content.indexOf(bean.getTag(), keyIndex);  //when do not find, get -1
+                keyIndex = content.indexOf(key, keyIndex);  //when do not find, get -1
                 if ( keyIndex < 0 ) {
                     break;
                 }
                 Drawable drawable = EmoticonLoader.getInstance(mContext).getDrawable(bean.getIconUri());
                 drawable.setBounds(0, 0, size, size);
                 VerticalImageSpan imageSpan = new VerticalImageSpan(drawable);
-                spannable.setSpan(imageSpan, keyIndex, keyIndex + keyLength, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                spannable.setSpan(imageSpan, keyIndex, keyIndex + keyLength, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 keyIndex += keyLength;
             }
-            keyIndex = 0;
+            keyIndex = start;
         }
     }
 }

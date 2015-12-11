@@ -40,7 +40,7 @@ public class ChatTextView extends TextView{
     public void setText(CharSequence text, BufferType type) {
         if (!TextUtils.isEmpty(text)) {
             SpannableStringBuilder builder = new SpannableStringBuilder(text);
-            EmoticonHandler.getInstance(mContext).setTextFace(text.toString(), builder, Utils.getFontSize(getTextSize()) );
+            EmoticonHandler.getInstance(mContext).setTextFace(text.toString(), builder, 0, Utils.getFontSize(getTextSize()) );
             text = builder;
         }
         super.setText(text, type);

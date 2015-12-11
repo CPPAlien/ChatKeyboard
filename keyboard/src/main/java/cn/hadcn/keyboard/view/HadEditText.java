@@ -2,6 +2,7 @@ package cn.hadcn.keyboard.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.EditText;
 
 
@@ -32,37 +33,9 @@ public class HadEditText extends EditText {
         if(onTextChangedInterface != null){
             onTextChangedInterface.onTextChanged(arg0);
         }
-
-        EmoticonHandler.getInstance(mContext).setTextFace( arg0.toString(), getText(), Utils.getFontSize(getTextSize()));
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        try {
-            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            setText(getText().toString());
-            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        }
-    }
-
-    @Override
-    public void setGravity(int gravity) {
-        try {
-            super.setGravity(gravity);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            setText(getText().toString());
-            super.setGravity(gravity);
-        }
-    }
-
-    @Override
-    public void setText(CharSequence text, BufferType type) {
-        try {
-            super.setText(text, type);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            setText(text.toString());
-        }
+        String content = arg0.subSequence(0, start + after).toString();
+        Log.e("pengtao", "start = " + start + ", lengthBefore = " + lengthBefore + ", after = " + after);
+        EmoticonHandler.getInstance(mContext).setTextFace(content, getText(), start, Utils.getFontSize(getTextSize()));
     }
 
     public interface OnTextChangedInterface {
