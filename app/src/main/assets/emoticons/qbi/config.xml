@@ -3,7 +3,7 @@
     <name>qbi</name>
     <line>2</line>
     <row>4</row>
-    <iconUri>cry.gif</iconUri>
+    <iconUri>cover.png</iconUri>
     <isShowName>1</isShowName>
     <isShowDelBtn>0</isShowDelBtn>
     <itemPadding>20</itemPadding>
@@ -12,49 +12,49 @@
     <EmoticonBeans>
         <EmoticonBean>
             <eventType>2</eventType> 
-            <iconUri>cry.gif</iconUri>
+            <iconUri>qbi_cry.gif</iconUri>
             <name>大哭</name>
             <tag>qbi_cry</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
-            <iconUri>fadai.gif</iconUri>
+            <iconUri>qbi_fadai.gif</iconUri>
             <name>发呆</name>
             <tag>qbi_fadai</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
-            <iconUri>fighting.gif</iconUri>
+            <iconUri>qbi_fighting.gif</iconUri>
             <name>奋斗</name>
             <tag>qbi_fighting</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
-            <iconUri>jump.gif</iconUri>
+            <iconUri>qbi_jump.gif</iconUri>
             <name>跳跳</name>
             <tag>qbi_jump</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
-            <iconUri>laugh.gif</iconUri>
+            <iconUri>qbi_laugh.gif</iconUri>
             <name>大笑</name>
             <tag>qbi_laugh</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
-            <iconUri>miao.gif</iconUri>
+            <iconUri>qbi_miao.gif</iconUri>
             <name>喵喵</name>
             <tag>qbi_miao</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
-            <iconUri>moving.gif</iconUri>
+            <iconUri>qbi_moving.gif</iconUri>
             <name>感动</name>
             <tag>qbi_moving</tag>
         </EmoticonBean> 
         <EmoticonBean>
             <eventType>2</eventType> 
-            <iconUri>sese.gif</iconUri>
+            <iconUri>qbi_sese.gif</iconUri>
             <name>色色</name>
             <tag>qbi_sese</tag>
         </EmoticonBean>

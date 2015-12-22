@@ -1,6 +1,8 @@
 package cn.hadcn.keyboard;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -57,16 +59,28 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     private boolean isShowMediaButton = false;   //media func button on or off
     private boolean isLimitedOnlyText = false;
 
+    private Drawable mBtnSendBg = null;
+
+    public ChatKeyboardLayout(Context context) {
+        super(context, null);
+        initView(context);
+    }
+
     public ChatKeyboardLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        initView(context);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ChatKeyboardLayout);
+        mBtnSendBg = typedArray.getDrawable(R.styleable.ChatKeyboardLayout_sendBtnBg);
+        typedArray.recycle();
+    }
+
+
+    private void initView(Context context) {
         mContext = context;
         // must be before inflate
         EmoticonHandler.getInstance(context).loadEmoticonsToMemory();
         LayoutInflater.from(context).inflate(R.layout.view_keyboardbar, this);
-        initView();
-    }
 
-    private void initView() {
         rl_input = (RelativeLayout) findViewById(R.id.rl_input);
         lyBottomLayout = (LinearLayout) findViewById(R.id.ly_foot_func);
         btnEmoticon = (ImageView) findViewById(R.id.btn_face);
@@ -74,6 +88,9 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         btnRecording = (Button) findViewById(R.id.bar_recording);
         btnMedia = (ImageView) findViewById(R.id.btn_multimedia);
         btnSend = (Button) findViewById(R.id.btn_send);
+        if ( mBtnSendBg != null ) {
+            btnSend.setBackgroundDrawable(mBtnSendBg);
+        }
         etInputArea = (HadEditText) findViewById(R.id.et_chat);
 
         setAutoHeightLayoutView(lyBottomLayout);
@@ -165,6 +182,10 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         btnRecording.setVisibility(GONE);
         btnVoiceOrText.setVisibility(GONE);
         isLimitedOnlyText = true;
+    }
+
+    public void setSendBtnBackground(int drawable) {
+
     }
 
     /**

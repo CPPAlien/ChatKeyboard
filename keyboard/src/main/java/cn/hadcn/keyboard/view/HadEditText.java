@@ -34,7 +34,6 @@ public class HadEditText extends EditText {
             onTextChangedInterface.onTextChanged(arg0);
         }
         String content = arg0.subSequence(0, start + after).toString();
-        Log.e("pengtao", "start = " + start + ", lengthBefore = " + lengthBefore + ", after = " + after);
         EmoticonHandler.getInstance(mContext).setTextFace(content, getText(), start, Utils.getFontSize(getTextSize()));
     }
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.TextView;
 
 import cn.hadcn.keyboard.emoticon.util.EmoticonHandler;
@@ -45,5 +46,4 @@ public class ChatTextView extends TextView{
         }
         super.setText(text, type);
     }
-
 }

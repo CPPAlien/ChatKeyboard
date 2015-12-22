@@ -69,7 +69,7 @@ public class EmoticonLoader implements EmoticonBase {
      * @param imageUri emoticon uri
      * @return input stream
      */
-    public InputStream getInputStream( String imageUri ) {
+    private InputStream getInputStream( String imageUri ) {
         switch (Scheme.ofUri(imageUri)) {
             case FILE:
                 String filePath = Scheme.FILE.crop(imageUri);
@@ -92,6 +92,11 @@ public class EmoticonLoader implements EmoticonBase {
                 }
         }
         return null;
+    }
+
+    public InputStream getInputStreamByTag( String tag ) {
+        String uri = EmoticonHandler.getInstance(mContext).getEmoticonUriByTag(tag);
+        return getInputStream(uri);
     }
 
     public Drawable getDrawableByTag( String tag ) {
