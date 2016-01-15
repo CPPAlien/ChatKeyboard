@@ -28,10 +28,9 @@ dependency
 com.android.support:support-v4:23.1.0
 ```
 
-###how to use
-Use ChatKeyboardLayout make your layout contains keyboard.
+###How to use
 
-
+1, Use ChatKeyboardLayout make your layout contains keyboard.
 ```
 <cn.hadcn.keyboard.ChatKeyboardLayout
         android:id="@+id/kv_bar"
@@ -41,7 +40,18 @@ Use ChatKeyboardLayout make your layout contains keyboard.
         ...your layout
 </cn.hadcn.keyboard.ChatKeyboardLayout>
 ```
-**Caution: ChatKeyboardLayout can only include one child.**
+**Notice: ChatKeyboardLayout can only include one child.**
+
+2, custom your emoticon and stick keyboard
+```java
+if ( !ChatKeyboardLayout.isEmoticonInitSuccess(this) ) {
+	List<EmoticonEntity> entities = new ArrayList<>();
+	entities.add(new EmoticonEntity("emoticons/xhs", EmoticonBase.Scheme.ASSETS));
+	entities.add(new EmoticonEntity("emoticons/tusiji", EmoticonBase.Scheme.ASSETS));
+	ChatKeyboardLayout.initEmoticonsDB(this, true, entities);
+}
+```
+**Notice: Add the code above before the ChatKeyboardLayout used, better in onCreate of Application**
 
 other usage
 please refer to the demo code
