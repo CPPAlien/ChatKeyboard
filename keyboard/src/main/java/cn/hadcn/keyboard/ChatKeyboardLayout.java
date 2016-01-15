@@ -153,6 +153,10 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         }
     }
 
+    public Button getSendButton() {
+        return btnSend;
+    }
+
     public HadEditText getInputArea() {
         return etInputArea;
     }
@@ -162,12 +166,10 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     }
 
     public void del(){
-        if(etInputArea != null){
-            int action = KeyEvent.ACTION_DOWN;
-            int code = KeyEvent.KEYCODE_DEL;
-            KeyEvent event = new KeyEvent(action, code);
-            etInputArea.onKeyDown(KeyEvent.KEYCODE_DEL, event);
-        }
+        int action = KeyEvent.ACTION_DOWN;
+        int code = KeyEvent.KEYCODE_DEL;
+        KeyEvent event = new KeyEvent(action, code);
+        etInputArea.onKeyDown(KeyEvent.KEYCODE_DEL, event);
     }
 
     public void hideKeyboard() {

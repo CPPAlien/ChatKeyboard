@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ public class RecordingLayout extends RelativeLayout{
     LinearLayout llRecordingStart;
     ImageView ivRecordingCancel;
     ImageView ivVoiceLevel;
+    ProgressBar pbLoading;
     TextView tvNotify;
     int mCurrentVoiceLevel = 0;
     List<Runnable> levelActions = new ArrayList<>();
@@ -43,6 +45,7 @@ public class RecordingLayout extends RelativeLayout{
         LayoutInflater.from(context).inflate(R.layout.had_recording_view, this);
         llRecordingStart = (LinearLayout)findViewById(R.id.had_recording_start);
         ivRecordingCancel = (ImageView)findViewById(R.id.had_recording_cancel);
+        pbLoading = (ProgressBar)findViewById(R.id.had_recording_loading);
         tvNotify = (TextView)findViewById(R.id.had_recording_notify);
         ivVoiceLevel = (ImageView)findViewById(R.id.had_recording_level);
     }
@@ -58,12 +61,20 @@ public class RecordingLayout extends RelativeLayout{
     public void show( int state ) {
         setVisibility(VISIBLE);
         if ( state == 0 ) {
+            pbLoading.setVisibility(GONE);
             llRecordingStart.setVisibility(GONE);
             ivRecordingCancel.setVisibility(VISIBLE);
             tvNotify.setText(getResources().getString(R.string.recording_cancel));
             tvNotify.setBackgroundResource(R.drawable.recording_text_bg);
-        } else {
+        } else if ( state == 1 ) {
+            pbLoading.setVisibility(GONE);
             llRecordingStart.setVisibility(VISIBLE);
+            ivRecordingCancel.setVisibility(GONE);
+            tvNotify.setText(getResources().getString(R.string.recording_cancel_notice));
+            tvNotify.setBackgroundResource(R.drawable.transparent_bg);
+        } else {
+            pbLoading.setVisibility(VISIBLE);
+            llRecordingStart.setVisibility(GONE);
             ivRecordingCancel.setVisibility(GONE);
             tvNotify.setText(getResources().getString(R.string.recording_cancel_notice));
             tvNotify.setBackgroundResource(R.drawable.transparent_bg);

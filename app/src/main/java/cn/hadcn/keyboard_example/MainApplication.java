@@ -21,7 +21,6 @@ public class MainApplication extends Application {
         if ( !ChatKeyboardLayout.isEmoticonInitSuccess(this) ) {
             List<EmoticonEntity> entities = new ArrayList<>();
             entities.add(new EmoticonEntity("emoticons/xhs", EmoticonBase.Scheme.ASSETS));
-            entities.add(new EmoticonEntity("emoticons/qbi", EmoticonBase.Scheme.ASSETS));
             entities.add(new EmoticonEntity("emoticons/tusiji", EmoticonBase.Scheme.ASSETS));
             ChatKeyboardLayout.initEmoticonsDB(this, true, entities);
         }
