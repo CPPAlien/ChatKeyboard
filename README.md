@@ -1,10 +1,10 @@
 # ChatKeyboard
-A easy using keyboard includes multi functions, emoticons and audio recording
+A powerful and easy using keyboard lib includes emoticons, audio recording, multi media keyboard, etc.
 
 
 ###Demo
 <div class='row'>
-    <img src='http://7xq276.com2.z0.glb.qiniucdn.com/keyboard.gif' width="250px"/>
+    <img src='http://7xq276.com2.z0.glb.qiniucdn.com/keyboard-demo.gif' width="250px"/>
 </div>
 
 [Apk Download](http://7xq276.com2.z0.glb.qiniucdn.com/keyboard.apk)
