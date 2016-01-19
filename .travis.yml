@@ -17,4 +17,4 @@ notifications:
   email: false
 
 script:
-  - './gradlew clean build'
+  - 'sudo ./gradlew clean build'
