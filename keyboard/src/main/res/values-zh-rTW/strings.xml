@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">KeyBoard</string>
+
     <string name="btn_text_send">送出</string>
     <string name="recording_start">按住 說話</string>
     <string name="recording_end">放開 結束</string>

@@ -91,8 +91,7 @@ public class EmoticonsToolBarView extends RelativeLayout {
 
     public void addData(int rec){
         if(ly_tool != null){
-            LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View toolBtnView = inflater.inflate(R.layout.emoticonstoolbar_item,null);
+            View toolBtnView = inflate(mContext, R.layout.emoticonstoolbar_item, null);
             ImageView iv_icon = (ImageView)toolBtnView.findViewById(R.id.iv_icon);
             iv_icon.setImageResource(rec);
             LinearLayout.LayoutParams imgParams = new LinearLayout.LayoutParams(Utils.dip2px(mContext, mBtnWidth), LayoutParams.MATCH_PARENT);
@@ -160,8 +159,7 @@ public class EmoticonsToolBarView extends RelativeLayout {
 
         int i = 0;
         for(EmoticonSetBean bean : mEmoticonSetBeanList){
-            LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View toolBtnView = inflater.inflate(R.layout.emoticonstoolbar_item, null);
+            View toolBtnView = inflate(mContext, R.layout.emoticonstoolbar_item, null);
             ImageView iv_icon = (ImageView)toolBtnView.findViewById(R.id.iv_icon);
             LinearLayout.LayoutParams imgParams = new LinearLayout.LayoutParams(Utils.dip2px(mContext, mBtnWidth), LayoutParams.MATCH_PARENT);
             iv_icon.setLayoutParams(imgParams);

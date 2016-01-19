@@ -17,3 +17,6 @@ notifications:
   email: false
 
 script:
+
+before_install:
+ - chmod +x gradlew
