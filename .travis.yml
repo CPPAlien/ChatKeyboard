@@ -17,6 +17,7 @@ notifications:
   email: false
 
 script:
+ - ./gradlew build clean
 
 before_install:
  - chmod +x gradlew
