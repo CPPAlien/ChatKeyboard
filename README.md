@@ -1,4 +1,8 @@
 # ChatKeyboard
+---
+
+[![](https://travis-ci.org/CPPAlien/ChatKeyboard.svg?branch=master)](https://travis-ci.org/cppalien/ChatKeyboard/) 
+
 A powerful and easy using keyboard lib includes emoticons, audio recording, multi media keyboard, etc.
 
 
