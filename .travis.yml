@@ -18,5 +18,3 @@ notifications:
 
 script:
   - './gradlew clean build'
-
-sudo: false
