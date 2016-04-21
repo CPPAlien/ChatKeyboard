@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:paddingTop="15dp"
+    android:paddingTop="30dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:gravity="center"
@@ -13,5 +13,5 @@
         android:layout_height="match_parent"
         android:horizontalSpacing="10dp"
         android:numColumns="4"
-        android:verticalSpacing="8dp" />
+        android:verticalSpacing="20dp" />
 </LinearLayout>
