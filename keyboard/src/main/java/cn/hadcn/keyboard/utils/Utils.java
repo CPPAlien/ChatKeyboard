@@ -158,53 +158,86 @@ public class Utils {
 
         while (event != XmlPullParser.END_DOCUMENT) {
             if (event == XmlPullParser.START_TAG ) {
-                String skeyName = pullParser.getName();
+                String sKeyName = pullParser.getName();
                 if ( isChildCheck ) {
-                    if (skeyName.equals("eventType")) {
-                        String value = pullParser.nextText();
-                        emoticonBeanTemp.setEventType(Integer.parseInt(value));
-                    } else if (skeyName.equals("iconUri")) {
-                        String value = pullParser.nextText();
-                        emoticonBeanTemp.setIconUri(scheme.toUri(path + "/" + value));
-                    } else if (skeyName.equals("tag")) {
-                        String value = pullParser.nextText();
-                        emoticonBeanTemp.setTag(value);
-                    } else if (skeyName.equals("name")) {
-                        String value = pullParser.nextText();
-                        emoticonBeanTemp.setName(value);
+                    switch (sKeyName) {
+                        case "eventType": {
+                            String value = pullParser.nextText();
+                            emoticonBeanTemp.setEventType(Integer.parseInt(value));
+                            break;
+                        }
+                        case "iconUri": {
+                            String value = pullParser.nextText();
+                            emoticonBeanTemp.setIconUri(scheme.toUri(path + "/" + value));
+                            break;
+                        }
+                        case "msgUri": {
+                            String value = pullParser.nextText();
+                            emoticonBeanTemp.setMsgUri(scheme.toUri(path + "/" + value));
+                            break;
+                        }
+                        case "tag": {
+                            String value = pullParser.nextText();
+                            emoticonBeanTemp.setTag(value);
+                            break;
+                        }
+                        case "name": {
+                            String value = pullParser.nextText();
+                            emoticonBeanTemp.setName(value);
+                            break;
+                        }
                     }
                 } else {
-                    if (skeyName.equals("name")) {
-                        String value = pullParser.nextText();
-                        emoticonSetBean.setName(value);
-                    } else if (skeyName.equals("line")) {
-                        String value = pullParser.nextText();
-                        emoticonSetBean.setLine(Integer.parseInt(value));
-                    } else if (skeyName.equals("row")) {
-                        String value = pullParser.nextText();
-                        emoticonSetBean.setRow(Integer.parseInt(value));
-                    } else if (skeyName.equals("iconUri")) {
-                        String value = pullParser.nextText();
-                        emoticonSetBean.setIconUri(scheme.toUri(path + "/" + value));
-                    }  else if (skeyName.equals("isShowDelBtn")) {
-                        String value = pullParser.nextText();
-                        emoticonSetBean.setShowDelBtn(Integer.parseInt(value) == 1);
-                    } else if (skeyName.equals("itemPadding")) {
-                        String value = pullParser.nextText();
-                        emoticonSetBean.setItemPadding(Integer.parseInt(value));
-                    } else if (skeyName.equals("horizontalSpacing")) {
-                        String value = pullParser.nextText();
-                        emoticonSetBean.setHorizontalSpacing(Integer.parseInt(value));
-                    } else if (skeyName.equals("verticalSpacing")) {
-                        String value = pullParser.nextText();
-                        emoticonSetBean.setVerticalSpacing(Integer.parseInt(value));
-                    } else if (skeyName.equals("isShowName")) {
-                        String value = pullParser.nextText();
-                        emoticonSetBean.setIsShownName(Integer.parseInt(value) == 1);
+                    switch (sKeyName) {
+                        case "name": {
+                            String value = pullParser.nextText();
+                            emoticonSetBean.setName(value);
+                            break;
+                        }
+                        case "line": {
+                            String value = pullParser.nextText();
+                            emoticonSetBean.setLine(Integer.parseInt(value));
+                            break;
+                        }
+                        case "row": {
+                            String value = pullParser.nextText();
+                            emoticonSetBean.setRow(Integer.parseInt(value));
+                            break;
+                        }
+                        case "iconUri": {
+                            String value = pullParser.nextText();
+                            emoticonSetBean.setIconUri(scheme.toUri(path + "/" + value));
+                            break;
+                        }
+                        case "isShowDelBtn": {
+                            String value = pullParser.nextText();
+                            emoticonSetBean.setShowDelBtn(Integer.parseInt(value) == 1);
+                            break;
+                        }
+                        case "itemPadding": {
+                            String value = pullParser.nextText();
+                            emoticonSetBean.setItemPadding(Integer.parseInt(value));
+                            break;
+                        }
+                        case "horizontalSpacing": {
+                            String value = pullParser.nextText();
+                            emoticonSetBean.setHorizontalSpacing(Integer.parseInt(value));
+                            break;
+                        }
+                        case "verticalSpacing": {
+                            String value = pullParser.nextText();
+                            emoticonSetBean.setVerticalSpacing(Integer.parseInt(value));
+                            break;
+                        }
+                        case "isShowName": {
+                            String value = pullParser.nextText();
+                            emoticonSetBean.setIsShownName(Integer.parseInt(value) == 1);
+                            break;
+                        }
                     }
                 }
 
-                if (skeyName.equals(arrayParentKey)) {
+                if (sKeyName.equals(arrayParentKey)) {
                     isChildCheck = true;
                     emoticonBeanTemp = new EmoticonBean();
                 }

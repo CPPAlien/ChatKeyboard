@@ -6,13 +6,13 @@
     <isShowName>1</isShowName>
     <iconUri>icon_030_cover.png</iconUri>
     <isShowDelBtn>0</isShowDelBtn>
-    <itemPadding>20</itemPadding>
+    <itemPadding>30</itemPadding>
     <horizontalSpacing>0</horizontalSpacing>
     <verticalSpacing>0</verticalSpacing>
     <EmoticonBeans>
         <EmoticonBean>
             <eventType>2</eventType> 
-            <iconUri>icon_002_cover.png</iconUri>  
+            <iconUri>icon_002_cover.png</iconUri>
             <name>哭</name>
             <tag>tusiji_cry</tag>
         </EmoticonBean> 

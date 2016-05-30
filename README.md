@@ -21,10 +21,10 @@ repositories{
     maven { url "https://jitpack.io" }
 }
 dependencies {
-    compile 'com.github.CPPAlien:ChatKeyboard:1.0.0'
+    compile 'com.github.CPPAlien:ChatKeyboard:1.0.1'
 }
 ```
-download [keyboard-1.0.0.aar](http://7xq276.com2.z0.glb.qiniucdn.com/keyboard-1.0.0.aar)
+
 
 dependency
 ```

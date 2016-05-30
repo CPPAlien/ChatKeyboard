@@ -8,6 +8,7 @@ public class EmoticonBean {
 
     private long eventType;
     private String iconUri;
+    private String msgUri;
     private String tag;
     private String name;
 
@@ -21,6 +22,14 @@ public class EmoticonBean {
 
     public void setIconUri(String iconUri) {
         this.iconUri = iconUri;
+    }
+
+    public String getMsgUri() {
+        return msgUri;
+    }
+
+    public void setMsgUri(String msgUri) {
+        this.msgUri = msgUri;
     }
 
     public String getTag() {

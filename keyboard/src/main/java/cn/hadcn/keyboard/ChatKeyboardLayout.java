@@ -186,10 +186,6 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         isLimitedOnlyText = true;
     }
 
-    public void setSendBtnBackground(int drawable) {
-
-    }
-
     /**
      * hide keyboard or emoticon area or media area
      */
@@ -455,7 +451,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                     ArrayList<EmoticonBean> emojiArray = Utils.ParseData(DefEmoticons.emojiArray, EmoticonBean.FACE_TYPE_NORMAL, EmoticonBase.Scheme.DRAWABLE);
                     EmoticonSetBean emojiEmoticonSetBean = new EmoticonSetBean("emoji", 3, 7);
                     emojiEmoticonSetBean.setIconUri("drawable://icon_emoji");
-                    emojiEmoticonSetBean.setItemPadding(20);
+                    emojiEmoticonSetBean.setItemPadding(25);
                     emojiEmoticonSetBean.setVerticalSpacing(10);
                     emojiEmoticonSetBean.setShowDelBtn(true);
                     emojiEmoticonSetBean.setEmoticonList(emojiArray);

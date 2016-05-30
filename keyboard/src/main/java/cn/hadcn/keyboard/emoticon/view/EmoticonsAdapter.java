@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -52,8 +53,8 @@ public class EmoticonsAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.emoticons_item, parent, false);
             convertView.setLayoutParams(new AbsListView.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, mItemHeight));
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(mImgHeight, mImgHeight);
-            params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mImgHeight, mImgHeight);
+            //params.addRule(RelativeLayout.CENTER_HORIZONTAL);
             viewHolder = new ViewHolder(convertView);
             viewHolder.ivEmoticon.setLayoutParams(params);
             convertView.setTag(viewHolder);
