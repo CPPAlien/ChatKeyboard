@@ -1,18 +1,20 @@
 # ChatKeyboard
 
+[![](https://jitpack.io/v/CPPAlien/ChatKeyboard.svg)](https://jitpack.io/#CPPAlien/ChatKeyboard)
+
 [![](https://travis-ci.org/CPPAlien/ChatKeyboard.svg?branch=master)](https://travis-ci.org/CPPAlien/ChatKeyboard) 
 
 A powerful and easy using keyboard lib includes emoticons, audio recording, multi media keyboard, etc.
 
 
-###Demo
+### Demo
 <div class='row'>
     <img src='http://7xq276.com2.z0.glb.qiniucdn.com/keyboard-demo.gif' width="250px"/>
 </div>
 
 [Apk Download](http://7xq276.com2.z0.glb.qiniucdn.com/keyboard.apk)
 
-###Import
+### Import
 
 use maven to import dependency in gradle
 
@@ -31,7 +33,7 @@ dependency
 com.android.support:support-v4:23.1.0
 ```
 
-###How to use
+### How to use
 
 1, Use ChatKeyboardLayout make your layout contains keyboard.
 ```
