@@ -3,6 +3,7 @@ package cn.hadcn.keyboard.view;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -96,11 +97,13 @@ public class SoftHandleLayout extends SoftListenLayout {
 
     @Override
     protected void OnSoftKeyboardPop(int height) {
+        Log.e("pengtao", "height = " + height);
+        Log.e("pengtao", "mAutoViewHeight = " + mAutoViewHeight);
         if (height > 0 && height != mAutoViewHeight) {
             mAutoViewHeight = height;
             Utils.setDefKeyboardHeight(mContext, mAutoViewHeight);
         }
-
+        Log.e("pengtao", "mKeyboardState" + mKeyboardState);
         //if soft keyboard popped, auto view must be visible, soft keyboard covers it
         if (mKeyboardState != KEYBOARD_STATE_BOTH) {
             showAutoView();
@@ -125,9 +128,12 @@ public class SoftHandleLayout extends SoftListenLayout {
      * display soft keyboard
      */
     protected void openSoftKeyboard(EditText et) {
+        et.setFocusable(true);
+        et.setFocusableInTouchMode(true);
+        et.requestFocus();
         InputMethodManager inputManager = (InputMethodManager) et.getContext().getSystemService
                 (Context.INPUT_METHOD_SERVICE);
-        inputManager.showSoftInput(et, 0);
+        inputManager.showSoftInput(et, InputMethodManager.SHOW_IMPLICIT);
     }
 
     /**
