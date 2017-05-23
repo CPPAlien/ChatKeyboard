@@ -169,6 +169,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     }
 
     public void hideLayout() {
+        hideKeyboard();
         findViewById(R.id.main_view_id).setVisibility(GONE);
     }
 
@@ -203,6 +204,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
      * pop soft keyboard
      */
     public void popKeyboard() {
+        showLayout();
         showAutoView();
         openSoftKeyboard(etInputArea);
     }
