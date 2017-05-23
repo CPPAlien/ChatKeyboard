@@ -9,6 +9,20 @@
         android:layout_height="50dp"
         android:minHeight="50dp">
     </android.support.v7.widget.Toolbar>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="200dp"
+        android:onClick="hideShow"
+        android:text="隐藏／显示"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:onClick="popBack"
+        android:text="弹出／收起"/>
     <cn.hadcn.keyboard.ChatKeyboardLayout
         android:id="@+id/kv_bar"
         android:layout_marginTop="48dp"

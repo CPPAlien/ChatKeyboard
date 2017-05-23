@@ -13,18 +13,18 @@ import android.widget.RelativeLayout;
 import cn.hadcn.keyboard.R;
 import cn.hadcn.keyboard.utils.Utils;
 
-
 public class SoftHandleLayout extends SoftListenLayout {
     public static final int KEYBOARD_STATE_NONE = 100;  // no pop
     public static final int KEYBOARD_STATE_FUNC = 101;  // only media or emoticon pop
-    public static final int KEYBOARD_STATE_BOTH = 102;  // keyboard and media or emoticon pop together
-
+    public static final int KEYBOARD_STATE_BOTH = 102;  // keyboard and media or emoticon pop
+    // together
     protected Context mContext;
     protected int mAutoHeightLayoutId;
     protected int mAutoViewHeight;
     protected View mAutoHeightLayoutView;
     protected int mKeyboardState = KEYBOARD_STATE_NONE;
-    private boolean isAutoViewNeedHide = true; //if soft keyboard close by itself, close auto view too. if not, just close keyboard
+    private boolean isAutoViewNeedHide = true; //if soft keyboard close by itself, close auto
+    // view too. if not, just close keyboard
 
     public SoftHandleLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -57,22 +57,23 @@ public class SoftHandleLayout extends SoftListenLayout {
         }
     }
 
-    public void setAutoHeightLayoutView(View view) {
+    protected void setAutoHeightLayoutView(View view) {
         mAutoHeightLayoutView = view;
     }
 
-    public void setAutoViewHeight(final int height) {
-        if ( height == 0 ) {
+    private void setAutoViewHeight(final int height) {
+        if (height == 0) {
             mAutoHeightLayoutView.setVisibility(GONE);
         } else {
             mAutoHeightLayoutView.setVisibility(VISIBLE);
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mAutoHeightLayoutView.getLayoutParams();
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mAutoHeightLayoutView
+                    .getLayoutParams();
             params.height = height;
             mAutoHeightLayoutView.setLayoutParams(params);
         }
     }
 
-    protected void hideAutoView(){
+    protected void hideAutoView() {
         this.post(new Runnable() {
             @Override
             public void run() {
@@ -86,7 +87,7 @@ public class SoftHandleLayout extends SoftListenLayout {
         post(new Runnable() {
             @Override
             public void run() {
-                setAutoViewHeight( mAutoViewHeight );
+                setAutoViewHeight(mAutoViewHeight);
             }
         });
         isAutoViewNeedHide = true;
@@ -94,14 +95,14 @@ public class SoftHandleLayout extends SoftListenLayout {
     }
 
     @Override
-    public void OnSoftKeyboardPop( int height ) {
-        if ( height > 0 && height != mAutoViewHeight ) {
+    protected void OnSoftKeyboardPop(int height) {
+        if (height > 0 && height != mAutoViewHeight) {
             mAutoViewHeight = height;
             Utils.setDefKeyboardHeight(mContext, mAutoViewHeight);
         }
 
         //if soft keyboard popped, auto view must be visible, soft keyboard covers it
-        if ( mKeyboardState != KEYBOARD_STATE_BOTH ) {
+        if (mKeyboardState != KEYBOARD_STATE_BOTH) {
             showAutoView();
         }
         mKeyboardState = KEYBOARD_STATE_BOTH;
@@ -109,10 +110,12 @@ public class SoftHandleLayout extends SoftListenLayout {
 
     @Override
     public void OnSoftKeyboardClose() {
-        mKeyboardState = mKeyboardState == KEYBOARD_STATE_BOTH ? KEYBOARD_STATE_FUNC : KEYBOARD_STATE_NONE;
+        mKeyboardState = mKeyboardState == KEYBOARD_STATE_BOTH ? KEYBOARD_STATE_FUNC :
+                KEYBOARD_STATE_NONE;
 
-        // if keyboard closed isn't by calling close, but by pressing back button or keyboard hide, hide auto view
-        if ( isAutoViewNeedHide ) {
+        // if keyboard closed isn't by calling close, but by pressing back button or keyboard
+        // hide, hide auto view
+        if (isAutoViewNeedHide) {
             hideAutoView();
         }
         isAutoViewNeedHide = true;
@@ -121,19 +124,23 @@ public class SoftHandleLayout extends SoftListenLayout {
     /**
      * display soft keyboard
      */
-    protected void openSoftKeyboard( EditText et ) {
-        InputMethodManager inputManager = (InputMethodManager) et.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+    protected void openSoftKeyboard(EditText et) {
+        InputMethodManager inputManager = (InputMethodManager) et.getContext().getSystemService
+                (Context.INPUT_METHOD_SERVICE);
         inputManager.showSoftInput(et, 0);
     }
 
     /**
      * close soft keyboard
      */
-    protected void closeSoftKeyboard( EditText et ) {
-        InputMethodManager inputMethodManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+    protected void closeSoftKeyboard(EditText et) {
+        InputMethodManager inputMethodManager = (InputMethodManager) mContext.getSystemService
+                (Context.INPUT_METHOD_SERVICE);
         if (inputMethodManager != null && ((Activity) mContext).getCurrentFocus() != null) {
-            inputMethodManager.hideSoftInputFromWindow(et.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            inputMethodManager.hideSoftInputFromWindow(et.getWindowToken(), InputMethodManager
+                    .HIDE_NOT_ALWAYS);
         }
-        isAutoViewNeedHide = false; //only if you close keyboard by calling method, auto view don't need hide
+        isAutoViewNeedHide = false; //only if you close keyboard by calling method, auto view
+        // don't need hide
     }
 }

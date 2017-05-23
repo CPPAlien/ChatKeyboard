@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                keyboardLayout.hideBottomPop();
+                keyboardLayout.hideKeyboard();
                 return false;
             }
         });
@@ -81,6 +81,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void hideShow(View view) {
+        if (keyboardLayout.isLayoutVisible()) {
+            keyboardLayout.hideLayout();
+        } else {
+            keyboardLayout.showLayout();
+        }
+    }
+
+    public void popBack(View view) {
+        if (keyboardLayout.isKeyboardPoped()) {
+            keyboardLayout.hideKeyboard();
+        } else {
+            keyboardLayout.popKeyboard();
+        }
     }
 
     @Override

@@ -20,25 +20,29 @@ public abstract class SoftListenLayout extends RelativeLayout {
         WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics metrics = new DisplayMetrics();
         manager.getDefaultDisplay().getMetrics(metrics);
-        mMinLayoutHeight = metrics.heightPixels * 2 / 3; //the height of layout is at least 2/3 of screen height
-        mMaxNavBarHeight = metrics.heightPixels / 6; // max height of navigation bar is 1/6 of height
+        mMinLayoutHeight = metrics.heightPixels * 2 / 3; //the height of layout is at least 2/3
+        // of screen height
+        mMaxNavBarHeight = metrics.heightPixels / 6; // max height of navigation bar is 1/6 of
+        // height
     }
 
     /**
      * when keyboard hide, three onMeasure will be called
      * onMeasure measureHeight = 1533
-       onMeasure measureHeight = 725
-       onLayout top = 0, bottom = 1533
-       onMeasure measureHeight = 725
-       onLayout top = 0, bottom = 725
+     * onMeasure measureHeight = 725
+     * onLayout top = 0, bottom = 1533
+     * onMeasure measureHeight = 725
+     * onLayout top = 0, bottom = 725
      */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int measureHeight = measureHeight(heightMeasureSpec);
 
-        if ( mMaxParentHeight != 0 && Math.abs(measureHeight - mOldHeight) < mMaxNavBarHeight ) {  //for some devices whose the bottom navigation bar can be hiden or shown
+        if (mMaxParentHeight != 0 && Math.abs(measureHeight - mOldHeight) < mMaxNavBarHeight) {
+            //for some devices whose the bottom navigation bar can be hiden or shown
             mMaxParentHeight += (measureHeight - mOldHeight);
-        } else if ( mMaxParentHeight == 0 || measureHeight > mMinLayoutHeight ) {  //ignore keyboard shown making height shorter
+        } else if (mMaxParentHeight == 0 || measureHeight > mMinLayoutHeight) {  //ignore
+            // keyboard shown making height shorter
             mMaxParentHeight = measureHeight;
         }
 
@@ -54,13 +58,13 @@ public abstract class SoftListenLayout extends RelativeLayout {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, mMaxParentHeight);
-        if ( heightList.size() >= 2 ) {     //keyboard hide or show, onMeasure will be called twice
+        if (heightList.size() >= 2) {     //keyboard hide or show, onMeasure will be called twice
             int oldh = heightList.get(0);
             int newh = heightList.get(heightList.size() - 1);
 
-            int dividerHeight = Math.abs( newh - oldh );
-            if ( dividerHeight > mMaxNavBarHeight ) { //means keyboard hide or show
-                if ( newh < oldh ) {
+            int dividerHeight = Math.abs(newh - oldh);
+            if (dividerHeight > mMaxNavBarHeight) { //means keyboard hide or show
+                if (newh < oldh) {
                     OnSoftKeyboardPop(dividerHeight);
                 } else {
                     OnSoftKeyboardClose();
@@ -87,6 +91,7 @@ public abstract class SoftListenLayout extends RelativeLayout {
         return result;
     }
 
-    abstract void OnSoftKeyboardPop(int height);
-    abstract void OnSoftKeyboardClose();
+    protected abstract void OnSoftKeyboardPop(int height);
+
+    protected abstract void OnSoftKeyboardClose();
 }
