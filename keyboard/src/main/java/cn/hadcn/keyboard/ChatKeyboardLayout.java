@@ -176,6 +176,10 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         findViewById(R.id.main_view_id).setVisibility(GONE);
     }
 
+    public void showKeyboard() {
+        findViewById(R.id.main_view_id).setVisibility(VISIBLE);
+    }
+
     public void limitOnlyText() {
         btnEmoticon.setVisibility(GONE);
         btnMedia.setVisibility(GONE);

@@ -1,6 +1,8 @@
 package cn.hadcn.keyboard_example;
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,7 +17,8 @@ import cn.hadcn.keyboard.ChatKeyboardLayout;
 import cn.hadcn.keyboard.RecordingLayout;
 import cn.hadcn.keyboard.media.MediaBean;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, MediaBean.MediaListener, ChatKeyboardLayout.OnChatKeyBoardListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, MediaBean
+        .MediaListener, ChatKeyboardLayout.OnChatKeyBoardListener {
     ChatKeyboardLayout keyboardLayout = null;
     SimpleChatAdapter mAdapter;
     RecordingLayout rlRecordArea;
@@ -26,7 +29,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        keyboardLayout = (ChatKeyboardLayout)findViewById(R.id.kv_bar);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+
+        keyboardLayout = (ChatKeyboardLayout) findViewById(R.id.kv_bar);
         keyboardLayout.showEmoticons();
 
         ArrayList<MediaBean> popupModels = new ArrayList<>();
@@ -42,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         popupModels.add(new MediaBean(9, R.drawable.pic_select_n, "照片", this));
         keyboardLayout.showMedias(popupModels);
         keyboardLayout.setOnKeyBoardBarListener(this);
-        ListView listView = (ListView)findViewById(R.id.list_view);
+        ListView listView = (ListView) findViewById(R.id.list_view);
         mAdapter = new SimpleChatAdapter(this);
         listView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -53,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         listView.setAdapter(mAdapter);
 
-        rlRecordArea = (RecordingLayout)findViewById(R.id.recording_area);
+        rlRecordArea = (RecordingLayout) findViewById(R.id.recording_area);
     }
 
     @Override
@@ -113,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 rlRecordArea.hide();
                 break;
             case COMPLETE:
-                if ( AudioLib.getInstance().complete() < 0 ) {
+                if (AudioLib.getInstance().complete() < 0) {
                     Toast.makeText(this, "time is too short", Toast.LENGTH_SHORT).show();
                 }
                 rlRecordArea.hide();
@@ -122,13 +127,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private class AudioListener implements AudioLib.OnAudioListener {
-
         @Override
         public void onDbChange(double db) {
             int level = 0;
             Log.e("pengtao", "onDbChange db = " + db);
-            if ( db > 40 ) {
-                level = ((int)db - 40) / 7;
+            if (db > 40) {
+                level = ((int) db - 40) / 7;
             }
             Log.e("pengtao", "onDbChange level = " + level);
             rlRecordArea.setVoiceLevel(level);
