@@ -209,7 +209,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         openSoftKeyboard(etInputArea);
     }
 
-    public boolean isKeyboardPoped() {
+    public boolean isKeyboardPopped() {
         return mKeyboardState != KEYBOARD_STATE_NONE;
     }
 
@@ -372,12 +372,6 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         }
     }
 
-    @Override
-    protected void OnSoftKeyboardPop(int height) {
-        super.OnSoftKeyboardPop(height);
-        btnEmoticon.setImageResource(R.drawable.icon_face_nomal);
-    }
-
     public void showMedias(List<MediaBean> mediaContents) {
         btnMedia.setVisibility(VISIBLE);
         btnSend.setVisibility(GONE);
@@ -448,9 +442,9 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         }
     }
 
-    OnChatKeyBoardListener mOnChatKeyBoardListener;
+    private OnChatKeyBoardListener mOnChatKeyBoardListener;
 
-    public void setOnKeyBoardBarListener(OnChatKeyBoardListener l) {
+    public void setOnChatKeyBoardListener(OnChatKeyBoardListener l) {
         this.mOnChatKeyBoardListener = l;
     }
 
@@ -471,7 +465,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                 EmoticonDBHelper emoticonDbHelper = EmoticonHandler.getInstance(context)
                         .getEmoticonDbHelper();
                 if (isShowEmoji) {
-                    ArrayList<EmoticonBean> emojiArray = Utils.ParseData(DefEmoticons.emojiArray,
+                    List<EmoticonBean> emojiArray = Utils.parseData(DefEmoticons.emojiArray,
                             EmoticonBean.FACE_TYPE_NORMAL, EmoticonBase.Scheme.DRAWABLE);
                     EmoticonSetBean emojiEmoticonSetBean = new EmoticonSetBean("emoji", 3, 7);
                     emojiEmoticonSetBean.setIconUri("drawable://icon_emoji");
@@ -489,11 +483,9 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                                 entity.getScheme());
                         emoticonSetBeans.add(bean);
                     } catch (IOException e) {
-                        e.printStackTrace();
-                        HadLog.e(String.format("read %s config.xml error", entity.getPath()));
+                        HadLog.e(String.format("read %s config.xml error", entity.getPath()), e);
                     } catch (XmlPullParserException e) {
-                        e.printStackTrace();
-                        HadLog.e(String.format("parse %s config.xml error", entity.getPath()));
+                        HadLog.e(String.format("parse %s config.xml error", entity.getPath()), e);
                     }
                 }
 
@@ -522,12 +514,44 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                 .build();
     }
 
+    @Override
+    protected void OnSoftKeyboardPop(int height) {
+        super.OnSoftKeyboardPop(height);
+        btnEmoticon.setImageResource(R.drawable.icon_face_nomal);
+        int barHeight = getResources().getDimensionPixelOffset(R.dimen.keyboard_bar_height);
+        mOnChatKeyBoardListener.onKeyboardShow(height + barHeight);
+    }
+
     public interface OnChatKeyBoardListener {
         void onSendBtnClick(String msg);
 
         void onRecordingAction(RecordingAction action);
 
         void onUserDefEmoticonClicked(String tag, String uri);
+        // when keyboard popped, get the pixels of the height include input bar
+        void onKeyboardShow(int height);
+    }
+
+    public static class SimpleOnChatkeyboardListener implements OnChatKeyBoardListener {
+        @Override
+        public void onSendBtnClick(final String msg) {
+            // This space for rent
+        }
+
+        @Override
+        public void onRecordingAction(final RecordingAction action) {
+            // This space for rent
+        }
+
+        @Override
+        public void onUserDefEmoticonClicked(final String tag, final String uri) {
+            // This space for rent
+        }
+
+        @Override
+        public void onKeyboardShow(final int height) {
+            // This space for rent
+        }
     }
 
     public enum RecordingAction {

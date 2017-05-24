@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
 import cn.hadcn.keyboard.emoticon.EmoticonSetBean;
@@ -103,7 +104,7 @@ public class EmoticonDBHelper {
         values.put(TableColumns.EmoticonSetColumns.VERTICAL_SPACING, bean.getVerticalSpacing());
         result = db.insert(TABLE_NAME_EMOTICONSET, null, values);
 
-        ArrayList<EmoticonBean> emoticonList = bean.getEmoticonList();
+        List<EmoticonBean> emoticonList = bean.getEmoticonList();
         if (emoticonList != null) {
             String emoticonSetName = bean.getName();
             ContentValues[] contentValues = new ContentValues[emoticonList.size()];

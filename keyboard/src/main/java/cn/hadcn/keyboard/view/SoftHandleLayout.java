@@ -13,6 +13,10 @@ import android.widget.RelativeLayout;
 import cn.hadcn.keyboard.R;
 import cn.hadcn.keyboard.utils.Utils;
 
+/**
+ * handle the child view
+ * and control keyboard area show or hide
+ */
 public class SoftHandleLayout extends SoftListenLayout {
     public static final int KEYBOARD_STATE_NONE = 100;  // no pop
     public static final int KEYBOARD_STATE_FUNC = 101;  // only media or emoticon pop
@@ -40,7 +44,6 @@ public class SoftHandleLayout extends SoftListenLayout {
             throw new IllegalStateException("can host only one direct child");
         }
         super.addView(child, index, params);
-
         if (childSum == 0) {
             mAutoHeightLayoutId = child.getId();
             if (mAutoHeightLayoutId < 0) {
@@ -108,7 +111,7 @@ public class SoftHandleLayout extends SoftListenLayout {
     }
 
     @Override
-    public void OnSoftKeyboardClose() {
+    protected void OnSoftKeyboardClose() {
         mKeyboardState = mKeyboardState == KEYBOARD_STATE_BOTH ? KEYBOARD_STATE_FUNC :
                 KEYBOARD_STATE_NONE;
 

@@ -12,7 +12,7 @@
     <cn.hadcn.keyboard.emoticon.view.EmoticonsToolBarView
         android:id="@+id/emoticon_page_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bar_height"
+        android:layout_height="@dimen/emoticons_bar_height"
         android:layout_alignParentBottom="true"
         android:orientation="vertical"/>
 

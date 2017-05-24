@@ -68,7 +68,7 @@ public class EmoticonsPageView extends ViewPager implements IView {
         mEmoticonsViewPagerAdapter.notifyDataSetChanged();
 
         for (EmoticonSetBean bean : mEmoticonSetBeanList) {
-            ArrayList<EmoticonBean> emoticonList = bean.getEmoticonList();
+            List<EmoticonBean> emoticonList = bean.getEmoticonList();
             if (emoticonList != null) {
                 int emoticonSetSum = emoticonList.size();
                 int row = bean.getRow();

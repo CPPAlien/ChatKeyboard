@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         popupModels.add(new MediaBean(8, R.drawable.icon_camera, "拍照", this));
         popupModels.add(new MediaBean(9, R.drawable.pic_select_n, "照片", this));
         keyboardLayout.showMedias(popupModels);
-        keyboardLayout.setOnKeyBoardBarListener(this);
+
         ListView listView = (ListView) findViewById(R.id.list_view);
         mAdapter = new SimpleChatAdapter(this);
         listView.setOnTouchListener(new View.OnTouchListener() {
@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listView.setAdapter(mAdapter);
 
         rlRecordArea = (RecordingLayout) findViewById(R.id.recording_area);
+
+        keyboardLayout.setOnChatKeyBoardListener(this);
     }
 
     @Override
@@ -92,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void popBack(View view) {
-        if (keyboardLayout.isKeyboardPoped()) {
+        if (keyboardLayout.isKeyboardPopped()) {
             keyboardLayout.hideKeyboard();
         } else {
             keyboardLayout.popKeyboard();
@@ -158,5 +160,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onUserDefEmoticonClicked(String tag, String uri) {
         mAdapter.addItem(new ChatBean(tag, null));
+    }
+
+    @Override
+    public void onKeyboardShow(final int height) {
+        Log.e("pengtao", "height = " + height);
     }
 }

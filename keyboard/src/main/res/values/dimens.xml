@@ -6,8 +6,9 @@
 
     <dimen name="indicator_size">8dp</dimen>
     <dimen name="indicator_margin">5dp</dimen>
-    <dimen name="bar_height">35dp</dimen>
+    <dimen name="emoticons_bar_height">35dp</dimen>
     <dimen name="verticalspit_view_width">0.6dp</dimen>
     <dimen name="horizontalspit_view_height">0.6dp</dimen>
     <dimen name="media_item_size">50dp</dimen>
+    <dimen name="keyboard_bar_height">50dp</dimen>
 </resources>

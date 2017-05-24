@@ -23,6 +23,11 @@ public class HadLog {
     }
 
     @SuppressWarnings("unused")
+    public static int e(String msg, Throwable e) {
+        return enableLog ? Log.e(LOG_TAG + ":", msg, e) : RETURN_NOLOG;
+    }
+
+    @SuppressWarnings("unused")
     public static int i(String msg) {
         return enableLog ? Log.i(LOG_TAG + ":", msg) : RETURN_NOLOG;
     }

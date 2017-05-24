@@ -8,6 +8,10 @@ import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
+/**
+ * listen keyboard show or hide
+ * when keyboard show, keep parent layout height, don't make it shrank by keyboard
+ */
 public abstract class SoftListenLayout extends RelativeLayout {
     private int mMaxParentHeight = 0;
     private ArrayList<Integer> heightList = new ArrayList<>();
@@ -20,10 +24,11 @@ public abstract class SoftListenLayout extends RelativeLayout {
         WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics metrics = new DisplayMetrics();
         manager.getDefaultDisplay().getMetrics(metrics);
-        mMinLayoutHeight = metrics.heightPixels * 2 / 3; //the height of layout is at least 2/3
-        // of screen height
-        mMaxNavBarHeight = metrics.heightPixels / 6; // max height of navigation bar is 1/6 of
-        // height
+        //the height of layout is at least 2/3 of screen height
+        mMinLayoutHeight = metrics.heightPixels * 2 / 3;
+
+        // max height of navigation bar is 1/6 of height
+        mMaxNavBarHeight = metrics.heightPixels / 6;
     }
 
     /**
@@ -58,12 +63,15 @@ public abstract class SoftListenLayout extends RelativeLayout {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, mMaxParentHeight);
-        if (heightList.size() >= 2) {     //keyboard hide or show, onMeasure will be called twice
+        // keyboard hide or show, onMeasure will be called twice
+        if (heightList.size() >= 2) {
             int oldh = heightList.get(0);
             int newh = heightList.get(heightList.size() - 1);
 
             int dividerHeight = Math.abs(newh - oldh);
-            if (dividerHeight > mMaxNavBarHeight) { //means keyboard hide or show
+            // ignore the effects of navigation bar show/hide
+            if (dividerHeight > mMaxNavBarHeight) {
+                // keyboard hide or show
                 if (newh < oldh) {
                     OnSoftKeyboardPop(dividerHeight);
                 } else {
@@ -82,11 +90,8 @@ public abstract class SoftListenLayout extends RelativeLayout {
         int heightMode = MeasureSpec.getMode(pHeightMeasureSpec);
         int heightSize = MeasureSpec.getSize(pHeightMeasureSpec);
 
-        switch (heightMode) {
-            case MeasureSpec.AT_MOST:
-            case MeasureSpec.EXACTLY:
-                result = heightSize;
-                break;
+        if (heightMode == MeasureSpec.AT_MOST || heightMode == MeasureSpec.EXACTLY) {
+            result = heightSize;
         }
         return result;
     }

@@ -18,6 +18,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
 import cn.hadcn.keyboard.emoticon.EmoticonSetBean;
@@ -59,36 +60,36 @@ public class Utils {
         Utils.sDefKeyboardHeight = height;
     }
 
-    private static int DisplayWidthPixels = 0;
-    private static int DisplayHeightPixels = 0;
+    private static int mDisplayWidthPixels = 0;
+    private static int mDisplayHeightPixels = 0;
 
     private static void getDisplayMetrics(Context context) {
         WindowManager wm = (WindowManager)context.
                 getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm);
-        DisplayWidthPixels = dm.widthPixels;
-        DisplayHeightPixels = dm.heightPixels;
+        mDisplayWidthPixels = dm.widthPixels;
+        mDisplayHeightPixels = dm.heightPixels;
     }
 
     public static int getDisplayHeightPixels(Context context) {
         if (context == null) {
             return -1;
         }
-        if (DisplayHeightPixels == 0) {
+        if (mDisplayHeightPixels == 0) {
             getDisplayMetrics(context);
         }
-        return DisplayHeightPixels;
+        return mDisplayHeightPixels;
     }
 
     public static int getDisplayWidthPixels(Context context) {
         if (context == null) {
             return -1;
         }
-        if (DisplayWidthPixels == 0) {
+        if (mDisplayWidthPixels == 0) {
             getDisplayMetrics(context);
         }
-        return DisplayWidthPixels;
+        return mDisplayWidthPixels;
     }
 
     public static int dip2px(Context context, float dipValue) {
@@ -105,7 +106,7 @@ public class Utils {
         return ((ViewGroup) context.findViewById(android.R.id.content)).getChildAt(0);
     }
 
-    public static ArrayList<EmoticonBean> ParseData(String[] arry, long eventType, EmoticonBase.Scheme scheme) {
+    public static List<EmoticonBean> parseData(String[] arry, long eventType, EmoticonBase.Scheme scheme) {
         try {
             ArrayList<EmoticonBean> emojis = new ArrayList<>();
             for (int i = 0; i < arry.length; i++) {
