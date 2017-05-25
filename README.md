@@ -1,6 +1,6 @@
-# ChatKeyboard [![](https://img.shields.io/badge/language-Java-green.svg)](https://github.com/CPPAlien/ChatKeyboard)
+# ChatKeyboard 
 
-[![](https://jitpack.io/v/CPPAlien/ChatKeyboard.svg)](https://jitpack.io/#CPPAlien/ChatKeyboard)
+[![](https://img.shields.io/badge/language-Java-green.svg)](https://github.com/CPPAlien/ChatKeyboard)
 
 A powerful and easy using keyboard lib includes emoticons, audio recording, multi media keyboard, etc.
 
@@ -25,6 +25,7 @@ dependencies {
 }
 ```
 
+请使用最新版：[![](https://jitpack.io/v/CPPAlien/ChatKeyboard.svg)](https://jitpack.io/#CPPAlien/ChatKeyboard)
 
 dependency
 ```
