@@ -6,7 +6,10 @@ A powerful and easy using keyboard lib includes emoticons, audio recording, mult
 
 
 ### Demo
+![](http://7xq276.com2.z0.glb.qiniucdn.com/keyboard-demo.gif)
+
 <div class='row'>
+
     <img src='http://7xq276.com2.z0.glb.qiniucdn.com/keyboard-demo.gif' width="250px"/>
 </div>
 
