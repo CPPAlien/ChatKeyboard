@@ -60,7 +60,7 @@ if (!ChatKeyboardLayout.isEmoticonInitSuccess(this)) {
 
 ### These you should know
 
-1. You must make you The keyboard layout bottom align the screen bottom.
+1. Make sure The keyboard layout bottom align the screen bottom.
 2. Make sure the keyboard layout height at least 2/3 of you screen height.
 
 other usage
