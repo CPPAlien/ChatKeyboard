@@ -45,14 +45,13 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     public int FUNC_ORDER_COUNT = 0;
     public int mChildViewPosition = -1;
     private HadEditText etInputArea;
-    private RelativeLayout rl_input;
+    private RelativeLayout rlInput;
     private LinearLayout lyBottomLayout;
     private ImageView btnEmoticon;
     private ImageView btnMedia;
     private Button btnSend;
     private Button btnRecording;
     private ImageView btnVoiceOrText;
-    private Context mContext;
     private boolean isShowMediaButton = false;   //media func button on or off
     private boolean isLimitedOnlyText = false;
     private Drawable mBtnSendBg = null;
@@ -72,12 +71,11 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     }
 
     private void initView(Context context) {
-        mContext = context;
         // must be before inflate
         EmoticonHandler.getInstance(context).loadEmoticonsToMemory();
         LayoutInflater.from(context).inflate(R.layout.view_keyboardbar, this);
 
-        rl_input = (RelativeLayout) findViewById(R.id.rl_input);
+        rlInput = (RelativeLayout) findViewById(R.id.rl_input);
         lyBottomLayout = (LinearLayout) findViewById(R.id.ly_foot_func);
         btnEmoticon = (ImageView) findViewById(R.id.btn_face);
         btnVoiceOrText = (ImageView) findViewById(R.id.btn_voice_or_text);
@@ -141,11 +139,11 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
             etInputArea.setFocusable(true);
             etInputArea.setFocusableInTouchMode(true);
             etInputArea.requestFocus();
-            rl_input.setBackgroundResource(R.drawable.input_bg_green);
+            rlInput.setBackgroundResource(R.drawable.input_bg_green);
         } else {
             etInputArea.setFocusable(false);
             etInputArea.setFocusableInTouchMode(false);
-            rl_input.setBackgroundResource(R.drawable.input_bg_gray);
+            rlInput.setBackgroundResource(R.drawable.input_bg_gray);
         }
     }
 
@@ -170,15 +168,18 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
 
     public void hideLayout() {
         hideKeyboard();
-        findViewById(R.id.main_view_id).setVisibility(GONE);
+        findViewById(R.id.keyboard_bar_id).setVisibility(GONE);
+        mOnChatKeyBoardListener.onKeyboardHeightChanged(0);
     }
 
     public void showLayout() {
-        findViewById(R.id.main_view_id).setVisibility(VISIBLE);
+        findViewById(R.id.keyboard_bar_id).setVisibility(VISIBLE);
+        int barHeight = getResources().getDimensionPixelOffset(R.dimen.keyboard_bar_height);
+        mOnChatKeyBoardListener.onKeyboardHeightChanged(barHeight);
     }
 
     public boolean isLayoutVisible() {
-        return VISIBLE == findViewById(R.id.main_view_id).getVisibility();
+        return VISIBLE == findViewById(R.id.keyboard_bar_id).getVisibility();
     }
 
     public void limitOnlyText() {
@@ -240,11 +241,11 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     private class VoiceTextClickListener implements OnClickListener {
         @Override
         public void onClick(View view) {
-            if (rl_input.isShown()) {
+            if (rlInput.isShown()) {
                 // switch to voice recording bar
                 hideAutoView();
                 closeSoftKeyboard(etInputArea);
-                rl_input.setVisibility(GONE);
+                rlInput.setVisibility(GONE);
                 btnRecording.setVisibility(VISIBLE);
                 btnVoiceOrText.setImageResource(R.drawable.keyboard_icon);
                 btnSend.setVisibility(GONE);
@@ -253,7 +254,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                 }
             } else {
                 // switch to text input bar
-                rl_input.setVisibility(VISIBLE);
+                rlInput.setVisibility(VISIBLE);
                 btnRecording.setVisibility(GONE);
                 setEditableState(true);
                 openSoftKeyboard(etInputArea);
@@ -309,7 +310,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                     break;
                 case KEYBOARD_STATE_NONE:
                     btnEmoticon.setImageResource(R.drawable.icon_face_nomal);
-                    rl_input.setVisibility(VISIBLE);
+                    rlInput.setVisibility(VISIBLE);
                     btnRecording.setVisibility(GONE);
                     btnVoiceOrText.setImageResource(R.drawable.recording_icon);
                     etInputArea.setFocusableInTouchMode(true);
@@ -503,7 +504,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
 
     private EmoticonsKeyboardBuilder getBuilder(Context context) {
         if (context == null) {
-            throw new RuntimeException(" Context is null, cannot create db helper");
+            throw new RuntimeException("Context is null, cannot create db helper");
         }
         EmoticonDBHelper emoticonDbHelper = new EmoticonDBHelper(context);
         ArrayList<EmoticonSetBean> mEmoticonSetBeanList = emoticonDbHelper.queryAllEmoticonSet();
@@ -519,7 +520,16 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         super.OnSoftKeyboardPop(height);
         btnEmoticon.setImageResource(R.drawable.icon_face_nomal);
         int barHeight = getResources().getDimensionPixelOffset(R.dimen.keyboard_bar_height);
-        mOnChatKeyBoardListener.onKeyboardShow(height + barHeight);
+        mOnChatKeyBoardListener.onKeyboardHeightChanged(height + barHeight);
+    }
+
+    @Override
+    protected void OnSoftKeyboardClose() {
+        super.OnSoftKeyboardClose();
+        int barHeight = getResources().getDimensionPixelOffset(R.dimen.keyboard_bar_height);
+        if (findViewById(R.id.keyboard_bar_id).getVisibility() == VISIBLE) {
+            mOnChatKeyBoardListener.onKeyboardHeightChanged(barHeight);
+        }
     }
 
     public interface OnChatKeyBoardListener {
@@ -528,8 +538,9 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         void onRecordingAction(RecordingAction action);
 
         void onUserDefEmoticonClicked(String tag, String uri);
+
         // when keyboard popped, get the pixels of the height include input bar
-        void onKeyboardShow(int height);
+        void onKeyboardHeightChanged(int height);
     }
 
     public static class SimpleOnChatkeyboardListener implements OnChatKeyBoardListener {
@@ -549,7 +560,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         }
 
         @Override
-        public void onKeyboardShow(final int height) {
+        public void onKeyboardHeightChanged(final int height) {
             // This space for rent
         }
     }

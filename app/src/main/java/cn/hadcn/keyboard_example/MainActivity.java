@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onKeyboardShow(final int height) {
+    public void onKeyboardHeightChanged(final int height) {
         Log.e("pengtao", "height = " + height);
     }
 }

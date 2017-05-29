@@ -22,7 +22,6 @@ public class SoftHandleLayout extends SoftListenLayout {
     public static final int KEYBOARD_STATE_FUNC = 101;  // only media or emoticon pop
     public static final int KEYBOARD_STATE_BOTH = 102;  // keyboard and media or emoticon pop
     // together
-    protected Context mContext;
     protected int mAutoHeightLayoutId;
     protected int mAutoViewHeight;
     protected View mAutoHeightLayoutView;
@@ -32,8 +31,6 @@ public class SoftHandleLayout extends SoftListenLayout {
 
     public SoftHandleLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.mContext = context;
-
         mAutoViewHeight = Utils.getDefKeyboardHeight(mContext);
     }
 
@@ -47,8 +44,8 @@ public class SoftHandleLayout extends SoftListenLayout {
         if (childSum == 0) {
             mAutoHeightLayoutId = child.getId();
             if (mAutoHeightLayoutId < 0) {
-                child.setId(R.id.main_view_id);
-                mAutoHeightLayoutId = R.id.main_view_id;
+                child.setId(R.id.keyboard_bar_id);
+                mAutoHeightLayoutId = R.id.keyboard_bar_id;
             }
             LayoutParams paramsChild = (LayoutParams) child.getLayoutParams();
             paramsChild.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);

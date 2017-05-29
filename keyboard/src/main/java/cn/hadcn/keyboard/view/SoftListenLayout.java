@@ -18,9 +18,11 @@ public abstract class SoftListenLayout extends RelativeLayout {
     private int mMinKeyboardHeight = 0;
     private int mGlobalBottom = 0;
     private int mKeyboardHeight = 0;
+    protected Context mContext;
 
     public SoftListenLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mContext = context;
         WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics metrics = new DisplayMetrics();
         manager.getDefaultDisplay().getMetrics(metrics);
