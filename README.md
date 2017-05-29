@@ -7,7 +7,6 @@ A powerful and easy using keyboard lib includes emoticons, audio recording, mult
 
 ### Demo
 <div class='row'>
-
     <img src='http://7xq276.com2.z0.glb.qiniucdn.com/keyboard-demo.gif' width="250px"/>
 </div>
 
@@ -58,11 +57,14 @@ if (!ChatKeyboardLayout.isEmoticonInitSuccess(this)) {
 ```
 **Notice: Add the code above before the ChatKeyboardLayout used, better in onCreate of Application**
 
+
 ### These you should know
+
 1. You must make you The keyboard layout bottom align the screen bottom.
 2. Make sure the keyboard layout height at least 2/3 of you screen height.
 
 other usage
+
 please refer to the demo code
 
 
