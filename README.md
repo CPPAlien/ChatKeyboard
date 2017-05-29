@@ -49,7 +49,7 @@ com.android.support:support-v4:23.1.0
 
 2, custom your emoticon and stick keyboard
 ```java
-if ( !ChatKeyboardLayout.isEmoticonInitSuccess(this) ) {
+if (!ChatKeyboardLayout.isEmoticonInitSuccess(this)) {
 	List<EmoticonEntity> entities = new ArrayList<>();
 	entities.add(new EmoticonEntity("emoticons/xhs", EmoticonBase.Scheme.ASSETS));
 	entities.add(new EmoticonEntity("emoticons/tusiji", EmoticonBase.Scheme.ASSETS));
@@ -58,7 +58,13 @@ if ( !ChatKeyboardLayout.isEmoticonInitSuccess(this) ) {
 ```
 **Notice: Add the code above before the ChatKeyboardLayout used, better in onCreate of Application**
 
+### These you should know
+1. You must make you The keyboard layout bottom align the screen bottom.
+2. Make sure the keyboard layout height at least 2/3 of you screen height.
+
 other usage
 please refer to the demo code
+
+
 
 Thanks for [xhsEmoticonsKeyboard](https://github.com/w446108264/XhsEmoticonsKeyboard) powered by w446108264.
