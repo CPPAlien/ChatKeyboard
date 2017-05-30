@@ -5,14 +5,14 @@
     android:layout_alignParentBottom="true"
     android:background="@color/white"
     android:orientation="vertical">
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/spilt_line" />
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/keyboard_bar_height">
-        <View
-            android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="0.3dp"
-            android:background="@color/spilt_line" />
+        android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/btn_voice_or_text"
             android:layout_width="34dp"
@@ -23,71 +23,16 @@
             android:background="@drawable/circle_button_bg"
             android:padding="7dp"
             android:src="@drawable/recording_icon" />
-        <Button
-            android:id="@+id/bar_recording"
-            android:layout_width="match_parent"
-            android:layout_height="34dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_toLeftOf="@+id/rl_multi_and_send"
-            android:layout_toRightOf="@+id/btn_voice_or_text"
-            android:layout_toStartOf="@+id/rl_multi_and_send"
-            android:layout_toEndOf="@+id/btn_voice_or_text"
-            android:background="@drawable/recording_n"
-            android:text="@string/recording_start"
-            android:textColor="#727272"
-            android:visibility="gone" />
-        <RelativeLayout
-            android:id="@+id/rl_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_toEndOf="@+id/btn_voice_or_text"
-            android:layout_toLeftOf="@+id/rl_multi_and_send"
-            android:layout_toRightOf="@+id/btn_voice_or_text"
-            android:layout_toStartOf="@+id/rl_multi_and_send"
-            android:background="@drawable/input_bg_gray"
-            android:orientation="horizontal">
-            <cn.hadcn.keyboard.view.HadEditText
-                android:id="@+id/et_chat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/btn_face"
-                android:layout_toStartOf="@+id/btn_face"
-                android:background="@null"
-                android:focusable="true"
-                android:focusableInTouchMode="false"
-                android:lineSpacingExtra="4dp"
-                android:maxLines="4"
-                android:paddingBottom="6dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:paddingTop="6dp"
-                android:textSize="16sp"/>
-            <ImageView
-                android:id="@+id/btn_face"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/icon_face_nomal" />
-        </RelativeLayout>
         <RelativeLayout
             android:id="@+id/rl_multi_and_send"
-            android:layout_width="58dp"
+            android:layout_width="45dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:focusableInTouchMode="true"
-            android:orientation="horizontal">
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
+            android:focusableInTouchMode="true">
             <ImageView
                 android:id="@+id/btn_multimedia"
                 android:layout_width="34dp"
@@ -98,7 +43,7 @@
                 android:src="@drawable/cross_icon" />
             <Button
                 android:id="@+id/btn_send"
-                android:layout_width="45dp"
+                android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/send_button_bg"
@@ -107,6 +52,58 @@
                 android:textColor="@color/white"
                 android:textSize="14sp" />
         </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_toEndOf="@id/btn_voice_or_text"
+            android:layout_toLeftOf="@id/rl_multi_and_send"
+            android:layout_toRightOf="@id/btn_voice_or_text"
+            android:layout_toStartOf="@id/rl_multi_and_send">
+            <Button
+                android:id="@+id/bar_recording"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/recording_n"
+                android:text="@string/recording_start"
+                android:textColor="#727272"
+                android:visibility="gone" />
+            <RelativeLayout
+                android:id="@+id/rl_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_bg_gray"
+                android:orientation="horizontal">
+                <cn.hadcn.keyboard.view.HadEditText
+                    android:id="@+id/et_chat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/btn_face"
+                    android:layout_toStartOf="@+id/btn_face"
+                    android:background="@null"
+                    android:focusable="true"
+                    android:focusableInTouchMode="false"
+                    android:lineSpacingExtra="4dp"
+                    android:maxLines="4"
+                    android:paddingBottom="6dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="6dp"
+                    android:textSize="16sp" />
+                <ImageView
+                    android:id="@+id/btn_face"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/icon_face_nomal" />
+            </RelativeLayout>
+        </RelativeLayout>
     </RelativeLayout>
     <LinearLayout
         android:id="@+id/ly_foot_func"
@@ -114,5 +111,5 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 </LinearLayout>

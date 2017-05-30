@@ -1,6 +1,7 @@
 package cn.hadcn.keyboard;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
@@ -43,7 +44,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     public int FUNC_EMOTICON_POS = 0; //display emoticons area
     public int FUNC_MEDIA_POS = 0;    //display medias area
     public int FUNC_ORDER_COUNT = 0;
-    public int mChildViewPosition = -1;
+    private int mChildViewPosition = -1;
     private HadEditText etInputArea;
     private RelativeLayout rlInput;
     private LinearLayout lyBottomLayout;
@@ -54,7 +55,6 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     private ImageView btnVoiceOrText;
     private boolean isShowMediaButton = false;   //media func button on or off
     private boolean isLimitedOnlyText = false;
-    private Drawable mBtnSendBg = null;
 
     public ChatKeyboardLayout(Context context) {
         super(context, null);
@@ -66,11 +66,29 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         initView(context);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable
                 .ChatKeyboardLayout);
-        mBtnSendBg = typedArray.getDrawable(R.styleable.ChatKeyboardLayout_sendBtnBg);
+        Drawable btnSendBg = typedArray.getDrawable(R.styleable
+                .ChatKeyboardLayout_sendButtonBackground);
+        String btnSendText = typedArray.getString(R.styleable.ChatKeyboardLayout_sendButtonText);
+        ColorStateList btnSendTextColor = typedArray.getColorStateList(R.styleable
+                .ChatKeyboardLayout_sendButtonTextColor);
+        Drawable inputLayoutBg = typedArray.getDrawable(R.styleable
+                .ChatKeyboardLayout_inputLayoutBackground);
         typedArray.recycle();
+
+        if (btnSendBg != null) {
+            btnSend.setBackgroundDrawable(btnSendBg);
+        }
+        if (btnSendText != null) {
+            btnSend.setText(btnSendText);
+        }
+
+        if (btnSendTextColor != null) {
+            btnSend.setTextColor(btnSendTextColor);
+        }
+        if (inputLayoutBg != null) {
+            btnSend.setBackgroundDrawable(inputLayoutBg);
+        }
     }
-
-
 
     private void initView(Context context) {
         // must be before inflate
@@ -84,9 +102,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         btnRecording = (Button) findViewById(R.id.bar_recording);
         btnMedia = (ImageView) findViewById(R.id.btn_multimedia);
         btnSend = (Button) findViewById(R.id.btn_send);
-        if (mBtnSendBg != null) {
-            btnSend.setBackgroundDrawable(mBtnSendBg);
-        }
+
         etInputArea = (HadEditText) findViewById(R.id.et_chat);
 
         setAutoHeightLayoutView(lyBottomLayout);
@@ -177,7 +193,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
 
     public void showLayout() {
         findViewById(R.id.keyboard_bar_id).setVisibility(VISIBLE);
-        int barHeight = getResources().getDimensionPixelOffset(R.dimen.keyboard_bar_height);
+        int barHeight = getHeight() - findViewById(R.id.keyboard_bar_id).getTop();
         mOnChatKeyBoardListener.onKeyboardHeightChanged(barHeight);
     }
 
@@ -518,15 +534,15 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     protected void OnSoftKeyboardPop(int height) {
         super.OnSoftKeyboardPop(height);
         btnEmoticon.setImageResource(R.drawable.icon_face_nomal);
-        int barHeight = getResources().getDimensionPixelOffset(R.dimen.keyboard_bar_height);
-        mOnChatKeyBoardListener.onKeyboardHeightChanged(height + barHeight);
+        int barHeight = getHeight() - findViewById(R.id.keyboard_bar_id).getTop();
+        mOnChatKeyBoardListener.onKeyboardHeightChanged(barHeight);
     }
 
     @Override
     protected void OnSoftKeyboardClose() {
         super.OnSoftKeyboardClose();
-        int barHeight = getResources().getDimensionPixelOffset(R.dimen.keyboard_bar_height);
         if (findViewById(R.id.keyboard_bar_id).getVisibility() == VISIBLE) {
+            int barHeight = getHeight() - findViewById(R.id.keyboard_bar_id).getTop();
             mOnChatKeyBoardListener.onKeyboardHeightChanged(barHeight);
         }
     }
