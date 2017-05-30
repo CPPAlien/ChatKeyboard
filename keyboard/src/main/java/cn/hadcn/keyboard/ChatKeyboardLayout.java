@@ -70,6 +70,8 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         typedArray.recycle();
     }
 
+
+
     private void initView(Context context) {
         // must be before inflate
         EmoticonHandler.getInstance(context).loadEmoticonsToMemory();
@@ -134,11 +136,12 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         });
     }
 
-    private void setEditableState(boolean b) {
-        if (b) {
+    private void setEditableState(boolean editableState) {
+        if (editableState) {
             etInputArea.setFocusable(true);
             etInputArea.setFocusableInTouchMode(true);
             etInputArea.requestFocus();
+
             rlInput.setBackgroundResource(R.drawable.input_bg_green);
         } else {
             etInputArea.setFocusable(false);
@@ -282,8 +285,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                     break;
                 case KEYBOARD_STATE_NONE:
                     btnEmoticon.setImageResource(R.drawable.icon_face_pop);
-                    etInputArea.setFocusableInTouchMode(true);
-                    etInputArea.requestFocus();
+                    setEditableState(true);
                     showAutoView();
                     show(FUNC_EMOTICON_POS);
                     break;
@@ -313,8 +315,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                     rlInput.setVisibility(VISIBLE);
                     btnRecording.setVisibility(GONE);
                     btnVoiceOrText.setImageResource(R.drawable.recording_icon);
-                    etInputArea.setFocusableInTouchMode(true);
-                    etInputArea.requestFocus();
+                    setEditableState(true);
                     showAutoView();
                     show(FUNC_MEDIA_POS);
                     break;
@@ -394,9 +395,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
             @Override
             public void onEmoticonItemClicked(EmoticonBean bean) {
                 if (etInputArea != null) {
-                    etInputArea.setFocusable(true);
-                    etInputArea.setFocusableInTouchMode(true);
-                    etInputArea.requestFocus();
+                    setEditableState(true);
 
                     if (bean.getEventType() == EmoticonBean.FACE_TYPE_DEL) {
                         int action = KeyEvent.ACTION_DOWN;
