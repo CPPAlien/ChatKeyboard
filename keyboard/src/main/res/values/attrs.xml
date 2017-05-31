@@ -4,6 +4,5 @@
         <attr name="sendButtonBackground" format="reference|color"/>
         <attr name="sendButtonText" format="string|reference"/>
         <attr name="sendButtonTextColor" format="reference|color"/>
-        <attr name="inputLayoutBackground" format="reference"/>
     </declare-styleable>
 </resources>

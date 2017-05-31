@@ -71,8 +71,6 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         String btnSendText = typedArray.getString(R.styleable.ChatKeyboardLayout_sendButtonText);
         ColorStateList btnSendTextColor = typedArray.getColorStateList(R.styleable
                 .ChatKeyboardLayout_sendButtonTextColor);
-        Drawable inputLayoutBg = typedArray.getDrawable(R.styleable
-                .ChatKeyboardLayout_inputLayoutBackground);
         typedArray.recycle();
 
         if (btnSendBg != null) {
@@ -84,9 +82,6 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
 
         if (btnSendTextColor != null) {
             btnSend.setTextColor(btnSendTextColor);
-        }
-        if (inputLayoutBg != null) {
-            btnSend.setBackgroundDrawable(inputLayoutBg);
         }
     }
 
@@ -158,11 +153,11 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
             etInputArea.setFocusableInTouchMode(true);
             etInputArea.requestFocus();
 
-            rlInput.setBackgroundResource(R.drawable.input_bg_green);
+            // rlInput.setBackgroundResource(R.drawable.input_bg_green);
         } else {
             etInputArea.setFocusable(false);
             etInputArea.setFocusableInTouchMode(false);
-            rlInput.setBackgroundResource(R.drawable.input_bg_gray);
+            // rlInput.setBackgroundResource(R.drawable.input_bg_gray);
         }
     }
 
@@ -264,7 +259,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                 // switch to voice recording bar
                 hideAutoView();
                 closeSoftKeyboard(etInputArea);
-                rlInput.setVisibility(GONE);
+                rlInput.setVisibility(INVISIBLE);
                 btnRecording.setVisibility(VISIBLE);
                 btnVoiceOrText.setImageResource(R.drawable.keyboard_icon);
                 btnSend.setVisibility(GONE);
