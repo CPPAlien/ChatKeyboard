@@ -44,8 +44,8 @@ public class SoftHandleLayout extends SoftListenLayout {
         if (childSum == 0) {
             mAutoHeightLayoutId = child.getId();
             if (mAutoHeightLayoutId < 0) {
-                child.setId(R.id.keyboard_bar_id);
-                mAutoHeightLayoutId = R.id.keyboard_bar_id;
+                child.setId(R.id.keyboard_layout_id);
+                mAutoHeightLayoutId = R.id.keyboard_layout_id;
             }
             LayoutParams paramsChild = (LayoutParams) child.getLayoutParams();
             paramsChild.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
@@ -71,6 +71,13 @@ public class SoftHandleLayout extends SoftListenLayout {
             params.height = height;
             mAutoHeightLayoutView.setLayoutParams(params);
         }
+        // it will take some time for view draw
+        this.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                autoViewHeightChanged(height);
+            }
+        }, 100);
     }
 
     protected void hideAutoView() {
@@ -92,6 +99,10 @@ public class SoftHandleLayout extends SoftListenLayout {
         });
         isAutoViewNeedHide = true;
         mKeyboardState = KEYBOARD_STATE_FUNC;
+    }
+
+    protected void autoViewHeightChanged(final int height) {
+        // rent the place for child use
     }
 
     @Override

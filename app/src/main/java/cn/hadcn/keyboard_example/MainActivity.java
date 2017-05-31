@@ -112,9 +112,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onSendBtnClick(String msg) {
+    public void onSendButtonClicked(String msg) {
         mAdapter.addItem(new ChatBean(null, msg));
-        keyboardLayout.clearInputArea();
+        keyboardLayout.clearInputContent();
     }
 
     @Override

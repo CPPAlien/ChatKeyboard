@@ -1,20 +1,22 @@
 package cn.hadcn.keyboard.emoticon;
 
 public class EmoticonBean {
-
     public final static int FACE_TYPE_NORMAL = 0;
     public final static int FACE_TYPE_DEL = 1;
-    public final static int FACE_TYPE_USERDEF = 2; // user downloaded emoticons
-
+    public final static int FACE_TYPE_STICKER = 2; // user downloaded emoticons
     private long eventType;
     private String iconUri;
     private String msgUri;
     private String tag;
     private String name;
 
-    public long getEventType() { return eventType; }
+    public long getEventType() {
+        return eventType;
+    }
 
-    public void setEventType(long eventType) { this.eventType = eventType; }
+    public void setEventType(long eventType) {
+        this.eventType = eventType;
+    }
 
     public String getIconUri() {
         return iconUri;
@@ -48,11 +50,17 @@ public class EmoticonBean {
         this.name = name;
     }
 
-    public static String fromChars(String chars) { return chars; }
+    public static String fromChars(String chars) {
+        return chars;
+    }
 
-    public static String fromChar(char ch) { return Character.toString(ch); }
+    public static String fromChar(char ch) {
+        return Character.toString(ch);
+    }
 
-    public static String fromCodePoint(int codePoint) { return newString(codePoint); }
+    public static String fromCodePoint(int codePoint) {
+        return newString(codePoint);
+    }
 
     public static String newString(int codePoint) {
         if (Character.charCount(codePoint) == 1) {
@@ -62,7 +70,7 @@ public class EmoticonBean {
         }
     }
 
-    public EmoticonBean(long eventType , String iconUri , String tag, String name){
+    public EmoticonBean(long eventType, String iconUri, String tag, String name) {
         this.eventType = eventType;
         this.iconUri = iconUri;
         this.tag = tag;

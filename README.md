@@ -57,6 +57,47 @@ if (!ChatKeyboardLayout.isEmoticonInitSuccess(this)) {
 ```
 **Notice: Add the code above before the ChatKeyboardLayout used, better in onCreate of Application**
 
+3, keyboard listener
+```java
+public interface OnChatKeyBoardListener {
+        /**
+         * When send button clicked
+         *
+         * @param text content in input area
+         */
+        void onSendButtonClicked(String text);
+
+        /**
+         * When user input or delete text in input area
+         *
+         * @param text changing text
+         */
+        void onInputTextChanged(String text);
+
+        /**
+         * Recording button action {@link RecordingAction}
+         *
+         * @param action action
+         */
+        void onRecordingAction(RecordingAction action);
+
+        /**
+         * When sticker defined by developer clicked
+         *
+         * @param tag sticker tag
+         * @param uri sticker location uri
+         */
+        void onUserDefEmoticonClicked(String tag, String uri);
+
+        /**
+         * when keyboard popped or back, get the pixels of the height include keyboard bar
+         *
+         * @param height pixel height
+         */
+        void onKeyboardHeightChanged(int height);
+} 
+```
+You can use `SimpleOnChatKeyboardListener` instead of the interface above, so you can just listen these you want listen.
 
 ### These you should know
 
