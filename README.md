@@ -25,7 +25,7 @@ dependencies {
 }
 ```
 
-请使用最新版：[![](https://jitpack.io/v/CPPAlien/ChatKeyboard.svg)](https://jitpack.io/#CPPAlien/ChatKeyboard)
+You Can Use The Latest Version：[![](https://jitpack.io/v/CPPAlien/ChatKeyboard.svg)](https://jitpack.io/#CPPAlien/ChatKeyboard)
 
 dependency
 ```

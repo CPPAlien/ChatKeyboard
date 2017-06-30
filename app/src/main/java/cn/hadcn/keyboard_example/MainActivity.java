@@ -118,6 +118,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public void onInputTextChanged(final String text) {
+
+    }
+
+    @Override
     public void onRecordingAction(ChatKeyboardLayout.RecordingAction action) {
         switch (action) {
             case START:

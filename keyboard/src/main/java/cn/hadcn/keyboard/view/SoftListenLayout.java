@@ -54,7 +54,7 @@ public abstract class SoftListenLayout extends RelativeLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int measureHeight = measureHeight(heightMeasureSpec);
+        int measureHeight = MeasureSpec.getSize(heightMeasureSpec);
         if (measureHeight < mMinLayoutHeight) {
             // if keyboard show, this layout height will be shrank, we should extend it
             int heightMode = MeasureSpec.getMode(heightMeasureSpec);
@@ -64,17 +64,6 @@ public abstract class SoftListenLayout extends RelativeLayout {
         } else {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         }
-    }
-
-    private int measureHeight(int pHeightMeasureSpec) {
-        int result = 0;
-        int heightMode = MeasureSpec.getMode(pHeightMeasureSpec);
-        int heightSize = MeasureSpec.getSize(pHeightMeasureSpec);
-
-        if (heightMode == MeasureSpec.AT_MOST || heightMode == MeasureSpec.EXACTLY) {
-            result = heightSize;
-        }
-        return result;
     }
 
     protected abstract void OnSoftKeyboardPop(int height);
