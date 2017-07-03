@@ -2,5 +2,7 @@
     <string name="app_name">ChatKeyboard</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_text_only">text_only</string>
+    <string name="action_text_emoticon">text_emoticon</string>
+    <string name="action_chat_style">chat_style</string>
 </resources>

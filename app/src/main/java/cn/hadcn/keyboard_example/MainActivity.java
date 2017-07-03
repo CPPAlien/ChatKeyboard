@@ -3,7 +3,6 @@ package cn.hadcn.keyboard_example;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -32,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         keyboardLayout = (ChatKeyboardLayout) findViewById(R.id.kv_bar);
-        keyboardLayout.showEmoticons();
 
         ArrayList<MediaBean> popupModels = new ArrayList<>();
         popupModels.add(new MediaBean(0, R.drawable.icon_camera, "拍照", this));
@@ -45,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         popupModels.add(new MediaBean(7, R.drawable.icon_photo, "照片", this));
         popupModels.add(new MediaBean(8, R.drawable.icon_camera, "拍照", this));
         popupModels.add(new MediaBean(9, R.drawable.pic_select_n, "照片", this));
-        keyboardLayout.showMedias(popupModels);
+        keyboardLayout.initMediaContents(popupModels);
 
         ListView listView = (ListView) findViewById(R.id.list_view);
         mAdapter = new SimpleChatAdapter(this);
@@ -78,11 +76,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_text_only:
+                keyboardLayout.setKeyboardStyle(ChatKeyboardLayout.Style.TEXT_ONLY);
+                return true;
+            case R.id.action_text_emoticon:
+                keyboardLayout.setKeyboardStyle(ChatKeyboardLayout.Style.TEXT_EMOTICON);
+                return true;
+            case R.id.action_chat_style:
+                keyboardLayout.setKeyboardStyle(ChatKeyboardLayout.Style.CHAT_STYLE);
+                keyboardLayout.setShowRightIcon(true);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void hideShow(View view) {
@@ -153,11 +160,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onDbChange(double db) {
             int level = 0;
-            Log.e("pengtao", "onDbChange db = " + db);
+            LogUtil.e("","onDbChange db = " + db);
             if (db > 40) {
                 level = ((int) db - 40) / 7;
             }
-            Log.e("pengtao", "onDbChange level = " + level);
+            LogUtil.e("", "onDbChange level = " + level);
             rlRecordArea.setVoiceLevel(level);
         }
     }
@@ -169,6 +176,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onKeyboardHeightChanged(final int height) {
-        Log.e("pengtao", "height = " + height);
+        LogUtil.e("", "height = " + height);
     }
 }

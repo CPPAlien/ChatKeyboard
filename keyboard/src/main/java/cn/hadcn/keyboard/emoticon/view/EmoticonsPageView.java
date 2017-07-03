@@ -18,18 +18,16 @@ import java.util.List;
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
 import cn.hadcn.keyboard.emoticon.EmoticonSetBean;
 import cn.hadcn.keyboard.emoticon.util.EmoticonsKeyboardBuilder;
+import cn.hadcn.keyboard.emoticon.view.EmoticonsAdapter.EmoticonsListener;
 import cn.hadcn.keyboard.utils.Utils;
 import cn.hadcn.keyboard.view.SoftListenLayout;
 
-public class EmoticonsPageView extends ViewPager implements IView {
+public class EmoticonsPageView extends ViewPager implements EmoticonsAdapter.EmoticonsListener {
     private Context mContext;
-    private int mHeight = 0;
-    private int mMaxEmoticonSetPageCount = 0;
-    public int mOldPagePosition = -1;
-
+    private int mPageHeight = 0;
+    private int mPageWidth = 0;
+    private int mOldPagePosition = -1;
     private List<EmoticonSetBean> mEmoticonSetBeanList;
-    private EmoticonsViewPagerAdapter mEmoticonsViewPagerAdapter;
-    private ArrayList<View> mEmoticonPageViews = new ArrayList<>();
 
     public EmoticonsPageView(Context context) {
         this(context, null);
@@ -43,8 +41,9 @@ public class EmoticonsPageView extends ViewPager implements IView {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        mHeight = h;
-        EmoticonsPageView.this.post(new Runnable() {
+        mPageHeight = h;
+        mPageWidth = w;
+        post(new Runnable() {
             @Override
             public void run() {
                 updateView();
@@ -53,19 +52,13 @@ public class EmoticonsPageView extends ViewPager implements IView {
     }
 
     private void updateView() {
-        if (mEmoticonSetBeanList == null) return;
-
-        if (mEmoticonsViewPagerAdapter == null) {
-            mEmoticonsViewPagerAdapter = new EmoticonsViewPagerAdapter();
-            setAdapter(mEmoticonsViewPagerAdapter);
-            setOnPageChangeListener(new PageChangeListener());
+        if (mEmoticonSetBeanList == null || mPageHeight <= 0 || mPageWidth <= 0) {
+            return;
         }
 
-        int screenWidth = Utils.getDisplayWidthPixels(mContext);
-        int maxPagerHeight = mHeight;
-
-        mEmoticonPageViews.clear();
-        mEmoticonsViewPagerAdapter.notifyDataSetChanged();
+        List<View> emoticonPageViews = new ArrayList<>();
+        clearOnPageChangeListeners();
+        addOnPageChangeListener(new PageChangeListener());
 
         for (EmoticonSetBean bean : mEmoticonSetBeanList) {
             List<EmoticonBean> emoticonList = bean.getEmoticonList();
@@ -74,19 +67,24 @@ public class EmoticonsPageView extends ViewPager implements IView {
                 int row = bean.getRow();
                 int line = bean.getLine();
 
-                int del = bean.isShowDelBtn() ? 1 : 0;
-                int everyPageMaxSum = row * line - del;
+                int everyPageMaxSum = row * line - (bean.isShowDelBtn() ? 1 : 0);
                 int pageCount = getPageCount(bean);
-
-                mMaxEmoticonSetPageCount = Math.max(mMaxEmoticonSetPageCount, pageCount);
 
                 int start = 0;
                 int end = everyPageMaxSum > emoticonSetSum ? emoticonSetSum : everyPageMaxSum;
 
-                RelativeLayout.LayoutParams gridParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                RelativeLayout.LayoutParams gridParams = new RelativeLayout.LayoutParams
+                        (RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams
+                                .WRAP_CONTENT);
                 gridParams.addRule(SoftListenLayout.CENTER_VERTICAL);
 
-                int itemHeight = Math.min((screenWidth - (bean.getRow() - 1) * Utils.dip2px(mContext, bean.getHorizontalSpacing())) / bean.getRow(), (maxPagerHeight - (bean.getLine() - 1) * Utils.dip2px(mContext, bean.getVerticalSpacing())) / bean.getLine());
+                int horizontalSpacing = Utils.dip2px(mContext, bean.getHorizontalSpacing());
+                int verticalSpacing = Utils.dip2px(mContext, bean.getVerticalSpacing());
+                int itemHeight = Math.min(
+                        (mPageWidth - getPaddingRight() - getPaddingLeft() -
+                                (bean.getRow() - 1) * horizontalSpacing) / bean.getRow(),
+                        (mPageHeight - getPaddingTop() - getPaddingBottom() -
+                                (bean.getLine() - 1) * verticalSpacing) / bean.getLine());
 
                 for (int i = 0; i < pageCount; i++) {
                     RelativeLayout rl = new RelativeLayout(mContext);
@@ -95,8 +93,8 @@ public class EmoticonsPageView extends ViewPager implements IView {
                     gridView.setBackgroundColor(Color.TRANSPARENT);
                     gridView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
                     gridView.setCacheColorHint(0);
-                    gridView.setHorizontalSpacing(Utils.dip2px(mContext, bean.getHorizontalSpacing()));
-                    gridView.setVerticalSpacing(Utils.dip2px(mContext, bean.getVerticalSpacing()));
+                    gridView.setHorizontalSpacing(horizontalSpacing);
+                    gridView.setVerticalSpacing(verticalSpacing);
                     gridView.setSelector(new ColorDrawable(Color.TRANSPARENT));
                     gridView.setGravity(Gravity.CENTER);
                     gridView.setVerticalScrollBarEnabled(false);
@@ -111,7 +109,8 @@ public class EmoticonsPageView extends ViewPager implements IView {
                         while (list.size() < count - 1) {
                             list.add(null);
                         }
-                        list.add(new EmoticonBean(EmoticonBean.FACE_TYPE_DEL, "drawable://icon_del", null, null));
+                        list.add(new EmoticonBean(EmoticonBean.FACE_TYPE_DEL,
+                                "drawable://icon_del", null, null));
                     } else {
                         int count = bean.getLine() * bean.getRow();
                         while (list.size() < count) {
@@ -119,11 +118,12 @@ public class EmoticonsPageView extends ViewPager implements IView {
                         }
                     }
 
-                    EmoticonsAdapter adapter = new EmoticonsAdapter(mContext, list, bean.isShownName());
+                    EmoticonsAdapter adapter = new EmoticonsAdapter(mContext, list, bean
+                            .isShownName());
                     adapter.setHeight(itemHeight, Utils.dip2px(mContext, bean.getItemPadding()));
                     gridView.setAdapter(adapter);
                     rl.addView(gridView, gridParams);
-                    mEmoticonPageViews.add(rl);
+                    emoticonPageViews.add(rl);
                     adapter.setOnItemListener(this);
 
                     start = everyPageMaxSum + i * everyPageMaxSum;
@@ -134,7 +134,7 @@ public class EmoticonsPageView extends ViewPager implements IView {
                 }
             }
         }
-        mEmoticonsViewPagerAdapter.notifyDataSetChanged();
+        setAdapter(new EmoticonsViewPagerAdapter(emoticonPageViews));
     }
 
     public void setPageSelect(int position) {
@@ -149,25 +149,26 @@ public class EmoticonsPageView extends ViewPager implements IView {
 
     private class PageChangeListener implements OnPageChangeListener {
         @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        }
 
         @Override
         public void onPageSelected(int position) {
-            if ( mOldPagePosition < 0 ) {
+            if (mOldPagePosition < 0) {
                 mOldPagePosition = 0;
             }
             int end = 0;
             int pagerPosition = 0;
-            for ( EmoticonSetBean emoticonSetBean : mEmoticonSetBeanList ) {
+            for (EmoticonSetBean emoticonSetBean : mEmoticonSetBeanList) {
                 int size = getPageCount(emoticonSetBean);
-                if ( end + size > position ) {
+                if (end + size > position) {
                     mOnEmoticonsPageViewListener.emoticonsPageViewCountChanged(size);
                     if (mOldPagePosition - end >= size) {
                         if (position - end >= 0) {
                             mOnEmoticonsPageViewListener.moveTo(position - end);
                         }
                         if (mIViewListeners != null && !mIViewListeners.isEmpty()) {
-                            for (IView listener : mIViewListeners) {
+                            for (EmoticonsListener listener : mIViewListeners) {
                                 listener.onPageChangeTo(pagerPosition);
                             }
                         }
@@ -176,7 +177,7 @@ public class EmoticonsPageView extends ViewPager implements IView {
                     if (mOldPagePosition - end < 0) {
                         mOnEmoticonsPageViewListener.moveTo(0);
                         if (mIViewListeners != null && !mIViewListeners.isEmpty()) {
-                            for (IView listener : mIViewListeners) {
+                            for (EmoticonsListener listener : mIViewListeners) {
                                 listener.onPageChangeTo(pagerPosition);
                             }
                         }
@@ -192,15 +193,17 @@ public class EmoticonsPageView extends ViewPager implements IView {
         }
 
         @Override
-        public void onPageScrollStateChanged(int state) { }
+        public void onPageScrollStateChanged(int state) {
+        }
     }
 
     public int getPageCount(EmoticonSetBean emoticonSetBean) {
         int pageCount = 0;
         if (emoticonSetBean != null && emoticonSetBean.getEmoticonList() != null) {
-            int del = emoticonSetBean.isShowDelBtn() ? 1 : 0;
-            int everyPageMaxSum = emoticonSetBean.getRow() * emoticonSetBean.getLine() - del;
-            pageCount = (int) Math.ceil((double) emoticonSetBean.getEmoticonList().size() / everyPageMaxSum);
+            int everyPageMaxSum = emoticonSetBean.getRow() * emoticonSetBean.getLine() -
+                    (emoticonSetBean.isShowDelBtn() ? 1 : 0);
+            pageCount = (int) Math.ceil((double) emoticonSetBean.getEmoticonList().size() /
+                    everyPageMaxSum);
         }
         return pageCount;
     }
@@ -210,6 +213,12 @@ public class EmoticonsPageView extends ViewPager implements IView {
     }
 
     private class EmoticonsViewPagerAdapter extends PagerAdapter {
+        private List<View> mEmoticonPageViews;
+
+        public EmoticonsViewPagerAdapter(List<View> pageViews) {
+            mEmoticonPageViews = pageViews;
+        }
+
         @Override
         public int getCount() {
             return mEmoticonPageViews.size();
@@ -232,11 +241,10 @@ public class EmoticonsPageView extends ViewPager implements IView {
         }
     }
 
-
     @Override
     public void onItemClick(EmoticonBean bean) {
         if (mIViewListeners != null && !mIViewListeners.isEmpty()) {
-            for (IView listener : mIViewListeners) {
+            for (EmoticonsListener listener : mIViewListeners) {
                 listener.onItemClick(bean);
             }
         }
@@ -247,26 +255,30 @@ public class EmoticonsPageView extends ViewPager implements IView {
 
     }
 
-    private List<IView> mIViewListeners;
+    private List<EmoticonsListener> mIViewListeners;
 
-    public void addIViewListener(IView listener) {
+    public void addIViewListener(EmoticonsListener listener) {
         if (mIViewListeners == null) {
             mIViewListeners = new ArrayList<>();
         }
         mIViewListeners.add(listener);
     }
 
-    public void setIViewListener(IView listener) {
+    public void setIViewListener(EmoticonsListener listener) {
         addIViewListener(listener);
     }
 
     private OnEmoticonsPageViewListener mOnEmoticonsPageViewListener;
+
     public void setOnIndicatorListener(OnEmoticonsPageViewListener listener) {
         mOnEmoticonsPageViewListener = listener;
     }
-    public interface OnEmoticonsPageViewListener{
+
+    public interface OnEmoticonsPageViewListener {
         void emoticonsPageViewCountChanged(int count);
+
         void moveTo(int position);
+
         void moveBy(int oldPosition, int newPosition);
     }
 }

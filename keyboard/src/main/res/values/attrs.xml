@@ -4,5 +4,14 @@
         <attr name="sendButtonBackground" format="reference|color"/>
         <attr name="sendButtonText" format="string|reference"/>
         <attr name="sendButtonTextColor" format="reference|color"/>
+        <!-- set keyboard style, default is text_only -->
+        <attr name="keyboardStyle" format="enum">
+            <enum name="text_only" value="1"/>
+            <enum name="text_emoticon" value="2"/>
+            <enum name="chat_style" value="3"/>
+        </attr>
+        <attr name="chatStyleLeftIcon" format="reference"/>
+        <attr name="chatStyleRightIcon" format="reference"/>
+        <attr name="chatStyleShowRightIcon" format="boolean"/>
     </declare-styleable>
 </resources>

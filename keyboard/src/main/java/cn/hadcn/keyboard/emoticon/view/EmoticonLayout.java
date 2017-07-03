@@ -16,10 +16,10 @@ import cn.hadcn.keyboard.view.IndicatorView;
  * Created by 90Chris on 2015/11/19.
  */
 public class EmoticonLayout extends RelativeLayout implements EmoticonsPageView.OnEmoticonsPageViewListener{
-    Context mContext;
-    EmoticonsPageView epvContent;
-    IndicatorView ivIndicator;
-    EmoticonsToolBarView etvToolBar;
+    private Context mContext;
+    private EmoticonsPageView epvContent;
+    private IndicatorView ivIndicator;
+    private EmoticonsToolBarView etvToolBar;
 
     public EmoticonLayout(Context context) {
         super(context);
@@ -46,7 +46,7 @@ public class EmoticonLayout extends RelativeLayout implements EmoticonsPageView.
         epvContent = (EmoticonsPageView) findViewById(R.id.emoticon_page_view);
         etvToolBar = (EmoticonsToolBarView) findViewById(R.id.emoticon_page_toolbar);
         epvContent.setOnIndicatorListener(this);
-        epvContent.setIViewListener(new IView() {
+        epvContent.setIViewListener(new EmoticonsAdapter.EmoticonsListener() {
             @Override
             public void onItemClick(EmoticonBean bean) {
                 mListener.onEmoticonItemClicked(bean);

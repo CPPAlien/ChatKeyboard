@@ -154,7 +154,7 @@ public class EmoticonDBHelper {
         return iconUri;
     }
 
-    public synchronized ArrayList<EmoticonBean> queryEmoticonBeanList(String sql) {
+    public synchronized List<EmoticonBean> queryEmoticonBeanList(String sql) {
         SQLiteDatabase db = mOpenDbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
         int count = cursor.getCount();
@@ -175,12 +175,12 @@ public class EmoticonDBHelper {
         return beanList;
     }
 
-    public synchronized ArrayList<EmoticonBean> queryAllEmoticonBeans() {
+    public synchronized List<EmoticonBean> queryAllEmoticonBeans() {
         String sql = "select * from " + TABLE_NAME_EMOTICONS;
         return queryEmoticonBeanList(sql);
     }
 
-    public synchronized ArrayList<EmoticonSetBean> queryEmoticonSet(String... setNames) {
+    public synchronized List<EmoticonSetBean> queryEmoticonSet(String... setNames) {
         if(setNames == null || setNames.length == 0){
             return null;
         }
@@ -194,8 +194,8 @@ public class EmoticonDBHelper {
         return queryEmoticonSet(sql);
     }
 
-    public synchronized ArrayList<EmoticonSetBean> queryEmoticonSet(ArrayList<String> setNameList) {
-        if(setNameList == null || setNameList.size() == 0){
+    public synchronized List<EmoticonSetBean> queryEmoticonSet(List<String> setNameList) {
+        if(setNameList == null || setNameList.isEmpty()){
             return null;
         }
         String sql = "select * from " + TABLE_NAME_EMOTICONSET + " where " ;
@@ -210,12 +210,12 @@ public class EmoticonDBHelper {
         return queryEmoticonSet(sql);
     }
 
-    public synchronized ArrayList<EmoticonSetBean> queryAllEmoticonSet() {
+    public synchronized List<EmoticonSetBean> queryAllEmoticonSet() {
         String sql = "select * from " + TABLE_NAME_EMOTICONSET;
         return queryEmoticonSet(sql);
     }
 
-    public synchronized ArrayList<EmoticonSetBean> queryEmoticonSet(String sql) {
+    public synchronized List<EmoticonSetBean> queryEmoticonSet(String sql) {
         SQLiteDatabase db = mOpenDbHelper.getReadableDatabase();
         Cursor cursor = null;
         try {
@@ -235,7 +235,7 @@ public class EmoticonDBHelper {
                     int verticalSpacing = cursor.getInt(cursor.getColumnIndex(TableColumns.EmoticonSetColumns.VERTICAL_SPACING));
                     boolean isShownName = cursor.getInt(cursor.getColumnIndex(TableColumns.EmoticonSetColumns.IS_SHOWN_NAME)) == 1;
 
-                    ArrayList<EmoticonBean> emoticonList = null;
+                    List<EmoticonBean> emoticonList = null;
                     if (!TextUtils.isEmpty(name)) {
                         String sqlGetEmoticonBean = "select * from " + TABLE_NAME_EMOTICONS + " where " + TableColumns.EmoticonColumns.EMOTICON_SET_NAME + " = '" + name + "'";
                         emoticonList = queryEmoticonBeanList(sqlGetEmoticonBean);

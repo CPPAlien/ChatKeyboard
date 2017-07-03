@@ -10,22 +10,20 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
 /**
  * AudioLib
  * Created by 90Chris on 2015/12/2.
  */
 public class AudioLib {
-    final String TAG = getClass().getSimpleName();
+    private static final String TAG = "AudioLib";
     private static AudioLib sAudioLib = null;
     private MediaRecorder recorder;
     private String mPath;
-
     private int mPeriod = 0;
     private static final int MIN_LENGTH = 2;
 
     public static AudioLib getInstance() {
-        if ( sAudioLib == null ) {
+        if (sAudioLib == null) {
             sAudioLib = new AudioLib();
         }
         return sAudioLib;
@@ -36,14 +34,13 @@ public class AudioLib {
     }
 
     private class AudioTimerTask extends TimerTask {
-
         @Override
         public void run() {
             ++mPeriod;
         }
     }
 
-    public synchronized void start( String path, OnAudioListener listener ) {
+    public synchronized void start(String path, OnAudioListener listener) {
         LogUtil.d(TAG, "start recording");
         mPeriod = 0;
 
@@ -60,11 +57,9 @@ public class AudioLib {
             updateMicStatus();
             LogUtil.d(TAG, "record start success");
         } catch (IllegalStateException e) {
-            e.printStackTrace();
-            LogUtil.e(TAG, "IllegalStateException" );
+            LogUtil.e(TAG, "IllegalStateException", e);
         } catch (IOException e) {
-            e.printStackTrace();
-            LogUtil.e(TAG, "IOException:" + e.getMessage());
+            LogUtil.e(TAG, "IOException", e);
         }
 
         mPath = path;
@@ -72,34 +67,34 @@ public class AudioLib {
 
     /**
      * cancel, not save the file
+     *
      * @return true, cancel success, false, cancel failed
      */
     public synchronized boolean cancel() {
         LogUtil.d(TAG, "cancel recording");
-        if ( recorder == null ) {
+        if (recorder == null) {
             LogUtil.e(TAG, "recorder is null ");
             return false;
         }
         try {
             stopRecord();
         } catch (IllegalStateException e) {
-            e.printStackTrace();
-            LogUtil.e(TAG, "illegal state happened when cancel");
+            LogUtil.e(TAG, "illegal state happened when cancel", e);
         }
 
         File file = new File(mPath);
         return file.exists() && file.delete();
     }
 
-
     /**
      * complete the recording
+     *
      * @return recording last time
      */
     public synchronized int complete() {
         LogUtil.i(TAG, "complete recording");
 
-        if ( recorder == null ) {
+        if (recorder == null) {
             LogUtil.e(TAG, "recorder is null ");
             return -1;
         }
@@ -107,12 +102,11 @@ public class AudioLib {
         try {
             stopRecord();
         } catch (IllegalStateException e) {
-            e.printStackTrace();
-            LogUtil.e(TAG, "illegal state happened when complete");
+            LogUtil.e(TAG, "illegal state happened when complete", e);
             return -1;
         }
 
-        if ( mPeriod < MIN_LENGTH ) {
+        if (mPeriod < MIN_LENGTH) {
             LogUtil.i(TAG, "record time is too short");
             return -1;
         }
@@ -123,19 +117,20 @@ public class AudioLib {
     public String generatePath(Context context) {
         boolean isSuccess = true;
         final String CACHE_DIR_NAME = "audioCache";
-        final String cachePath = context.getCacheDir().getAbsolutePath() + File.separator + CACHE_DIR_NAME;
+        final String cachePath = context.getCacheDir().getAbsolutePath() + File.separator +
+                CACHE_DIR_NAME;
         File file = new File(cachePath);
-        if ( !file.exists() ) {
+        if (!file.exists()) {
             isSuccess = file.mkdirs();
         }
-        if ( isSuccess ) {
+        if (isSuccess) {
             return cachePath + File.separator + System.currentTimeMillis() + ".amr";
         } else {
             return null;
         }
     }
 
-    private synchronized void stopRecord() throws IllegalStateException {
+    private synchronized void stopRecord() {
         //mHandler.removeCallbacks(mUpdateMicStatusTimer);
 
         recorder.stop();
@@ -152,11 +147,12 @@ public class AudioLib {
 
     private void updateMicStatus() {
         if (recorder != null) {
-            double ratio = (double)recorder.getMaxAmplitude();
+            double ratio = (double) recorder.getMaxAmplitude();
             double db = 0;
-            if (ratio > 1)
+            if (ratio > 1) {
                 db = 20 * Math.log10(ratio);
-            if ( mListener != null ) {
+            }
+            if (mListener != null) {
                 mListener.onDbChange(db);
             }
             mHandler.postDelayed(mUpdateMicStatusTimer, 500);
@@ -164,6 +160,7 @@ public class AudioLib {
     }
 
     private OnAudioListener mListener = null;
+
     public interface OnAudioListener {
         void onDbChange(double db);
     }
@@ -174,11 +171,12 @@ public class AudioLib {
 
     /**
      * play the audio
+     *
      * @param path path of the audio file
      */
-    public synchronized void playAudio( String path, OnMediaPlayComplete listener ) {
+    public synchronized void playAudio(String path, OnMediaPlayComplete listener) {
         mPlayListener = listener;
-        if ( mMediaPlayer != null ) {
+        if (mMediaPlayer != null) {
             stopPlay();
         }
         mMediaPlayer = new MediaPlayer();
@@ -195,7 +193,6 @@ public class AudioLib {
             mMediaPlayer.setDataSource(path);
             mMediaPlayer.prepare();
         } catch (IOException e) {
-            e.printStackTrace();
             mPlayListener.onPlayComplete(false);
         }
 
@@ -211,8 +208,9 @@ public class AudioLib {
         mCurrentPlayingAudioPath = null;
     }
 
-    public boolean isPlaying( String path ) {
-        return (mMediaPlayer != null) && mMediaPlayer.isPlaying() && (path.equals(mCurrentPlayingAudioPath));
+    public boolean isPlaying(String path) {
+        return (mMediaPlayer != null) && mMediaPlayer.isPlaying() && (path.equals
+                (mCurrentPlayingAudioPath));
     }
 
     public interface OnMediaPlayComplete {

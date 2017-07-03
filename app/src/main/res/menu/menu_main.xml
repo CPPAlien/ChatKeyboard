@@ -1,6 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_text_only" android:title="@string/action_text_only"
+        android:orderInCategory="100" />
+    <item android:id="@+id/action_text_emoticon" android:title="@string/action_text_emoticon"
+        android:orderInCategory="100" />
+    <item android:id="@+id/action_chat_style" android:title="@string/action_chat_style"
+        android:orderInCategory="100" />
 </menu>

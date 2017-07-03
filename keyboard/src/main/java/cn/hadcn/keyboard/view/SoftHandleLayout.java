@@ -57,6 +57,11 @@ public class SoftHandleLayout extends SoftListenLayout {
         }
     }
 
+    /**
+     * set height media or emoticons parent view
+     *
+     * @param view view
+     */
     protected void setAutoHeightLayoutView(View view) {
         mAutoHeightLayoutView = view;
     }

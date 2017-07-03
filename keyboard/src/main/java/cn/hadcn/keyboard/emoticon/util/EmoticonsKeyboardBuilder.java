@@ -1,7 +1,7 @@
 package cn.hadcn.keyboard.emoticon.util;
 
-
 import java.util.ArrayList;
+import java.util.List;
 
 import cn.hadcn.keyboard.emoticon.EmoticonSetBean;
 
@@ -15,13 +15,13 @@ public class EmoticonsKeyboardBuilder {
 
     public static class Builder {
 
-        ArrayList<EmoticonSetBean> mEmoticonSetBeanList = new ArrayList<EmoticonSetBean>();
+        List<EmoticonSetBean> mEmoticonSetBeanList = new ArrayList<EmoticonSetBean>();
 
         public Builder(){ }
 
-        public ArrayList<EmoticonSetBean> getEmoticonSetBeanList() { return mEmoticonSetBeanList; }
+        public List<EmoticonSetBean> getEmoticonSetBeanList() { return mEmoticonSetBeanList; }
 
-        public Builder setEmoticonSetBeanList(ArrayList<EmoticonSetBean> mEmoticonSetBeanList) { this.mEmoticonSetBeanList = mEmoticonSetBeanList;  return this;}
+        public Builder setEmoticonSetBeanList(List<EmoticonSetBean> mEmoticonSetBeanList) { this.mEmoticonSetBeanList = mEmoticonSetBeanList;  return this;}
 
         public EmoticonsKeyboardBuilder build() { return new EmoticonsKeyboardBuilder(this); }
     }

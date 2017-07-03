@@ -1,14 +1,6 @@
 package cn.hadcn.keyboard_example;
 
-import android.os.Environment;
 import android.util.Log;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 
 /**
@@ -27,6 +19,10 @@ public class LogUtil {
 
     public static int e(String tag, String msg) {
         return enableLogDisplay ? Log.e(LOG_TAG + tag, msg) : RETURN_NOLOG;
+    }
+
+    public static int e(String tag, String msg, Throwable e) {
+        return enableLogDisplay ? Log.e(LOG_TAG + tag, msg, e) : RETURN_NOLOG;
     }
 
     public static int i(String tag, String msg) {

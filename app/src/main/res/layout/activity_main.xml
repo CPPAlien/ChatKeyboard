@@ -1,5 +1,4 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -7,39 +6,42 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:minHeight="48dp">
-    </android.support.v7.widget.Toolbar>
-    <Button
-        android:layout_width="wrap_content"
+        android:minHeight="48dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="200dp"
-        android:onClick="hideShow"
-        android:text="隐藏／显示"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:onClick="popBack"
-        android:text="弹出／收起"/>
+        android:layout_marginTop="200dp">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:onClick="hideShow"
+            android:text="隐藏／显示" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="popBack"
+            android:text="弹出／收起" />
+    </RelativeLayout>
     <cn.hadcn.keyboard.ChatKeyboardLayout
         android:id="@+id/kv_bar"
-        android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:sendButtonTextColor="#000000"
-        app:sendButtonBackground="#FFFFFF">
+        android:layout_below="@id/toolbar"
+        app:chatStyleShowRightIcon="true"
+        app:keyboardStyle="chat_style"
+        app:sendButtonBackground="#FFFFFF"
+        app:sendButtonTextColor="#000000">
         <ListView
             android:id="@+id/list_view"
-            android:transcriptMode="alwaysScroll"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:transcriptMode="alwaysScroll" />
     </cn.hadcn.keyboard.ChatKeyboardLayout>
     <cn.hadcn.keyboard.RecordingLayout
         android:id="@+id/recording_area"
-        android:visibility="gone"
         android:layout_width="180dp"
         android:layout_height="180dp"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 </RelativeLayout>

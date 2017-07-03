@@ -1,6 +1,7 @@
 package cn.hadcn.keyboard.emoticon.view;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,8 @@ import cn.hadcn.keyboard.R;
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
 import cn.hadcn.keyboard.utils.EmoticonLoader;
 
-
 public class EmoticonsAdapter extends BaseAdapter {
     private Context mContext;
-
     private List<EmoticonBean> data;
     private int mItemHeight = 0;
     private int mImgHeight = 0;
@@ -51,11 +50,14 @@ public class EmoticonsAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.emoticons_item, parent, false);
-            convertView.setLayoutParams(new AbsListView.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, mItemHeight));
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mImgHeight, mImgHeight);
-            //params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.emoticons_item, parent,
+                    false);
+            convertView.setLayoutParams(new AbsListView.LayoutParams(RelativeLayout.LayoutParams
+                    .MATCH_PARENT, mItemHeight));
+
             viewHolder = new ViewHolder(convertView);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mImgHeight,
+                    mImgHeight);
             viewHolder.ivEmoticon.setLayoutParams(params);
             convertView.setTag(viewHolder);
         } else {
@@ -63,15 +65,16 @@ public class EmoticonsAdapter extends BaseAdapter {
         }
 
         final EmoticonBean emoticonBean = getItem(position);
-        if ( emoticonBean != null ) {   // exists some empty block
+        if (emoticonBean != null) {   // exists some empty block
             viewHolder.ivEmoticon.setBackgroundResource(R.drawable.emoticon_bg);
-            if ( isDisplayName ) {
+            if (isDisplayName) {
                 viewHolder.tvName.setVisibility(View.VISIBLE);
                 viewHolder.tvName.setText(getItem(position).getName());
             } else {
                 viewHolder.tvName.setVisibility(View.GONE);
             }
-            viewHolder.ivEmoticon.setImageDrawable(EmoticonLoader.getInstance(mContext).getDrawable(emoticonBean.getIconUri()));
+            viewHolder.ivEmoticon.setImageDrawable(EmoticonLoader.getInstance(mContext)
+                    .getDrawable(emoticonBean.getIconUri()));
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -91,8 +94,8 @@ public class EmoticonsAdapter extends BaseAdapter {
         public TextView tvName;
 
         public ViewHolder(View view) {
-            ivEmoticon = (ImageView)view.findViewById(R.id.emoticon_item_image);
-            tvName = (TextView)view.findViewById(R.id.emoticon_item_text);
+            ivEmoticon = (ImageView) view.findViewById(R.id.emoticon_item_image);
+            tvName = (TextView) view.findViewById(R.id.emoticon_item_text);
         }
     }
 
@@ -102,8 +105,15 @@ public class EmoticonsAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    IView mOnItemListener;
-    public void setOnItemListener(IView listener) {
+    private EmoticonsListener mOnItemListener;
+
+    void setOnItemListener(EmoticonsListener listener) {
         this.mOnItemListener = listener;
+    }
+
+    public interface EmoticonsListener {
+        void onItemClick(EmoticonBean bean);
+
+        void onPageChangeTo(int position);
     }
 }

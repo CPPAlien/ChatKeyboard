@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -20,6 +21,8 @@ import android.widget.RelativeLayout;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,20 +44,37 @@ import cn.hadcn.keyboard.view.SoftHandleLayout;
 
 public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToolBarView
         .OnToolBarItemClickListener {
-    private int FUNC_EMOTICON_POS = 0; //display emoticons area
-    private int FUNC_MEDIA_POS = 0;    //display medias area
-    private int FUNC_ORDER_COUNT = 0;
+    public static class Style {
+        private Style() {
+        }
+
+        public static final int NONE = 0;
+        public static final int TEXT_ONLY = 1;
+        public static final int TEXT_EMOTICON = 2;
+        public static final int CHAT_STYLE = 3;
+    }
+
+    @IntDef({Style.TEXT_ONLY, Style.TEXT_EMOTICON, Style.CHAT_STYLE})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface KeyboardStyle {
+    }
+
+    private int mEmoticonLayoutPos = 0; //display emoticons area
+    private int mMediaLayoutPos = 0;    //display medias area
+    private int mLayoutOrderCount = 0;
     private int mChildViewPosition = -1;
     private HadEditText etInputArea;
     private RelativeLayout rlInput;
     private LinearLayout lyBottomLayout;
     private ImageView btnEmoticon;
-    private ImageView btnMedia;
     private Button btnSend;
     private Button btnRecording;
-    private ImageView btnVoiceOrText;
-    private boolean isShowMediaButton = false;   //media func button on or off
-    private boolean isLimitedOnlyText = false;
+    private ImageView leftIconView;
+    private ImageView rightIconView;
+    private boolean isShowRightIcon = false;
+    private boolean isAddedEmoticonLayout = false;
+    @KeyboardStyle
+    int mCurrentStyle = Style.NONE;
 
     public ChatKeyboardLayout(Context context) {
         super(context, null);
@@ -71,6 +91,12 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         String btnSendText = typedArray.getString(R.styleable.ChatKeyboardLayout_sendButtonText);
         ColorStateList btnSendTextColor = typedArray.getColorStateList(R.styleable
                 .ChatKeyboardLayout_sendButtonTextColor);
+        isShowRightIcon = typedArray.getBoolean(R.styleable
+                .ChatKeyboardLayout_chatStyleShowRightIcon, false);
+        @KeyboardStyle int keyboardStyle = typedArray.getInt(R.styleable
+                .ChatKeyboardLayout_keyboardStyle, Style.TEXT_ONLY);
+        setKeyboardStyle(keyboardStyle);
+
         typedArray.recycle();
 
         if (btnSendBg != null) {
@@ -85,24 +111,24 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     }
 
     private void initView(Context context) {
-        // must be before inflate
+        // must be in front of inflate
         EmoticonHandler.getInstance(context).loadEmoticonsToMemory();
         LayoutInflater.from(context).inflate(R.layout.view_keyboard_layout, this);
 
         rlInput = (RelativeLayout) findViewById(R.id.view_keyboard_input_layout);
         lyBottomLayout = (LinearLayout) findViewById(R.id.view_keyboard_bottom);
         btnEmoticon = (ImageView) findViewById(R.id.view_keyboard_face_icon);
-        btnVoiceOrText = (ImageView) findViewById(R.id.view_keyboard_left_icon);
+        leftIconView = (ImageView) findViewById(R.id.view_keyboard_left_icon);
         btnRecording = (Button) findViewById(R.id.view_keyboard_recording_bar);
-        btnMedia = (ImageView) findViewById(R.id.view_keyboard_right_icon);
+        rightIconView = (ImageView) findViewById(R.id.view_keyboard_right_icon);
         btnSend = (Button) findViewById(R.id.view_keyboard_send_button);
 
         etInputArea = (HadEditText) findViewById(R.id.et_chat);
 
         setAutoHeightLayoutView(lyBottomLayout);
-        btnVoiceOrText.setOnClickListener(new VoiceTextClickListener());
-        btnMedia.setOnClickListener(new MediaClickListener());
-        btnMedia.setVisibility(GONE);
+        leftIconView.setOnClickListener(new LeftIconClickListener());
+        rightIconView.setOnClickListener(new RightIconClickListener());
+        rightIconView.setVisibility(GONE);
         btnEmoticon.setOnClickListener(new FaceClickListener());
         btnEmoticon.setVisibility(GONE);
         btnSend.setOnClickListener(new SendClickListener());
@@ -132,15 +158,17 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
             @Override
             public void onTextChanged(CharSequence arg0) {
                 String str = arg0.toString();
-                mOnChatKeyBoardListener.onInputTextChanged(str);
-                if (!isShowMediaButton || isLimitedOnlyText) {
+                if (mOnChatKeyBoardListener != null) {
+                    mOnChatKeyBoardListener.onInputTextChanged(str);
+                }
+                if (!isShowRightIcon) {
                     return;
                 }
                 if (TextUtils.isEmpty(str)) {
-                    btnMedia.setVisibility(VISIBLE);
+                    rightIconView.setVisibility(VISIBLE);
                     btnSend.setVisibility(GONE);
                 } else {
-                    btnMedia.setVisibility(GONE);
+                    rightIconView.setVisibility(GONE);
                     btnSend.setVisibility(VISIBLE);
                 }
             }
@@ -152,7 +180,6 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
             etInputArea.setFocusable(true);
             etInputArea.setFocusableInTouchMode(true);
             etInputArea.requestFocus();
-
             // rlInput.setBackgroundResource(R.drawable.input_bg_green);
         } else {
             etInputArea.setFocusable(false);
@@ -180,14 +207,70 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         etInputArea.onKeyDown(KeyEvent.KEYCODE_DEL, event);
     }
 
-    public void limitOnlyText() {
-        btnEmoticon.setVisibility(GONE);
-        btnMedia.setVisibility(GONE);
-        btnSend.setVisibility(VISIBLE);
+    /**
+     * Set the keyboard style, {@link Style}
+     * when this method is called, the keyboard will change it's style immediately
+     * if the style is same as current style, it won't change
+     *
+     * @param style style of keyboard
+     */
+    public void setKeyboardStyle(@KeyboardStyle int style) {
+        // when style changed, restore the keyboard to init state
+        if (mCurrentStyle == style) {
+            return;
+        }
+        clearInputContent();
         etInputArea.setVisibility(VISIBLE);
         btnRecording.setVisibility(GONE);
-        btnVoiceOrText.setVisibility(GONE);
-        isLimitedOnlyText = true;
+        hideKeyboard();
+        switch (style) {
+            case Style.TEXT_ONLY:
+                btnEmoticon.setVisibility(GONE);
+                rightIconView.setVisibility(GONE);
+                btnSend.setVisibility(VISIBLE);
+                leftIconView.setVisibility(GONE);
+                isShowRightIcon = false;
+                break;
+            case Style.TEXT_EMOTICON:
+                showEmoticons();
+                rightIconView.setVisibility(GONE);
+                btnSend.setVisibility(VISIBLE);
+                leftIconView.setVisibility(GONE);
+                isShowRightIcon = false;
+                break;
+            case Style.CHAT_STYLE:
+                showEmoticons();
+                if (isShowRightIcon) {
+                    rightIconView.setVisibility(VISIBLE);
+                    btnSend.setVisibility(GONE);
+                } else {
+                    rightIconView.setVisibility(GONE);
+                    btnSend.setVisibility(VISIBLE);
+                }
+
+                leftIconView.setVisibility(VISIBLE);
+                break;
+        }
+        mCurrentStyle = style;
+    }
+
+    /**
+     * when keyboard style was set as Style.CHAT_STYLE
+     * you can set right icon behavior, this method will clear the input content
+     *
+     * @param isShow true, right icon will show, and when user input text, it will be hidden;
+     *               false, right icon won't show in any situation
+     */
+    public void setShowRightIcon(boolean isShow) {
+        clearInputContent();
+        isShowRightIcon = isShow;
+        if (isShowRightIcon) {
+            rightIconView.setVisibility(VISIBLE);
+            btnSend.setVisibility(GONE);
+        } else {
+            rightIconView.setVisibility(GONE);
+            btnSend.setVisibility(VISIBLE);
+        }
     }
 
     public void hideLayout() {
@@ -198,7 +281,9 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     public void showLayout() {
         findViewById(R.id.keyboard_layout_id).setVisibility(VISIBLE);
         int barHeight = findViewById(R.id.keyboard_layout_id).getHeight();
-        mOnChatKeyBoardListener.onKeyboardHeightChanged(barHeight);
+        if (mOnChatKeyBoardListener != null) {
+            mOnChatKeyBoardListener.onKeyboardHeightChanged(barHeight);
+        }
     }
 
     public boolean isLayoutVisible() {
@@ -231,10 +316,14 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     protected void autoViewHeightChanged(final int height) {
         super.autoViewHeightChanged(height);
         if (findViewById(R.id.keyboard_layout_id).getVisibility() != VISIBLE) {
-            mOnChatKeyBoardListener.onKeyboardHeightChanged(0);
+            if (mOnChatKeyBoardListener != null) {
+                mOnChatKeyBoardListener.onKeyboardHeightChanged(0);
+            }
         } else {
             int barHeight = findViewById(R.id.keyboard_layout_id).getHeight();
-            mOnChatKeyBoardListener.onKeyboardHeightChanged(barHeight);
+            if (mOnChatKeyBoardListener != null) {
+                mOnChatKeyBoardListener.onKeyboardHeightChanged(barHeight);
+            }
         }
     }
 
@@ -253,6 +342,74 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         return super.dispatchKeyEvent(event);
     }
 
+    /**
+     * The action after left icon clicked
+     * default action is to show or hide input area and recording bar
+     *
+     * @param view view
+     */
+    protected void leftIconClicked(View view) {
+        if (rlInput.isShown()) {
+            // switch to voice recording bar
+            hideAutoView();
+            closeSoftKeyboard(etInputArea);
+            rlInput.setVisibility(INVISIBLE);
+            btnRecording.setVisibility(VISIBLE);
+            leftIconView.setImageResource(R.drawable.keyboard_icon);
+            btnSend.setVisibility(GONE);
+            if (isShowRightIcon) {
+                rightIconView.setVisibility(VISIBLE);
+            }
+        } else {
+            // switch to text input bar
+            rlInput.setVisibility(VISIBLE);
+            btnRecording.setVisibility(GONE);
+            setEditableState(true);
+            openSoftKeyboard(etInputArea);
+            leftIconView.setImageResource(R.drawable.recording_icon);
+            if (!TextUtils.isEmpty(etInputArea.getText().toString())) {
+                rightIconView.setVisibility(GONE);
+                btnSend.setVisibility(VISIBLE);
+            }
+            if (!isShowRightIcon) {    //if media button not be shown, show button send
+                // every time
+                btnSend.setVisibility(VISIBLE);
+            }
+        }
+    }
+
+    /**
+     * The action after right icon clicked
+     * default action is show media layout, you can implement it by yourself
+     *
+     * @param view view
+     */
+    protected void rightIconClicked(View view) {
+        switch (mKeyboardState) {
+            case KEYBOARD_STATE_BOTH:
+                closeSoftKeyboard(etInputArea);
+                show(mMediaLayoutPos);
+                break;
+            case KEYBOARD_STATE_NONE:
+                btnEmoticon.setImageResource(R.drawable.icon_face_nomal);
+                rlInput.setVisibility(VISIBLE);
+                btnRecording.setVisibility(GONE);
+                leftIconView.setImageResource(R.drawable.recording_icon);
+                setEditableState(true);
+                showAutoView();
+                show(mMediaLayoutPos);
+                break;
+            case KEYBOARD_STATE_FUNC:
+                btnEmoticon.setImageResource(R.drawable.icon_face_nomal);
+                if (mChildViewPosition == mMediaLayoutPos) {
+                    openSoftKeyboard(etInputArea);
+                } else {
+                    show(mMediaLayoutPos);
+                }
+                break;
+        }
+    }
+
     private class SendClickListener implements OnClickListener {
         @Override
         public void onClick(View view) {
@@ -262,36 +419,10 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         }
     }
 
-    private class VoiceTextClickListener implements OnClickListener {
+    private class LeftIconClickListener implements OnClickListener {
         @Override
         public void onClick(View view) {
-            if (rlInput.isShown()) {
-                // switch to voice recording bar
-                hideAutoView();
-                closeSoftKeyboard(etInputArea);
-                rlInput.setVisibility(INVISIBLE);
-                btnRecording.setVisibility(VISIBLE);
-                btnVoiceOrText.setImageResource(R.drawable.keyboard_icon);
-                btnSend.setVisibility(GONE);
-                if (isShowMediaButton) {
-                    btnMedia.setVisibility(VISIBLE);
-                }
-            } else {
-                // switch to text input bar
-                rlInput.setVisibility(VISIBLE);
-                btnRecording.setVisibility(GONE);
-                setEditableState(true);
-                openSoftKeyboard(etInputArea);
-                btnVoiceOrText.setImageResource(R.drawable.recording_icon);
-                if (!TextUtils.isEmpty(etInputArea.getText().toString())) {
-                    btnMedia.setVisibility(GONE);
-                    btnSend.setVisibility(VISIBLE);
-                }
-                if (!isShowMediaButton) {    //if media button not be shown, show button send
-                    // every time
-                    btnSend.setVisibility(VISIBLE);
-                }
-            }
+            leftIconClicked(view);
         }
     }
 
@@ -301,21 +432,21 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
             switch (mKeyboardState) {
                 case KEYBOARD_STATE_BOTH:
                     closeSoftKeyboard(etInputArea);
-                    show(FUNC_EMOTICON_POS);
+                    show(mEmoticonLayoutPos);
                     btnEmoticon.setImageResource(R.drawable.icon_face_pop);
                     break;
                 case KEYBOARD_STATE_NONE:
                     btnEmoticon.setImageResource(R.drawable.icon_face_pop);
                     setEditableState(true);
                     showAutoView();
-                    show(FUNC_EMOTICON_POS);
+                    show(mEmoticonLayoutPos);
                     break;
                 case KEYBOARD_STATE_FUNC:
-                    if (mChildViewPosition == FUNC_EMOTICON_POS) {
+                    if (mChildViewPosition == mEmoticonLayoutPos) {
                         btnEmoticon.setImageResource(R.drawable.icon_face_nomal);
                         openSoftKeyboard(etInputArea);
                     } else {
-                        show(FUNC_EMOTICON_POS);
+                        show(mEmoticonLayoutPos);
                         btnEmoticon.setImageResource(R.drawable.icon_face_pop);
                     }
                     break;
@@ -323,32 +454,10 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         }
     }
 
-    private class MediaClickListener implements OnClickListener {
+    private class RightIconClickListener implements OnClickListener {
         @Override
         public void onClick(View view) {
-            switch (mKeyboardState) {
-                case KEYBOARD_STATE_BOTH:
-                    closeSoftKeyboard(etInputArea);
-                    show(FUNC_MEDIA_POS);
-                    break;
-                case KEYBOARD_STATE_NONE:
-                    btnEmoticon.setImageResource(R.drawable.icon_face_nomal);
-                    rlInput.setVisibility(VISIBLE);
-                    btnRecording.setVisibility(GONE);
-                    btnVoiceOrText.setImageResource(R.drawable.recording_icon);
-                    setEditableState(true);
-                    showAutoView();
-                    show(FUNC_MEDIA_POS);
-                    break;
-                case KEYBOARD_STATE_FUNC:
-                    btnEmoticon.setImageResource(R.drawable.icon_face_nomal);
-                    if (mChildViewPosition == FUNC_MEDIA_POS) {
-                        openSoftKeyboard(etInputArea);
-                    } else {
-                        show(FUNC_MEDIA_POS);
-                    }
-                    break;
-            }
+            rightIconClicked(view);
         }
     }
 
@@ -395,21 +504,23 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         }
     }
 
-    public void showMedias(List<MediaBean> mediaContents) {
-        btnMedia.setVisibility(VISIBLE);
-        btnSend.setVisibility(GONE);
-        isShowMediaButton = true;
+    /**
+     * init media contents, if you need media area
+     *
+     * @param mediaContents media contents
+     */
+    public void initMediaContents(List<MediaBean> mediaContents) {
         MediaLayout mediaLayout = new MediaLayout(mContext);
         mediaLayout.setContents(mediaContents);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams
                 .MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         lyBottomLayout.addView(mediaLayout, params);
-        FUNC_MEDIA_POS = FUNC_ORDER_COUNT;
-        ++FUNC_ORDER_COUNT;
+        mMediaLayoutPos = mLayoutOrderCount;
+        mLayoutOrderCount = 1;
     }
 
-    public void showEmoticons() {
-        btnEmoticon.setVisibility(VISIBLE);
+    private void addEmoticonLayout() {
+        if (isAddedEmoticonLayout) return;
         EmoticonsKeyboardBuilder builder = getBuilder(mContext);
         EmoticonLayout layout = new EmoticonLayout(mContext);
         layout.setContents(builder, new EmoticonLayout.OnEmoticonListener() {
@@ -445,8 +556,14 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams
                 .MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         lyBottomLayout.addView(layout, params);
-        FUNC_EMOTICON_POS = FUNC_ORDER_COUNT;
-        ++FUNC_ORDER_COUNT;
+        mEmoticonLayoutPos = mLayoutOrderCount;
+        mLayoutOrderCount = 1;
+        isAddedEmoticonLayout = true;
+    }
+
+    private void showEmoticons() {
+        btnEmoticon.setVisibility(VISIBLE);
+        addEmoticonLayout();
     }
 
     private void show(int position) {
@@ -524,10 +641,10 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
 
     private EmoticonsKeyboardBuilder getBuilder(Context context) {
         if (context == null) {
-            throw new RuntimeException("Context is null, cannot create db helper");
+            throw new NullPointerException("Context is null, cannot create db helper");
         }
         EmoticonDBHelper emoticonDbHelper = new EmoticonDBHelper(context);
-        ArrayList<EmoticonSetBean> mEmoticonSetBeanList = emoticonDbHelper.queryAllEmoticonSet();
+        List<EmoticonSetBean> mEmoticonSetBeanList = emoticonDbHelper.queryAllEmoticonSet();
         emoticonDbHelper.cleanup();
 
         return new EmoticonsKeyboardBuilder.Builder()

@@ -1,6 +1,5 @@
 package cn.hadcn.keyboard.emoticon;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class EmoticonSetBean {
@@ -47,7 +46,7 @@ public class EmoticonSetBean {
     }
 
     public EmoticonSetBean(String name , int line , int row , String iconUri, boolean isShowDelBtn , boolean isShownName,
-                           int itemPadding , int horizontalSpacing , int verticalSpacing , ArrayList<EmoticonBean> emoticonList){
+                           int itemPadding , int horizontalSpacing , int verticalSpacing , List<EmoticonBean> emoticonList){
         this.name = name;
         this.line = line;
         this.row = row;
