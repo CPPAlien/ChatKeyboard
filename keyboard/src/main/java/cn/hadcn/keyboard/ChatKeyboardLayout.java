@@ -1,10 +1,13 @@
 package cn.hadcn.keyboard;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.IntDef;
+import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -469,6 +472,14 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission
+                        .RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                    if (mOnChatKeyBoardListener != null) {
+                        mOnChatKeyBoardListener.onRecordingAction(RecordingAction
+                                .PERMISSION_NOT_GRANTED);
+                    }
+                    return true;
+                }
                 startY = motionEvent.getRawY();
                 btnRecording.setText(getResources().getString(R.string.recording_end));
                 btnRecording.setBackgroundResource(R.drawable.recording_p);
@@ -490,7 +501,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                     btnRecording.setText(getResources().getString(R.string.recording_cancel));
                     isCanceled = true;
                     if (mOnChatKeyBoardListener != null) {
-                        mOnChatKeyBoardListener.onRecordingAction(RecordingAction.WILLCANCEL);
+                        mOnChatKeyBoardListener.onRecordingAction(RecordingAction.READY_CANCEL);
                     }
                 } else {
                     if (mOnChatKeyBoardListener != null) {
@@ -520,7 +531,9 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     }
 
     private void addEmoticonLayout() {
-        if (isAddedEmoticonLayout) return;
+        if (isAddedEmoticonLayout) {
+            return;
+        }
         EmoticonsKeyboardBuilder builder = getBuilder(mContext);
         EmoticonLayout layout = new EmoticonLayout(mContext);
         layout.setContents(builder, new EmoticonLayout.OnEmoticonListener() {
@@ -658,11 +671,6 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         btnEmoticon.setImageResource(R.drawable.icon_face_nomal);
     }
 
-    @Override
-    protected void OnSoftKeyboardClose() {
-        super.OnSoftKeyboardClose();
-    }
-
     public interface OnChatKeyBoardListener {
         /**
          * When send button clicked
@@ -729,10 +737,11 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     }
 
     public enum RecordingAction {
+        PERMISSION_NOT_GRANTED, // audio permission not granted
         START,    // start recording
         COMPLETE,  // recording end
         CANCELED,  // recording canceled
-        WILLCANCEL,   // state which can be canceled
+        READY_CANCEL,   // state which ready to be canceled
         RESTORE     // state which is restored from WILLCANCEL
     }
 }

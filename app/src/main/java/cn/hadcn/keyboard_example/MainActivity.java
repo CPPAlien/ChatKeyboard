@@ -1,6 +1,8 @@
 package cn.hadcn.keyboard_example;
 
+import android.Manifest;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -18,10 +20,11 @@ import cn.hadcn.keyboard.media.MediaBean;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, MediaBean
         .MediaListener, ChatKeyboardLayout.OnChatKeyBoardListener {
-    ChatKeyboardLayout keyboardLayout = null;
-    SimpleChatAdapter mAdapter;
-    RecordingLayout rlRecordArea;
-    String mVoicePath;
+    private static final int PERMISSION_REQUEST_CODE = 0;
+    private ChatKeyboardLayout keyboardLayout = null;
+    private SimpleChatAdapter mAdapter;
+    private RecordingLayout rlRecordArea;
+    private String mVoicePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case RESTORE:
                 rlRecordArea.show(1);
                 break;
-            case WILLCANCEL:
+            case READY_CANCEL:
                 rlRecordArea.show(0);
                 break;
             case CANCELED:
@@ -153,6 +156,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 rlRecordArea.hide();
                 break;
+            case PERMISSION_NOT_GRANTED:
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSION_REQUEST_CODE);
+                break;
         }
     }
 
@@ -160,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void onDbChange(double db) {
             int level = 0;
-            LogUtil.e("","onDbChange db = " + db);
+            LogUtil.e("", "onDbChange db = " + db);
             if (db > 40) {
                 level = ((int) db - 40) / 7;
             }

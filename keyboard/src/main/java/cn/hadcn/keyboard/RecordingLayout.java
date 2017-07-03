@@ -1,8 +1,10 @@
 package cn.hadcn.keyboard;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,7 +19,7 @@ import java.util.List;
  * RecordingLayout
  * Created by 90Chris on 2015/12/2.
  */
-public class RecordingLayout extends RelativeLayout{
+public class RecordingLayout extends RelativeLayout {
     LinearLayout llRecordingStart;
     ImageView ivRecordingCancel;
     ImageView ivVoiceLevel;
@@ -43,11 +45,11 @@ public class RecordingLayout extends RelativeLayout{
 
     private void init(Context context) {
         LayoutInflater.from(context).inflate(R.layout.had_recording_view, this);
-        llRecordingStart = (LinearLayout)findViewById(R.id.had_recording_start);
-        ivRecordingCancel = (ImageView)findViewById(R.id.had_recording_cancel);
-        pbLoading = (ProgressBar)findViewById(R.id.had_recording_loading);
-        tvNotify = (TextView)findViewById(R.id.had_recording_notify);
-        ivVoiceLevel = (ImageView)findViewById(R.id.had_recording_level);
+        llRecordingStart = (LinearLayout) findViewById(R.id.had_recording_start);
+        ivRecordingCancel = (ImageView) findViewById(R.id.had_recording_cancel);
+        pbLoading = (ProgressBar) findViewById(R.id.had_recording_loading);
+        tvNotify = (TextView) findViewById(R.id.had_recording_notify);
+        ivVoiceLevel = (ImageView) findViewById(R.id.had_recording_level);
     }
 
     public void hide() {
@@ -56,17 +58,22 @@ public class RecordingLayout extends RelativeLayout{
 
     /**
      * show recording area
+     *
      * @param state 0 for canceling state, other for recording state
      */
-    public void show( int state ) {
+    public void show(int state) {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission
+                .RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
         setVisibility(VISIBLE);
-        if ( state == 0 ) {
+        if (state == 0) {
             pbLoading.setVisibility(GONE);
             llRecordingStart.setVisibility(GONE);
             ivRecordingCancel.setVisibility(VISIBLE);
             tvNotify.setText(getResources().getString(R.string.recording_cancel));
             tvNotify.setBackgroundResource(R.drawable.recording_text_bg);
-        } else if ( state == 1 ) {
+        } else if (state == 1) {
             pbLoading.setVisibility(GONE);
             llRecordingStart.setVisibility(VISIBLE);
             ivRecordingCancel.setVisibility(GONE);
@@ -81,26 +88,26 @@ public class RecordingLayout extends RelativeLayout{
         }
     }
 
-    public void setVoiceLevel( int level ) {
+    public void setVoiceLevel(int level) {
         //if set voice again, cancel actions already in queue
-        if ( level == mCurrentVoiceLevel ) {
+        if (level == mCurrentVoiceLevel) {
             return;
         }
-        for ( Runnable r : levelActions ) {
+        for (Runnable r : levelActions) {
             removeCallbacks(r);
         }
         levelActions.clear();
 
-        if ( mCurrentVoiceLevel > level ) {
-            for ( int i = mCurrentVoiceLevel; i >= level; --i) {
+        if (mCurrentVoiceLevel > level) {
+            for (int i = mCurrentVoiceLevel; i >= level; --i) {
                 levelActions.add(new LevelAction(i));
             }
         } else {
-            for ( int i = mCurrentVoiceLevel; i <= level; ++i) {
+            for (int i = mCurrentVoiceLevel; i <= level; ++i) {
                 levelActions.add(new LevelAction(i));
             }
         }
-        for ( int i = 0; i < levelActions.size(); ++i ) {
+        for (int i = 0; i < levelActions.size(); ++i) {
             postDelayed(levelActions.get(i), 10 * (i + 1));
         }
     }
@@ -119,8 +126,8 @@ public class RecordingLayout extends RelativeLayout{
         }
     }
 
-    private int chooseLevelDrawable( int level ) {
-        switch ( level ) {
+    private int chooseLevelDrawable(int level) {
+        switch (level) {
             case 0:
                 return R.drawable.recording_level_1;
             case 1:

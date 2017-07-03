@@ -116,9 +116,8 @@ public class AudioLib {
 
     public String generatePath(Context context) {
         boolean isSuccess = true;
-        final String CACHE_DIR_NAME = "audioCache";
         final String cachePath = context.getCacheDir().getAbsolutePath() + File.separator +
-                CACHE_DIR_NAME;
+                "audioCache";
         File file = new File(cachePath);
         if (!file.exists()) {
             isSuccess = file.mkdirs();
