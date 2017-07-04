@@ -184,4 +184,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onKeyboardHeightChanged(final int height) {
         LogUtil.e("", "height = " + height);
     }
+
+    @Override
+    public boolean onLeftIconClicked(final View view) {
+        return false;
+    }
+
+    @Override
+    public boolean onRightIconClicked(final View view) {
+        return false;
+    }
 }

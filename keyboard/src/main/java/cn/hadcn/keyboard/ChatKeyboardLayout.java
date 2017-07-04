@@ -99,6 +99,10 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         @KeyboardStyle int keyboardStyle = typedArray.getInt(R.styleable
                 .ChatKeyboardLayout_keyboardStyle, Style.TEXT_ONLY);
         setKeyboardStyle(keyboardStyle);
+        Drawable leftIcon = typedArray.getDrawable(R.styleable
+                .ChatKeyboardLayout_chatStyleLeftIcon);
+        Drawable rightIcon = typedArray.getDrawable(R.styleable
+                .ChatKeyboardLayout_chatStyleRightIcon);
 
         typedArray.recycle();
 
@@ -110,6 +114,12 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         }
         if (btnSendTextColor != null) {
             btnSend.setTextColor(btnSendTextColor);
+        }
+        if (leftIcon != null) {
+            leftIconView.setImageDrawable(leftIcon);
+        }
+        if (rightIcon != null) {
+            rightIconView.setImageDrawable(rightIcon);
         }
     }
 
@@ -425,7 +435,10 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     private class LeftIconClickListener implements OnClickListener {
         @Override
         public void onClick(View view) {
-            leftIconClicked(view);
+            if (mOnChatKeyBoardListener != null && !mOnChatKeyBoardListener.onLeftIconClicked
+                    (view)) {
+                leftIconClicked(view);
+            }
         }
     }
 
@@ -460,7 +473,10 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     private class RightIconClickListener implements OnClickListener {
         @Override
         public void onClick(View view) {
-            rightIconClicked(view);
+            if (mOnChatKeyBoardListener != null && !mOnChatKeyBoardListener.onRightIconClicked
+                    (view)) {
+                rightIconClicked(view);
+            }
         }
     }
 
@@ -707,6 +723,22 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
          * @param height pixel height
          */
         void onKeyboardHeightChanged(int height);
+
+        /**
+         * when left icon clicked, it will be called
+         *
+         * @param view view of clicked
+         * @return true, don't execute default actions; false execute default actions
+         */
+        boolean onLeftIconClicked(View view);
+
+        /**
+         * when right icon clicked, it will be called
+         *
+         * @param view view of clicked
+         * @return true, don't execute default actions; false execute default actions
+         */
+        boolean onRightIconClicked(View view);
     }
 
     public static class SimpleOnChatKeyboardListener implements OnChatKeyBoardListener {
@@ -733,6 +765,16 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         @Override
         public void onKeyboardHeightChanged(final int height) {
             // This space for rent
+        }
+
+        @Override
+        public boolean onLeftIconClicked(final View view) {
+            return false;
+        }
+
+        @Override
+        public boolean onRightIconClicked(final View view) {
+            return false;
         }
     }
 

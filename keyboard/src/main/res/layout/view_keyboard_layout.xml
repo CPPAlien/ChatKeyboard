@@ -20,8 +20,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:layout_marginStart="12dp"
-            android:background="@drawable/circle_button_bg"
-            android:padding="7dp"
             android:src="@drawable/recording_icon" />
         <RelativeLayout
             android:id="@+id/rl_multi_and_send"
@@ -38,9 +36,7 @@
                 android:layout_width="34dp"
                 android:layout_height="34dp"
                 android:layout_centerInParent="true"
-                android:background="@drawable/circle_button_bg"
-                android:padding="7dp"
-                android:src="@drawable/cross_icon" />
+                android:src="@drawable/right_icon" />
             <Button
                 android:id="@+id/view_keyboard_send_button"
                 android:layout_width="match_parent"

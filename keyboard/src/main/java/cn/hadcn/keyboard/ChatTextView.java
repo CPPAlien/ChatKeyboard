@@ -4,18 +4,18 @@ import android.content.Context;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.TextView;
 
 import cn.hadcn.keyboard.emoticon.util.EmoticonHandler;
 import cn.hadcn.keyboard.utils.Utils;
 
 /**
- * HadTextView
+ * ChatTextView
+ * which replace the special unicode to emoticon
  * Created by 90Chris on 2015/11/24.
  */
-public class ChatTextView extends TextView{
-    Context mContext;
+public class ChatTextView extends TextView {
+    private Context mContext;
 
     public ChatTextView(Context context) {
         super(context);
@@ -41,9 +41,11 @@ public class ChatTextView extends TextView{
     public void setText(CharSequence text, BufferType type) {
         if (!TextUtils.isEmpty(text)) {
             SpannableStringBuilder builder = new SpannableStringBuilder(text);
-            EmoticonHandler.getInstance(mContext).setTextFace(text.toString(), builder, 0, Utils.getFontSize(getTextSize()) );
-            text = builder;
+            EmoticonHandler.getInstance(mContext).setTextFace(text.toString(), builder, 0, Utils
+                    .getFontSize(getTextSize()));
+            super.setText(builder, type);
+        } else {
+            super.setText(text, type);
         }
-        super.setText(text, type);
     }
 }
