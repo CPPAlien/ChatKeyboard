@@ -86,7 +86,7 @@ public class SoftHandleLayout extends SoftListenLayout {
     }
 
     protected void hideAutoView() {
-        this.post(new Runnable() {
+        post(new Runnable() {
             @Override
             public void run() {
                 setAutoViewHeight(0);
@@ -96,12 +96,14 @@ public class SoftHandleLayout extends SoftListenLayout {
     }
 
     protected void showAutoView() {
-        post(new Runnable() {
+        // show auto view is after keyboard show will be better
+        // there exist time during keyboard popping
+        postDelayed(new Runnable() {
             @Override
             public void run() {
                 setAutoViewHeight(mAutoViewHeight);
             }
-        });
+        }, 100);
         isAutoViewNeedHide = true;
         mKeyboardState = KEYBOARD_STATE_FUNC;
     }

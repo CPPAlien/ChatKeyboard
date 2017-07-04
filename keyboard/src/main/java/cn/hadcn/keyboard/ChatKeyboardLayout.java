@@ -286,11 +286,17 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         }
     }
 
+    /**
+     * hide whole layout of keyboard
+     */
     public void hideLayout() {
         hideKeyboard();
         findViewById(R.id.keyboard_layout_id).setVisibility(GONE);
     }
 
+    /**
+     * show keyboard layout
+     */
     public void showLayout() {
         findViewById(R.id.keyboard_layout_id).setVisibility(VISIBLE);
         int barHeight = findViewById(R.id.keyboard_layout_id).getHeight();
@@ -299,6 +305,11 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         }
     }
 
+    /**
+     * judge whether keyboard layout is show
+     *
+     * @return true or false
+     */
     public boolean isLayoutVisible() {
         return VISIBLE == findViewById(R.id.keyboard_layout_id).getVisibility();
     }
@@ -313,14 +324,19 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
     }
 
     /**
-     * pop soft keyboard
+     * pop soft keyboard, if the layout is hidden, it will show layout first
      */
     public void popKeyboard() {
         showLayout();
-        showAutoView();
         openSoftKeyboard(etInputArea);
+        showAutoView();
     }
 
+    /**
+     * judge whether keyboard was popped
+     *
+     * @return true or false
+     */
     public boolean isKeyboardPopped() {
         return mKeyboardState != KEYBOARD_STATE_NONE;
     }
@@ -620,10 +636,23 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         //
     }
 
-    public static boolean isEmoticonInitSuccess(Context context) {
+    /**
+     * judge whether emoticons db init success, you can just just init db, when it's not success
+     *
+     * @param context context
+     * @return true or false
+     */
+    public static boolean isEmoticonsDBInitSuccess(Context context) {
         return Utils.isInitDb(context);
     }
 
+    /**
+     * init emoticons db
+     *
+     * @param context          context
+     * @param isShowEmoji      is show default emoji
+     * @param emoticonEntities user defined emoticons or stickers
+     */
     public static void initEmoticonsDB(final Context context, final boolean isShowEmoji, final
     List<EmoticonEntity> emoticonEntities) {
         new Thread(new Runnable() {
@@ -643,6 +672,10 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
                     emoticonDbHelper.insertEmoticonSet(emojiEmoticonSetBean);
                 }
 
+                if (emoticonEntities == null || emoticonEntities.isEmpty()) {
+                    Utils.setIsInitDb(context, true);
+                    return;
+                }
                 List<EmoticonSetBean> emoticonSetBeans = new ArrayList<>();
                 for (EmoticonEntity entity : emoticonEntities) {
                     try {

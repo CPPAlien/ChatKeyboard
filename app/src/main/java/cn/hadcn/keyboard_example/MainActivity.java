@@ -62,6 +62,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rlRecordArea = (RecordingLayout) findViewById(R.id.recording_area);
 
         keyboardLayout.setOnChatKeyBoardListener(this);
+
+        findViewById(R.id.keyboard_show_hide).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                hideShow(v);
+            }
+        });
+        findViewById(R.id.keyboard_pop_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                popBack(v);
+            }
+        });
     }
 
     @Override

@@ -7,22 +7,6 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:minHeight="48dp" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="200dp">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:onClick="hideShow"
-            android:text="隐藏／显示" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="popBack"
-            android:text="弹出／收起" />
-    </RelativeLayout>
     <cn.hadcn.keyboard.ChatKeyboardLayout
         android:id="@+id/kv_bar"
         android:layout_width="match_parent"
@@ -44,4 +28,20 @@
         android:layout_height="180dp"
         android:layout_centerInParent="true"
         android:visibility="gone" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp">
+        <Button
+            android:id="@+id/keyboard_show_hide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="隐藏／显示" />
+        <Button
+            android:id="@+id/keyboard_pop_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="弹出／收起" />
+    </RelativeLayout>
 </RelativeLayout>

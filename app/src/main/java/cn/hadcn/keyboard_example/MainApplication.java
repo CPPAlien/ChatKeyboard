@@ -18,7 +18,7 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        if ( !ChatKeyboardLayout.isEmoticonInitSuccess(this) ) {
+        if ( !ChatKeyboardLayout.isEmoticonsDBInitSuccess(this) ) {
             List<EmoticonEntity> entities = new ArrayList<>();
             entities.add(new EmoticonEntity("emoticons/xhs", EmoticonBase.Scheme.ASSETS));
             entities.add(new EmoticonEntity("emoticons/tusiji", EmoticonBase.Scheme.ASSETS));
