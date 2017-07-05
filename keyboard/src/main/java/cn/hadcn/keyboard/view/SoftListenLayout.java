@@ -9,6 +9,8 @@ import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
+import cn.hadcn.keyboard.utils.Utils;
+
 /**
  * listen keyboard show or hide
  * when keyboard show, keep parent layout height, make it not be shrank by keyboard
@@ -31,6 +33,8 @@ public abstract class SoftListenLayout extends RelativeLayout {
 
         // min keyboard height, for ignoring navigation bar hide or show effects
         mMinKeyboardHeight = metrics.heightPixels / 3;
+
+        mKeyboardHeight = Utils.getDefKeyboardHeight(mContext);
 
         getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver
                 .OnGlobalLayoutListener() {

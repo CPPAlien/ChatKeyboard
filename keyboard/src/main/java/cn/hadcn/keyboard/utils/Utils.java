@@ -23,10 +23,8 @@ import java.util.List;
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
 import cn.hadcn.keyboard.emoticon.EmoticonSetBean;
 
-
 public class Utils {
-
-    private static final String EXTRA_ISINITDB= "ISINITDB";
+    private static final String EXTRA_ISINITDB = "ISINITDB";
     private static final String EXTRA_DEF_KEYBOARDHEIGHT = "DEF_KEYBOARDHEIGHT";
     private static int sDefKeyboardHeight = 0;
 
@@ -35,26 +33,27 @@ public class Utils {
         return settings.getBoolean(EXTRA_ISINITDB, false);
     }
 
-    public static void setIsInitDb(Context context,boolean b) {
+    public static void setIsInitDb(Context context, boolean b) {
         final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         settings.edit().putBoolean(EXTRA_ISINITDB, b).apply();
     }
 
     public static int getDefKeyboardHeight(Context context) {
-        if ( sDefKeyboardHeight == 0 ) {   //evaluate keyboard height
+        if (sDefKeyboardHeight == 0) {   //evaluate keyboard height
             sDefKeyboardHeight = getDisplayHeightPixels(context) * 3 / 7;
         }
         final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
         int height = settings.getInt(EXTRA_DEF_KEYBOARDHEIGHT, 0);
-        if ( height > 0 && sDefKeyboardHeight != height ) {
-            Utils.setDefKeyboardHeight( context, height );
+        if (height > 0 && sDefKeyboardHeight != height) {
+            Utils.setDefKeyboardHeight(context, height);
         }
         return sDefKeyboardHeight;
     }
 
     public static void setDefKeyboardHeight(Context context, int height) {
-        if(sDefKeyboardHeight != height){
-            final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        if (sDefKeyboardHeight != height) {
+            final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences
+                    (context);
             settings.edit().putInt(EXTRA_DEF_KEYBOARDHEIGHT, height).apply();
         }
         Utils.sDefKeyboardHeight = height;
@@ -64,7 +63,7 @@ public class Utils {
     private static int mDisplayHeightPixels = 0;
 
     private static void getDisplayMetrics(Context context) {
-        WindowManager wm = (WindowManager)context.
+        WindowManager wm = (WindowManager) context.
                 getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm);
@@ -106,20 +105,21 @@ public class Utils {
         return ((ViewGroup) context.findViewById(android.R.id.content)).getChildAt(0);
     }
 
-    public static List<EmoticonBean> parseData(String[] arry, long eventType, EmoticonBase.Scheme scheme) {
+    public static List<EmoticonBean> parseData(String[] arry, long eventType, EmoticonBase.Scheme
+            scheme) {
         try {
             ArrayList<EmoticonBean> emojis = new ArrayList<>();
             for (int i = 0; i < arry.length; i++) {
                 if (!TextUtils.isEmpty(arry[i])) {
                     String temp = arry[i].trim();
                     String[] text = temp.split(",");
-                    if ( text.length == 2 ) {
+                    if (text.length == 2) {
                         String fileName;
                         if (scheme == EmoticonBase.Scheme.DRAWABLE) {
-                            if(text[0].contains(".")){
-                                fileName = scheme.toUri(text[0].substring(0, text[0].lastIndexOf(".")));
-                            }
-                            else {
+                            if (text[0].contains(".")) {
+                                fileName = scheme.toUri(text[0].substring(0, text[0].lastIndexOf
+                                        (".")));
+                            } else {
                                 fileName = scheme.toUri(text[0]);
                             }
                         } else {
@@ -132,14 +132,15 @@ public class Utils {
                 }
             }
             return emojis;
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         return null;
     }
 
-    public static EmoticonSetBean ParseEmoticons(Context context, String path, EmoticonBase.Scheme scheme) throws IOException, XmlPullParserException {
+    public static EmoticonSetBean ParseEmoticons(Context context, String path, EmoticonBase
+            .Scheme scheme) throws IOException, XmlPullParserException {
         String arrayParentKey = "EmoticonBean";
         EmoticonSetBean emoticonSetBean = new EmoticonSetBean();
         ArrayList<EmoticonBean> emoticonList = new ArrayList<>();
@@ -148,7 +149,7 @@ public class Utils {
 
         EmoticonLoader emoticonLoader = EmoticonLoader.getInstance(context);
         InputStream inStream = emoticonLoader.getConfigStream(path, scheme);
-        if ( inStream == null ) {
+        if (inStream == null) {
             throw new IOException("Read config.xml in emoticon directory failed");
         }
 
@@ -158,9 +159,9 @@ public class Utils {
         int event = pullParser.getEventType();
 
         while (event != XmlPullParser.END_DOCUMENT) {
-            if (event == XmlPullParser.START_TAG ) {
+            if (event == XmlPullParser.START_TAG) {
                 String sKeyName = pullParser.getName();
-                if ( isChildCheck ) {
+                if (isChildCheck) {
                     switch (sKeyName) {
                         case "eventType": {
                             String value = pullParser.nextText();
@@ -242,7 +243,7 @@ public class Utils {
                     isChildCheck = true;
                     emoticonBeanTemp = new EmoticonBean();
                 }
-            } else if ( event == XmlPullParser.END_TAG ) {
+            } else if (event == XmlPullParser.END_TAG) {
                 String ekeyName = pullParser.getName();
                 if (isChildCheck && ekeyName.equals(arrayParentKey)) {
                     isChildCheck = false;
@@ -254,7 +255,7 @@ public class Utils {
         return emoticonSetBean;
     }
 
-    public static int getFontSize( float textSize ) {
+    public static int getFontSize(float textSize) {
         Paint paint = new Paint();
         paint.setTextSize(textSize);
         Paint.FontMetrics fm = paint.getFontMetrics();
