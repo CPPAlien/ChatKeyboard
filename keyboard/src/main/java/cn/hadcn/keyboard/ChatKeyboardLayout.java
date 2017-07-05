@@ -36,7 +36,7 @@ import cn.hadcn.keyboard.emoticon.util.DefEmoticons;
 import cn.hadcn.keyboard.emoticon.util.EmoticonHandler;
 import cn.hadcn.keyboard.emoticon.util.EmoticonsKeyboardBuilder;
 import cn.hadcn.keyboard.emoticon.view.EmoticonLayout;
-import cn.hadcn.keyboard.emoticon.view.EmoticonsToolBarView;
+import cn.hadcn.keyboard.emoticon.view.EmoticonsTabBarView;
 import cn.hadcn.keyboard.media.MediaBean;
 import cn.hadcn.keyboard.media.MediaLayout;
 import cn.hadcn.keyboard.utils.EmoticonBase;
@@ -45,8 +45,11 @@ import cn.hadcn.keyboard.utils.Utils;
 import cn.hadcn.keyboard.view.HadEditText;
 import cn.hadcn.keyboard.view.SoftHandleLayout;
 
-public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToolBarView
-        .OnToolBarItemClickListener {
+/**
+ * @author chris
+ */
+public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsTabBarView
+        .OnEmoticonsTabChangeListener {
     public static class Style {
         private Style() {
         }
@@ -631,11 +634,6 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         this.mOnChatKeyBoardListener = l;
     }
 
-    @Override
-    public void onToolBarItemClick(int position) {
-        //
-    }
-
     /**
      * judge whether emoticons db init success, you can just just init db, when it's not success
      *
@@ -818,5 +816,10 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsToo
         CANCELED,  // recording canceled
         READY_CANCEL,   // state which ready to be canceled
         RESTORE     // state which is restored from WILLCANCEL
+    }
+
+    @Override
+    public void onTabClicked(final int position) {
+
     }
 }

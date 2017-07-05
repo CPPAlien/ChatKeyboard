@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="center_horizontal">
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
     <ImageView
         android:id="@+id/emoticon_item_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:src="@drawable/ic_launcher"
-        android:scaleType="fitCenter"/>
+        android:scaleType="fitCenter" />
     <TextView
         android:id="@+id/emoticon_item_text"
-        tools:text="haha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#000000"
-        android:textSize="10sp"/>
+        android:textColor="@color/keyboard_black"
+        android:textSize="10sp"
+        tools:text="哈哈" />
 </LinearLayout>

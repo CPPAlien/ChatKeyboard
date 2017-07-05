@@ -2,6 +2,9 @@ package cn.hadcn.keyboard.emoticon;
 
 import java.util.List;
 
+/**
+ * @author chris
+ */
 public class EmoticonSetBean {
     /**
      * name of set
@@ -27,26 +30,24 @@ public class EmoticonSetBean {
      * item padding
      */
     private int itemPadding;
-
     private int horizontalSpacing;
-
     private int verticalSpacing;
-
     private List<EmoticonBean> emoticonList;
-
     private boolean isShownName;
 
-    public EmoticonSetBean(){
+    public EmoticonSetBean() {
     }
 
-    public EmoticonSetBean(String name , int line , int row){
+    public EmoticonSetBean(String name, int line, int row) {
         this.name = name;
         this.line = line;
         this.row = row;
     }
 
-    public EmoticonSetBean(String name , int line , int row , String iconUri, boolean isShowDelBtn , boolean isShownName,
-                           int itemPadding , int horizontalSpacing , int verticalSpacing , List<EmoticonBean> emoticonList){
+    public EmoticonSetBean(String name, int line, int row, String iconUri, boolean isShowDelBtn,
+                           boolean isShownName,
+                           int itemPadding, int horizontalSpacing, int verticalSpacing,
+                           List<EmoticonBean> emoticonList) {
         this.name = name;
         this.line = line;
         this.row = row;
@@ -119,7 +120,9 @@ public class EmoticonSetBean {
         return horizontalSpacing;
     }
 
-    public void setHorizontalSpacing(int horizontalSpacing) { this.horizontalSpacing = horizontalSpacing; }
+    public void setHorizontalSpacing(int horizontalSpacing) {
+        this.horizontalSpacing = horizontalSpacing;
+    }
 
     public int getVerticalSpacing() {
         return verticalSpacing;
@@ -133,5 +136,7 @@ public class EmoticonSetBean {
         return emoticonList;
     }
 
-    public void setEmoticonList(List<EmoticonBean> emoticonList) { this.emoticonList = emoticonList; }
+    public void setEmoticonList(List<EmoticonBean> emoticonList) {
+        this.emoticonList = emoticonList;
+    }
 }

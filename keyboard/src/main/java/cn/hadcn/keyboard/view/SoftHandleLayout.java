@@ -16,6 +16,7 @@ import cn.hadcn.keyboard.utils.Utils;
 /**
  * handle the child view
  * and control keyboard area show or hide
+ * @author chris
  */
 public class SoftHandleLayout extends SoftListenLayout {
     public static final int KEYBOARD_STATE_NONE = 100;  // no pop

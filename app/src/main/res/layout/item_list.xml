@@ -4,7 +4,6 @@
     android:layout_height="match_parent">
     <ImageView
         android:id="@+id/item_image"
-        android:src="@drawable/ic_launcher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <cn.hadcn.keyboard.ChatTextView

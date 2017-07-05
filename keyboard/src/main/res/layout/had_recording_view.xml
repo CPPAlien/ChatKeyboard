@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="15dp"
-    android:background="@drawable/recording_bg">
+    android:background="@drawable/recording_bg"
+    android:padding="15dp">
     <LinearLayout
         android:id="@+id/had_recording_start"
         android:layout_width="wrap_content"
@@ -12,25 +12,25 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/recording_mic"/>
+            android:src="@drawable/recording_mic" />
         <ImageView
             android:id="@+id/had_recording_level"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/recording_level_1"/>
+            android:src="@drawable/recording_level_1" />
     </LinearLayout>
     <ImageView
         android:id="@+id/had_recording_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/recording_cancel"/>
+        android:src="@drawable/recording_cancel" />
     <ProgressBar
         android:id="@+id/had_recording_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp" />
     <TextView
         android:id="@+id/had_recording_notify"
         android:layout_width="wrap_content"
@@ -38,6 +38,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:padding="5dp"
-        android:textColor="@color/white"
-        android:text="@string/recording_cancel"/>
+        android:text="@string/recording_cancel"
+        android:textColor="@color/keyboard_white" />
 </RelativeLayout>

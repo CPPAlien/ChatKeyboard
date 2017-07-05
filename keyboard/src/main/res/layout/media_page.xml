@@ -2,11 +2,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:paddingTop="30dp"
+    android:gravity="center"
+    android:orientation="vertical"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    android:gravity="center"
-    android:orientation="vertical" >
+    android:paddingTop="30dp">
     <GridView
         android:id="@+id/media_grid"
         android:layout_width="match_parent"

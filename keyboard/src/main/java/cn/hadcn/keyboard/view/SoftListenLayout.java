@@ -14,6 +14,7 @@ import cn.hadcn.keyboard.utils.Utils;
 /**
  * listen keyboard show or hide
  * when keyboard show, keep parent layout height, make it not be shrank by keyboard
+ * @author chris
  */
 public abstract class SoftListenLayout extends RelativeLayout {
     private int mMinLayoutHeight = 0;

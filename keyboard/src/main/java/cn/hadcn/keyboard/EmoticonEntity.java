@@ -4,7 +4,7 @@ import cn.hadcn.keyboard.utils.EmoticonBase;
 
 /**
  * EmoticonEntity
- * Created by 90Chris on 2015/11/25.
+ * @author chris
  */
 public class EmoticonEntity {
     private String path;

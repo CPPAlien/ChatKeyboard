@@ -12,7 +12,7 @@ import cn.hadcn.keyboard.utils.Utils;
 /**
  * ChatTextView
  * which replace the special unicode to emoticon
- * Created by 90Chris on 2015/11/24.
+ * @author chris
  */
 public class ChatTextView extends TextView {
     private Context mContext;

@@ -13,7 +13,9 @@ import java.io.InputStream;
 
 import cn.hadcn.keyboard.emoticon.util.EmoticonHandler;
 
-
+/**
+ * @author chris
+ */
 public class EmoticonLoader implements EmoticonBase {
     protected final Context mContext;
     private volatile static EmoticonLoader instance;
@@ -23,7 +25,7 @@ public class EmoticonLoader implements EmoticonBase {
         if (instance == null) {
             synchronized (EmoticonLoader.class) {
                 if (instance == null) {
-                    instance = new EmoticonLoader(context);
+                    instance = new EmoticonLoader(context.getApplicationContext());
                 }
             }
         }
@@ -37,12 +39,13 @@ public class EmoticonLoader implements EmoticonBase {
     /**
      * get the config file stream in emoticon directory, name of config
      * is config.xml
-     * @param path path of directory
+     *
+     * @param path   path of directory
      * @param scheme scheme
      * @return file input stream
      */
-    public InputStream getConfigStream( String path, Scheme scheme ) {
-        switch ( scheme ) {
+    public InputStream getConfigStream(String path, Scheme scheme) {
+        switch (scheme) {
             case FILE:
                 try {
                     File file = new File(path + "/" + emoticonConfigFileName);
@@ -66,10 +69,11 @@ public class EmoticonLoader implements EmoticonBase {
 
     /**
      * get input stream of emoticon
+     *
      * @param imageUri emoticon uri
      * @return input stream
      */
-    private InputStream getInputStream( String imageUri ) {
+    private InputStream getInputStream(String imageUri) {
         switch (Scheme.ofUri(imageUri)) {
             case FILE:
                 String filePath = Scheme.FILE.crop(imageUri);
@@ -94,17 +98,17 @@ public class EmoticonLoader implements EmoticonBase {
         return null;
     }
 
-    public InputStream getInputStreamByTag( String tag ) {
+    public InputStream getInputStreamByTag(String tag) {
         String uri = EmoticonHandler.getInstance(mContext).getEmoticonUriByTag(tag);
         return getInputStream(uri);
     }
 
-    public Drawable getDrawableByTag( String tag ) {
+    public Drawable getDrawableByTag(String tag) {
         String uri = EmoticonHandler.getInstance(mContext).getEmoticonUriByTag(tag);
         return getDrawable(uri);
     }
 
-    public Drawable getDrawable(String imageUri){
+    public Drawable getDrawable(String imageUri) {
         switch (Scheme.ofUri(imageUri)) {
             case FILE:
                 String filePath = Scheme.FILE.crop(imageUri);
@@ -122,7 +126,8 @@ public class EmoticonLoader implements EmoticonBase {
                 String assetsPath = Scheme.ASSETS.crop(imageUri);
                 Bitmap assetsBitmap;
                 try {
-                    assetsBitmap = BitmapFactory.decodeStream(mContext.getAssets().open(assetsPath));
+                    assetsBitmap = BitmapFactory.decodeStream(mContext.getAssets().open
+                            (assetsPath));
                     return new BitmapDrawable(mContext.getResources(), assetsBitmap);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -130,7 +135,8 @@ public class EmoticonLoader implements EmoticonBase {
                 return null;
             case DRAWABLE:
                 String drawableIdString = Scheme.DRAWABLE.crop(imageUri);
-                int resID = mContext.getResources().getIdentifier(drawableIdString, "drawable", mContext.getPackageName());
+                int resID = mContext.getResources().getIdentifier(drawableIdString, "drawable",
+                        mContext.getPackageName());
                 return mContext.getResources().getDrawable((int) resID);
             case UNKNOWN:
             default:

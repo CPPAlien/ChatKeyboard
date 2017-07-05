@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
-    android:background="@color/white"
+    android:background="@color/keyboard_white"
     android:orientation="vertical">
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="0.3dp"
-        android:background="@color/spilt_line" />
+        android:background="@color/keyboard_split_line" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -45,7 +45,7 @@
                 android:background="@drawable/send_button_bg"
                 android:gravity="center"
                 android:text="@string/btn_text_send"
-                android:textColor="@color/white"
+                android:textColor="@color/keyboard_white"
                 android:textSize="14sp" />
         </RelativeLayout>
         <RelativeLayout

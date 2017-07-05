@@ -11,9 +11,10 @@ import java.util.ArrayList;
 
 import cn.hadcn.keyboard.R;
 
-
+/**
+ * @author chris
+ */
 public class IndicatorView extends LinearLayout {
-
     private Context mContext;
     private ArrayList<ImageView> mImageViews = new ArrayList<>();
     private Drawable bmpSelect;
@@ -25,21 +26,22 @@ public class IndicatorView extends LinearLayout {
         this.mContext = context;
         this.setOrientation(HORIZONTAL);
 
-        bmpSelect= ContextCompat.getDrawable(mContext, R.drawable.indicator_point_select);
+        bmpSelect = ContextCompat.getDrawable(mContext, R.drawable.indicator_point_select);
         bmpNormal = ContextCompat.getDrawable(mContext, R.drawable.indicator_point_normal);
-        mMargin = getResources().getDimensionPixelSize(R.dimen.indicator_margin);
+        mMargin = getResources().getDimensionPixelSize(R.dimen.keyboard_indicator_margin);
     }
 
-    public void setIndicatorCount(int count){
+    public void setIndicatorCount(int count) {
         mImageViews.clear();
         this.removeAllViews();
-        for (int i = 0 ; i < count ; i++) {
-            LayoutParams layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins( mMargin, 0, mMargin, 0 );
+        for (int i = 0; i < count; i++) {
+            LayoutParams layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams
+                    .WRAP_CONTENT);
+            layoutParams.setMargins(mMargin, 0, mMargin, 0);
 
             ImageView imageView = new ImageView(mContext);
 
-            if (i == 0){
+            if (i == 0) {
                 imageView.setImageDrawable(bmpSelect);
                 this.addView(imageView, layoutParams);
             } else {
@@ -50,8 +52,8 @@ public class IndicatorView extends LinearLayout {
         }
     }
 
-    public void moveTo(int position){
-        for ( ImageView iv : mImageViews ) {
+    public void moveTo(int position) {
+        for (ImageView iv : mImageViews) {
             iv.setImageDrawable(bmpNormal);
         }
         mImageViews.get(position).setImageDrawable(bmpSelect);

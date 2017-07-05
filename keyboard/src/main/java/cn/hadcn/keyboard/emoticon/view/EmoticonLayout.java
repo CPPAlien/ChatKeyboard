@@ -1,6 +1,8 @@
 package cn.hadcn.keyboard.emoticon.view;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,14 +14,14 @@ import cn.hadcn.keyboard.emoticon.util.EmoticonsKeyboardBuilder;
 import cn.hadcn.keyboard.view.IndicatorView;
 
 /**
- * EmoticonLayout
- * Created by 90Chris on 2015/11/19.
+ * @author chris
  */
-public class EmoticonLayout extends RelativeLayout implements EmoticonsPageView.OnEmoticonsPageViewListener{
+public class EmoticonLayout extends RelativeLayout implements EmoticonsPageView
+        .OnEmoticonsPageViewListener {
     private Context mContext;
     private EmoticonsPageView epvContent;
     private IndicatorView ivIndicator;
-    private EmoticonsToolBarView etvToolBar;
+    private EmoticonsTabBarView etvToolBar;
 
     public EmoticonLayout(Context context) {
         super(context);
@@ -40,11 +42,12 @@ public class EmoticonLayout extends RelativeLayout implements EmoticonsPageView.
     }
 
     private void init(Context context) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context
+                .LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.keyboard_bottom_emoticons, this);
         ivIndicator = (IndicatorView) findViewById(R.id.emoticon_indicator_view);
         epvContent = (EmoticonsPageView) findViewById(R.id.emoticon_page_view);
-        etvToolBar = (EmoticonsToolBarView) findViewById(R.id.emoticon_page_toolbar);
+        etvToolBar = (EmoticonsTabBarView) findViewById(R.id.emoticon_page_toolbar);
         epvContent.setOnIndicatorListener(this);
         epvContent.setIViewListener(new EmoticonsAdapter.EmoticonsListener() {
             @Override
@@ -57,15 +60,17 @@ public class EmoticonLayout extends RelativeLayout implements EmoticonsPageView.
                 etvToolBar.setToolBtnSelect(position);
             }
         });
-        etvToolBar.setOnToolBarItemClickListener(new EmoticonsToolBarView.OnToolBarItemClickListener() {
+        etvToolBar.setTabChangeListener(new EmoticonsTabBarView
+                .OnEmoticonsTabChangeListener() {
             @Override
-            public void onToolBarItemClick(int position) {
+            public void onTabClicked(final int position) {
                 epvContent.setPageSelect(position);
             }
         });
     }
 
     OnEmoticonListener mListener = null;
+
     public interface OnEmoticonListener {
         void onEmoticonItemClicked(EmoticonBean bean);
     }
@@ -85,14 +90,14 @@ public class EmoticonLayout extends RelativeLayout implements EmoticonsPageView.
         ivIndicator.moveTo(newPosition);
     }
 
-    public void addToolView(int icon){
-        if(etvToolBar != null && icon > 0){
-            etvToolBar.addData(icon);
+    public void addTabBarItem(@NonNull Drawable icon) {
+        if (etvToolBar != null) {
+            etvToolBar.addItem(icon);
         }
     }
 
-    public void addFixedView(View view , boolean isRight){
-        if(etvToolBar != null){
+    public void addFixedView(View view, boolean isRight) {
+        if (etvToolBar != null) {
             etvToolBar.addFixedView(view, isRight);
         }
     }

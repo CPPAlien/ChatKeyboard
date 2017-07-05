@@ -1,41 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/keyboard_white">
     <View
-        style="@style/divider_line"
-        android:id="@+id/view_spit1"
-        android:layout_alignParentTop="true"/>
-
-    <cn.hadcn.keyboard.emoticon.view.EmoticonsToolBarView
+        android:id="@+id/view_line_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/keyboard_split_line"
+        android:layout_alignParentTop="true"
+        android:background="@color/keyboard_split_line" />
+    <cn.hadcn.keyboard.emoticon.view.EmoticonsTabBarView
         android:id="@+id/emoticon_page_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/emoticons_bar_height"
+        android:layout_height="@dimen/keyboard_emoticons_bar_height"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical"/>
-
+        android:orientation="vertical" />
     <View
-        style="@style/divider_line"
-        android:id="@+id/view_spit2"
-        android:layout_above="@id/emoticon_page_toolbar"/>
-
+        android:id="@+id/view_line_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/keyboard_split_line"
+        android:layout_above="@id/emoticon_page_toolbar"
+        android:background="@color/keyboard_split_line" />
     <cn.hadcn.keyboard.view.IndicatorView
         android:id="@+id/emoticon_indicator_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/view_spit2"
+        android:layout_above="@id/view_line_bottom"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/indicator_margin">
-    </cn.hadcn.keyboard.view.IndicatorView>
-
+        android:paddingBottom="@dimen/keyboard_indicator_margin" />
     <cn.hadcn.keyboard.emoticon.view.EmoticonsPageView
         android:id="@+id/emoticon_page_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/emoticon_indicator_view"
-        android:layout_below="@id/view_spit1"
-        android:orientation="vertical"/>
+        android:layout_below="@id/view_line_top"
+        android:orientation="vertical" />
 </RelativeLayout>

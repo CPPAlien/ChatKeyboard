@@ -1,14 +1,13 @@
 package cn.hadcn.keyboard.media;
 
 /**
- * bottom media contents
- * Created by 90Chris on 2015/3/5.
+ * @author chris
  */
 public class MediaBean {
-    int id;
-    int drawableId;
-    String text;
-    MediaListener mediaListener;
+    private int id;
+    private int drawableId;
+    private String text;
+    private MediaListener mediaListener;
 
     public interface MediaListener {
         void onMediaClick(int id);

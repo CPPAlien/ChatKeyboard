@@ -3,8 +3,7 @@ package cn.hadcn.keyboard.utils;
 import android.util.Log;
 
 /**
- * LogUtil
- * @author 90Chris
+ * @author chris
  */
 public class HadLog {
     public static String LOG_TAG = "HadKeyboard";

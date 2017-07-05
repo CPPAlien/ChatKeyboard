@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * RecordingLayout
- * Created by 90Chris on 2015/12/2.
+ * @author chris
  */
 public class RecordingLayout extends RelativeLayout {
     LinearLayout llRecordingStart;

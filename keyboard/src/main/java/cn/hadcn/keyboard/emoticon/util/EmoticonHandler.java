@@ -14,8 +14,7 @@ import cn.hadcn.keyboard.utils.EmoticonLoader;
 import cn.hadcn.keyboard.view.VerticalImageSpan;
 
 /**
- * EmoticonHandler
- * Created by 90Chris on 2015/11/25.
+ * @author chris
  */
 public class EmoticonHandler {
     private List<EmoticonBean> mEmoticonBeans = new ArrayList<>();

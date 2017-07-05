@@ -13,12 +13,15 @@ import java.util.List;
 import cn.hadcn.keyboard.R;
 
 
+/**
+ * @author chris
+ */
 public class MediaPagerAdapter extends PagerAdapter {
 	private static final int MAX_NUM_PER_PAGE = 8;
-	Context mContext;
-    List<MediaGridAdapter> gridAdapterList = new ArrayList<>();
-    int mPageNum = 0;
-    int mColumnWidth = 0;
+	private Context mContext;
+    private List<MediaGridAdapter> gridAdapterList = new ArrayList<>();
+    private int mPageNum = 0;
+    private int mColumnWidth = 0;
 
     public MediaPagerAdapter(Context context, List<MediaBean> mediaModels, int columnWidth) {
         mContext = context;

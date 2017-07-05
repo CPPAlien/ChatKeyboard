@@ -1,5 +1,8 @@
 package cn.hadcn.keyboard.emoticon;
 
+/**
+ * @author chris
+ */
 public class EmoticonBean {
     public final static int FACE_TYPE_NORMAL = 0;
     public final static int FACE_TYPE_DEL = 1;
@@ -62,7 +65,7 @@ public class EmoticonBean {
         return newString(codePoint);
     }
 
-    public static String newString(int codePoint) {
+    private static String newString(int codePoint) {
         if (Character.charCount(codePoint) == 1) {
             return String.valueOf(codePoint);
         } else {
@@ -78,5 +81,6 @@ public class EmoticonBean {
     }
 
     public EmoticonBean() {
+        // default
     }
 }

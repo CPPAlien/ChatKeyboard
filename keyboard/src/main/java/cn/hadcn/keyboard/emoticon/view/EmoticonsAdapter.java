@@ -1,7 +1,6 @@
 package cn.hadcn.keyboard.emoticon.view;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,9 @@ import cn.hadcn.keyboard.R;
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
 import cn.hadcn.keyboard.utils.EmoticonLoader;
 
+/**
+ * @author chris
+ */
 public class EmoticonsAdapter extends BaseAdapter {
     private Context mContext;
     private List<EmoticonBean> data;

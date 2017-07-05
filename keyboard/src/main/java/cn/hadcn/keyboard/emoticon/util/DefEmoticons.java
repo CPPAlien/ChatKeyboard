@@ -2,7 +2,13 @@ package cn.hadcn.keyboard.emoticon.util;
 
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
 
+/**
+ * @author chris
+ */
 public class DefEmoticons {
+    private DefEmoticons() {
+    }
+
     /**
      * emoji
      */

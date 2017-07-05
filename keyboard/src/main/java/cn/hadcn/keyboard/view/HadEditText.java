@@ -7,6 +7,9 @@ import android.widget.EditText;
 import cn.hadcn.keyboard.emoticon.util.EmoticonHandler;
 import cn.hadcn.keyboard.utils.Utils;
 
+/**
+ * @author chris
+ */
 public class HadEditText extends EditText {
     private Context mContext;
 

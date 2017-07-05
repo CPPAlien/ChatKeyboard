@@ -22,6 +22,9 @@ import cn.hadcn.keyboard.emoticon.view.EmoticonsAdapter.EmoticonsListener;
 import cn.hadcn.keyboard.utils.Utils;
 import cn.hadcn.keyboard.view.SoftListenLayout;
 
+/**
+ * @author chris
+ */
 public class EmoticonsPageView extends ViewPager implements EmoticonsAdapter.EmoticonsListener {
     private Context mContext;
     private int mPageHeight = 0;

@@ -23,6 +23,9 @@ import java.util.List;
 import cn.hadcn.keyboard.emoticon.EmoticonBean;
 import cn.hadcn.keyboard.emoticon.EmoticonSetBean;
 
+/**
+ * @author chris
+ */
 public class Utils {
     private static final String EXTRA_ISINITDB = "ISINITDB";
     private static final String EXTRA_DEF_KEYBOARDHEIGHT = "DEF_KEYBOARDHEIGHT";

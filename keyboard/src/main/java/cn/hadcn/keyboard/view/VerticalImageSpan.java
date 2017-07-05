@@ -6,6 +6,9 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.text.style.ImageSpan;
 
+/**
+ * @author chris
+ */
 public class VerticalImageSpan extends ImageSpan {
 
     public VerticalImageSpan(Drawable drawable) {

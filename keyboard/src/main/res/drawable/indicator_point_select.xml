@@ -2,5 +2,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
     <solid android:color="#A0000000"/>
-    <size android:height="@dimen/indicator_size" android:width="@dimen/indicator_size"/>
+    <size android:height="@dimen/Keyboard_indicator_size" android:width="@dimen/Keyboard_indicator_size"/>
 </shape>
