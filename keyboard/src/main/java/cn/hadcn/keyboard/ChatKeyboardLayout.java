@@ -768,10 +768,10 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsTab
         void onKeyboardHeightChanged(int height);
 
         /**
-         * when left icon clicked, it will be called
+         * when left icon clicked, this will be called
          *
          * @param view view of clicked
-         * @return true, don't execute default actions; false execute default actions
+         * @return true, won't execute default actions; false, execute default actions
          */
         boolean onLeftIconClicked(View view);
 
@@ -779,7 +779,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsTab
          * when right icon clicked, it will be called
          *
          * @param view view of clicked
-         * @return true, don't execute default actions; false execute default actions
+         * @return true, won't execute default actions; false, execute default actions
          */
         boolean onRightIconClicked(View view);
     }

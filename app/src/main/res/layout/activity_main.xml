@@ -14,8 +14,8 @@
         android:layout_below="@id/toolbar"
         app:showRightIcon="true"
         app:keyboardStyle="chat_style"
-        app:sendButtonBackground="#FFFFFF"
-        app:sendButtonTextColor="#000000">
+        app:sendButtonBackground="@drawable/send_button_bg"
+        app:sendButtonTextColor="#FFFFFF">
         <ListView
             android:id="@+id/list_view"
             android:layout_width="match_parent"

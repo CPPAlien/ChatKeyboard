@@ -1,8 +1,13 @@
-# ChatKeyboard 
+![](http://7xq276.com2.z0.glb.qiniucdn.com/ic_launcher.png)
 
-[![](https://img.shields.io/badge/language-Java-green.svg)](https://github.com/CPPAlien/ChatKeyboard)
+# ChatKeyboard   [![](https://img.shields.io/badge/language-Java-green.svg)](https://github.com/CPPAlien/ChatKeyboard) 
 
-A powerful and easy using keyboard lib includes emoticons, audio recording, multi media keyboard, etc.
+ChatKeyboard is a powerful and easy using keyboard lib for Android, includes emoticons selection, audio recording, multi media functions, etc.
+
+- Let the lib handle the difficult keyboard actions, you just need listen the the results you want.
+- Apply different styles of the keyboard.
+- Custom your own icons in keyboard and the click action.
+- More to find out by yourself.
 
 
 ### Demo
@@ -10,11 +15,11 @@ A powerful and easy using keyboard lib includes emoticons, audio recording, mult
     <img src='http://7xq276.com2.z0.glb.qiniucdn.com/keyboard-demo.gif' width="250px"/>
 </div>
 
-[Apk Download](http://7xq276.com2.z0.glb.qiniucdn.com/keyboard.apk)
+[Apk Download](http://7xq276.com2.z0.glb.qiniucdn.com/keyboard_new.apk)
 
 ### Import
 
-use maven to import dependency in gradle
+Gradle:
 
 ```
 repositories{
@@ -27,26 +32,53 @@ dependencies {
 
 You Can Use The Latest Version：[![](https://jitpack.io/v/CPPAlien/ChatKeyboard.svg)](https://jitpack.io/#CPPAlien/ChatKeyboard)
 
-dependency
-```
-com.android.support:support-v4:23.1.0
-```
-
 ### How to use
 
-1, Use ChatKeyboardLayout make your layout contains keyboard.
+1, Use `ChatKeyboardLayout` make your layout get keyboard ability.
+
 ```
 <cn.hadcn.keyboard.ChatKeyboardLayout
         android:id="@+id/kv_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:sendBtnBg="@drawable/send_button_bg">
+        android:layout_below="@id/toolbar"
+        app:showRightIcon="true"
+        app:keyboardStyle="chat_style"
+        app:sendButtonBackground="@drawable/send_button_bg"
+        app:sendButtonTextColor="#FFFFFF">
         ...your layout
 </cn.hadcn.keyboard.ChatKeyboardLayout>
 ```
-**Notice: ChatKeyboardLayout can only include one child.**
+**Notice: You can only put one child view in ChatKeyboardLayout.**
 
-2, custom your emoticon and stick keyboard
+
+
+2, Style and Custom
+
+There are three styles you can set.
+
+```
+| chat_style             | text_emoticon              |       text_only       |
+|:----------------------:|:--------------------------:|:---------------------:|
+|![](raw/chat_style.png) | ![](raw/text_emoticon.png) | ![](raw/text_only.png)|
+```
+
+You can use `app:keyboardStyle` in xml to set or `setKeyboardStyle(@KeyboardStyle int style)` method to set, once you set, the keyboard style will change.
+
+There are also some attributes you can custom the icons.
+
+`app:sendButtonBackground`  custom send button background
+
+`app:faceIcon`  custom keyboard bar face icon, you can use `state_selected` to distinguish emoticon layout pop or not state.
+
+`app:showRightIcon` when you set the style as `chat_style`, the right place will just show send button in default, you should set this attribute as `true` to show the right multi media icon.
+
+…  more you need find out yourself in demo.
+
+
+
+3, Emoticons and Stickers
+
 ```java
 if (!ChatKeyboardLayout.isEmoticonInitSuccess(this)) {
 	List<EmoticonEntity> entities = new ArrayList<>();
@@ -57,7 +89,9 @@ if (!ChatKeyboardLayout.isEmoticonInitSuccess(this)) {
 ```
 **Notice: Add the code above before the ChatKeyboardLayout used, better in onCreate of Application**
 
-3, keyboard listener
+
+
+4, Keyboard Listener
 ```java
 public interface OnChatKeyBoardListener {
         /**
@@ -95,19 +129,37 @@ public interface OnChatKeyBoardListener {
          * @param height pixel height
          */
         void onKeyboardHeightChanged(int height);
+        
+        /**
+         * when left icon clicked, this will be called
+         *
+         * @param view view of clicked
+         * @return true, won't execute default actions; false, execute default actions
+         */
+        boolean onLeftIconClicked(View view); 
+        
+        /**
+         * when right icon clicked, this will be called
+         *
+         * @param view view of clicked
+         * @return true, won't execute default actions; false, execute default actions
+         */
+        boolean onRightIconClicked(View view);
 } 
 ```
-You can use `SimpleOnChatKeyboardListener` instead of the interface above, so you can just listen these you want listen.
+You can use `SimpleOnChatKeyboardListener` instead of the interface above, so you can just implement these call back method you use.
+
+
 
 ### These you should know
 
-1. Make sure The keyboard layout bottom align the screen bottom.
-2. Make sure the keyboard layout height at least 2/3 of you screen height.
+1. Make sure the bottom of `ChatKeyboardLayout` align the screen bottom.
+2. Make sure the height of `ChatKeyboardLayout` be at least 2/3 of you screen height.
 
-other usage
+### Other usage
 
 please refer to the demo code
 
 
 
-Thanks for [xhsEmoticonsKeyboard](https://github.com/w446108264/XhsEmoticonsKeyboard) powered by w446108264.
+Thanks for [xhsEmoticonsKeyboard](https://github.com/w446108264/XhsEmoticonsKeyboard) powered by w446108264 which is inspired me.
