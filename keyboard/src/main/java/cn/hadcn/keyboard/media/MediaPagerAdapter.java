@@ -49,7 +49,7 @@ public class MediaPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = inflater.inflate(R.layout.media_page, container, false);
+        View layout = inflater.inflate(R.layout.keyboard_media_page, container, false);
 
         GridView grid = (GridView) layout.findViewById(R.id.media_grid);
         grid.setColumnWidth(mColumnWidth);

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
@@ -20,7 +21,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:layout_marginStart="12dp"
-            android:src="@drawable/recording_icon" />
+            android:scaleType="centerInside"
+            android:src="@drawable/default_record_icon" />
         <RelativeLayout
             android:id="@+id/rl_multi_and_send"
             android:layout_width="45dp"
@@ -36,7 +38,8 @@
                 android:layout_width="34dp"
                 android:layout_height="34dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/right_icon" />
+                android:scaleType="centerInside"
+                android:src="@drawable/default_right_icon" />
             <Button
                 android:id="@+id/view_keyboard_send_button"
                 android:layout_width="match_parent"
@@ -96,7 +99,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/icon_face_nomal" />
+                    android:scaleType="centerInside"
+                    android:src="@drawable/keyboard_face_icon" />
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>

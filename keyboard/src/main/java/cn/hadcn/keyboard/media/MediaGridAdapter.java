@@ -38,7 +38,7 @@ public class MediaGridAdapter extends BaseAdapter {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context
                     .LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.media_item, parent, false);
+            convertView = inflater.inflate(R.layout.keyboard_media_item, parent, false);
             viewHolder = new ViewHolder(convertView);
             viewHolder.ivImage.setLayoutParams(new LinearLayout.LayoutParams(mSize, mSize));
             convertView.setTag(viewHolder);

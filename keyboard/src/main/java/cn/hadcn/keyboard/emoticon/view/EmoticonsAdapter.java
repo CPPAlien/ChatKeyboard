@@ -52,7 +52,7 @@ public class EmoticonsAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.emoticons_item, parent,
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.keyboard_emoticon_item, parent,
                     false);
             convertView.setLayoutParams(new AbsListView.LayoutParams(RelativeLayout.LayoutParams
                     .MATCH_PARENT, mItemHeight));

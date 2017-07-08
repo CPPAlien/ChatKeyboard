@@ -1,17 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="ChatKeyboardLayout">
-        <attr name="sendButtonBackground" format="reference|color"/>
-        <attr name="sendButtonText" format="string|reference"/>
-        <attr name="sendButtonTextColor" format="reference|color"/>
+        <attr name="sendButtonBackground"
+            format="reference|color" />
+        <attr name="sendButtonText"
+            format="string|reference" />
+        <attr name="sendButtonTextColor"
+            format="reference|color" />
         <!-- set keyboard style, default is text_only -->
-        <attr name="keyboardStyle" format="enum">
-            <enum name="text_only" value="1"/>
-            <enum name="text_emoticon" value="2"/>
-            <enum name="chat_style" value="3"/>
+        <attr name="keyboardStyle"
+            format="enum">
+            <enum name="text_only"
+                value="1" />
+            <enum name="text_emoticon"
+                value="2" />
+            <enum name="chat_style"
+                value="3" />
         </attr>
-        <attr name="chatStyleLeftIcon" format="reference"/>
-        <attr name="chatStyleRightIcon" format="reference"/>
-        <attr name="chatStyleShowRightIcon" format="boolean"/>
+        <!-- face icon, you can use state_selected attribute-->
+        <attr name="faceIcon"
+            format="reference" />
+        <!-- keyboard chat style, left default icon drawable -->
+        <attr name="leftDefaultIcon"
+            format="reference" />
+        <!-- keyboard chat style, left showed icon after clicked -->
+        <attr name="leftSecondIcon"
+            format="reference" />
+        <!-- keyboard chat style, right default shown icon -->
+        <attr name="rightIcon"
+            format="reference" />
+        <!-- keyboard chat style, whether show right icon  or just show send buttonßßß-->
+        <attr name="showRightIcon"
+            format="boolean" />
     </declare-styleable>
 </resources>

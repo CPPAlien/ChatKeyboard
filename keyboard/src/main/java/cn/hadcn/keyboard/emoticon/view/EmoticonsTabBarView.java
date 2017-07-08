@@ -39,7 +39,7 @@ public class EmoticonsTabBarView extends RelativeLayout {
         super(context, attrs);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context
                 .LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.emoticonstoolbar_view, this);
+        inflater.inflate(R.layout.keyboard_emoticon_tabbar, this);
         this.mContext = context;
         mEmoticonsBarScrollView = (HorizontalScrollView) findViewById(R.id
                 .keyboard_emoticons_bar_scroll);
@@ -94,7 +94,7 @@ public class EmoticonsTabBarView extends RelativeLayout {
      */
     public void addItem(@NonNull Drawable drawable) {
         if (mEmoticonsBar != null) {
-            View toolBtnView = inflate(mContext, R.layout.emoticonstoolbar_item, null);
+            View toolBtnView = inflate(mContext, R.layout.keyboard_emoticon_tabbar_item, null);
             ImageView iv_icon = (ImageView) toolBtnView.findViewById(R.id.iv_icon);
             iv_icon.setImageDrawable(drawable);
             LinearLayout.LayoutParams imgParams = new LinearLayout.LayoutParams(mBtnWidth,
@@ -163,7 +163,7 @@ public class EmoticonsTabBarView extends RelativeLayout {
 
         int i = 0;
         for (EmoticonSetBean bean : emoticonSetBeanList) {
-            View toolBtnView = inflate(mContext, R.layout.emoticonstoolbar_item, null);
+            View toolBtnView = inflate(mContext, R.layout.keyboard_emoticon_tabbar_item, null);
             ImageView iv_icon = (ImageView) toolBtnView.findViewById(R.id.iv_icon);
             LinearLayout.LayoutParams imgParams = new LinearLayout.LayoutParams(mBtnWidth,
                     LayoutParams.MATCH_PARENT);

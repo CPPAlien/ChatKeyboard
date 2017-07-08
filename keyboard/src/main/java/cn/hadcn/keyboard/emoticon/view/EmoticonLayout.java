@@ -44,7 +44,7 @@ public class EmoticonLayout extends RelativeLayout implements EmoticonsPageView
     private void init(Context context) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context
                 .LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.keyboard_bottom_emoticons, this);
+        inflater.inflate(R.layout.keyboard_emoticon_layout, this);
         ivIndicator = (IndicatorView) findViewById(R.id.emoticon_indicator_view);
         epvContent = (EmoticonsPageView) findViewById(R.id.emoticon_page_view);
         etvToolBar = (EmoticonsTabBarView) findViewById(R.id.emoticon_page_toolbar);

@@ -44,7 +44,7 @@ public class RecordingLayout extends RelativeLayout {
     }
 
     private void init(Context context) {
-        LayoutInflater.from(context).inflate(R.layout.had_recording_view, this);
+        LayoutInflater.from(context).inflate(R.layout.keyboard_recording_layout, this);
         llRecordingStart = (LinearLayout) findViewById(R.id.had_recording_start);
         ivRecordingCancel = (ImageView) findViewById(R.id.had_recording_cancel);
         pbLoading = (ProgressBar) findViewById(R.id.had_recording_loading);

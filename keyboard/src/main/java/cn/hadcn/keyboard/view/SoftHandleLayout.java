@@ -104,7 +104,7 @@ public class SoftHandleLayout extends SoftListenLayout {
             public void run() {
                 setAutoViewHeight(mAutoViewHeight);
             }
-        }, 100);
+        }, 150);
         isAutoViewNeedHide = true;
         mKeyboardState = KEYBOARD_STATE_FUNC;
     }
