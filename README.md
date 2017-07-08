@@ -34,7 +34,7 @@ You Can Use The Latest Version：[![](https://jitpack.io/v/CPPAlien/ChatKeyboard
 
 ### How to use
 
-##### 1, ChatKeyboardLayout
+#### 1, ChatKeyboardLayout
 
 make your layout get keyboard ability.
 
@@ -55,7 +55,7 @@ make your layout get keyboard ability.
 
 
 
-##### 2, Style and Custom
+#### 2, Style and Custom
 
 There are three styles you can set.
 
@@ -79,7 +79,7 @@ There are also some attributes you can custom the icons.
 
 
 
-##### 3, Emoticons and Stickers
+#### 3, Emoticons and Stickers
 
 ```java
 if (!ChatKeyboardLayout.isEmoticonInitSuccess(this)) {
@@ -93,7 +93,7 @@ if (!ChatKeyboardLayout.isEmoticonInitSuccess(this)) {
 
 
 
-##### 4, Keyboard Listener
+#### 4, Keyboard Listener
 
 ```java
 public interface OnChatKeyBoardListener {
