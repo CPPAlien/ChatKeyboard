@@ -34,7 +34,9 @@ You Can Use The Latest Version：[![](https://jitpack.io/v/CPPAlien/ChatKeyboard
 
 ### How to use
 
-1, Use `ChatKeyboardLayout` make your layout get keyboard ability.
+##### 1, ChatKeyboardLayout
+
+make your layout get keyboard ability.
 
 ```
 <cn.hadcn.keyboard.ChatKeyboardLayout
@@ -53,15 +55,15 @@ You Can Use The Latest Version：[![](https://jitpack.io/v/CPPAlien/ChatKeyboard
 
 
 
-2, Style and Custom
+##### 2, Style and Custom
 
 There are three styles you can set.
 
-```
-| chat_style             | text_emoticon              |       text_only       |
-|:----------------------:|:--------------------------:|:---------------------:|
-|![](raw/chat_style.png) | ![](raw/text_emoticon.png) | ![](raw/text_only.png)|
-```
+
+|       chat_style        |       text_emoticon        |       text_only        |
+| :---------------------: | :------------------------: | :--------------------: |
+| ![](raw/chat_style.png) | ![](raw/text_emoticon.png) | ![](raw/text_only.png) |
+
 
 You can use `app:keyboardStyle` in xml to set or `setKeyboardStyle(@KeyboardStyle int style)` method to set, once you set, the keyboard style will change.
 
@@ -77,7 +79,7 @@ There are also some attributes you can custom the icons.
 
 
 
-3, Emoticons and Stickers
+##### 3, Emoticons and Stickers
 
 ```java
 if (!ChatKeyboardLayout.isEmoticonInitSuccess(this)) {
@@ -91,7 +93,8 @@ if (!ChatKeyboardLayout.isEmoticonInitSuccess(this)) {
 
 
 
-4, Keyboard Listener
+##### 4, Keyboard Listener
+
 ```java
 public interface OnChatKeyBoardListener {
         /**
@@ -158,7 +161,7 @@ You can use `SimpleOnChatKeyboardListener` instead of the interface above, so yo
 
 ### Other usage
 
-please refer to the demo code
+Please refer to the demo code
 
 
 
