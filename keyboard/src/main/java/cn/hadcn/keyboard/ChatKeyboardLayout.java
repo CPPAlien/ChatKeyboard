@@ -399,7 +399,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsTab
             closeSoftKeyboard(etInputArea);
             rlInput.setVisibility(INVISIBLE);
             btnRecording.setVisibility(VISIBLE);
-            leftIconView.setImageDrawable(mLeftDefaultIcon);
+            leftIconView.setImageDrawable(mLeftSecondIcon);
             btnSend.setVisibility(GONE);
             if (isShowRightIcon) {
                 rightIconView.setVisibility(VISIBLE);
@@ -410,7 +410,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsTab
             btnRecording.setVisibility(GONE);
             setEditableState(true);
             openSoftKeyboard(etInputArea);
-            leftIconView.setImageDrawable(mLeftSecondIcon);
+            leftIconView.setImageDrawable(mLeftDefaultIcon);
             if (!TextUtils.isEmpty(etInputArea.getText().toString())) {
                 rightIconView.setVisibility(GONE);
                 btnSend.setVisibility(VISIBLE);
@@ -542,7 +542,6 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsTab
                     mOnChatKeyBoardListener.onRecordingAction(RecordingAction.CANCELED);
                 }
             } else if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
-                //todo the num can be set by up layer
                 endY = motionEvent.getRawY();
                 if (startY - endY > Utils.dip2px(mContext, 50)) {
                     btnRecording.setText(getResources().getString(R.string.recording_cancel));

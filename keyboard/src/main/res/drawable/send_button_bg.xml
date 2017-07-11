@@ -6,10 +6,15 @@
             <corners android:radius="2dp"/>
         </shape>
     </item>
-
-    <item>
+    <item android:state_enabled="true">
         <shape android:shape="rectangle">
             <solid android:color="#45C01A"/>
+            <corners android:radius="2dp"/>
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#7745C01A"/>
             <corners android:radius="2dp"/>
         </shape>
     </item>

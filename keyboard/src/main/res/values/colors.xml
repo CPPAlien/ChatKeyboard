@@ -5,4 +5,5 @@
     <color name="keyboard_split_line">#CFCFCF</color>
     <color name="keyboard_emoticons_bar_item_select">#D9D9D9</color>
     <color name="keyboard_emoticons_bar_item_normal">#FFFFFF</color>
+    <color name="keyboard_edit_text_hint">#BBBBBB</color>
 </resources>
