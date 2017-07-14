@@ -518,15 +518,17 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsTab
 
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission
-                        .RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-                    if (mOnChatKeyBoardListener != null) {
-                        mOnChatKeyBoardListener.onRecordingAction(RecordingAction
-                                .PERMISSION_NOT_GRANTED);
-                    }
-                    return true;
+            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.RECORD_AUDIO)
+                    != PackageManager.PERMISSION_GRANTED
+                    || ActivityCompat.checkSelfPermission(mContext, Manifest.permission
+                    .WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (mOnChatKeyBoardListener != null) {
+                    mOnChatKeyBoardListener.onRecordingAction(RecordingAction
+                            .PERMISSION_NOT_GRANTED);
                 }
+                return true;
+            }
+            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                 startY = motionEvent.getRawY();
                 btnRecording.setText(getResources().getString(R.string.recording_end));
                 btnRecording.setBackgroundResource(R.drawable.recording_p);
