@@ -100,17 +100,14 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsTab
         String btnSendText = typedArray.getString(R.styleable.ChatKeyboardLayout_sendButtonText);
         ColorStateList btnSendTextColor = typedArray.getColorStateList(R.styleable
                 .ChatKeyboardLayout_sendButtonTextColor);
-        isShowRightIcon = typedArray.getBoolean(R.styleable
-                .ChatKeyboardLayout_showRightIcon, false);
+        isShowRightIcon = typedArray.getBoolean(R.styleable.ChatKeyboardLayout_showRightIcon,
+                false);
         @KeyboardStyle int keyboardStyle = typedArray.getInt(R.styleable
                 .ChatKeyboardLayout_keyboardStyle, Style.TEXT_ONLY);
         setKeyboardStyle(keyboardStyle);
-        mLeftDefaultIcon = typedArray.getDrawable(R.styleable
-                .ChatKeyboardLayout_leftDefaultIcon);
-        mLeftSecondIcon = typedArray.getDrawable(R.styleable
-                .ChatKeyboardLayout_leftSecondIcon);
-        Drawable rightIcon = typedArray.getDrawable(R.styleable
-                .ChatKeyboardLayout_rightIcon);
+        mLeftDefaultIcon = typedArray.getDrawable(R.styleable.ChatKeyboardLayout_leftDefaultIcon);
+        mLeftSecondIcon = typedArray.getDrawable(R.styleable.ChatKeyboardLayout_leftSecondIcon);
+        Drawable rightIcon = typedArray.getDrawable(R.styleable.ChatKeyboardLayout_rightIcon);
         Drawable faceIcon = typedArray.getDrawable(R.styleable.ChatKeyboardLayout_faceIcon);
         if (faceIcon != null) {
             btnEmoticon.setImageDrawable(faceIcon);

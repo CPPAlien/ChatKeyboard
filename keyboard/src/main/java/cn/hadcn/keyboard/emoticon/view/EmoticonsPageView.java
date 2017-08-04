@@ -62,6 +62,9 @@ public class EmoticonsPageView extends ViewPager implements EmoticonsAdapter.Emo
         List<View> emoticonPageViews = new ArrayList<>();
         clearOnPageChangeListeners();
         addOnPageChangeListener(new PageChangeListener());
+        // init to show indicators
+        mOnEmoticonsPageViewListener.emoticonsPageViewCountChanged(getPageCount
+                (mEmoticonSetBeanList.get(0)));
 
         for (EmoticonSetBean bean : mEmoticonSetBeanList) {
             List<EmoticonBean> emoticonList = bean.getEmoticonList();
@@ -153,6 +156,7 @@ public class EmoticonsPageView extends ViewPager implements EmoticonsAdapter.Emo
     private class PageChangeListener implements OnPageChangeListener {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            // unused for now
         }
 
         @Override
@@ -197,6 +201,7 @@ public class EmoticonsPageView extends ViewPager implements EmoticonsAdapter.Emo
 
         @Override
         public void onPageScrollStateChanged(int state) {
+            // unused for now
         }
     }
 
