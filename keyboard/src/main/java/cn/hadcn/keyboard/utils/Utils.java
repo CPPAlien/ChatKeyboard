@@ -62,36 +62,11 @@ public class Utils {
         Utils.sDefKeyboardHeight = height;
     }
 
-    private static int mDisplayWidthPixels = 0;
-    private static int mDisplayHeightPixels = 0;
-
-    private static void getDisplayMetrics(Context context) {
-        WindowManager wm = (WindowManager) context.
-                getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics dm = new DisplayMetrics();
-        wm.getDefaultDisplay().getMetrics(dm);
-        mDisplayWidthPixels = dm.widthPixels;
-        mDisplayHeightPixels = dm.heightPixels;
-    }
-
     public static int getDisplayHeightPixels(Context context) {
-        if (context == null) {
-            return -1;
-        }
-        if (mDisplayHeightPixels == 0) {
-            getDisplayMetrics(context);
-        }
-        return mDisplayHeightPixels;
-    }
-
-    public static int getDisplayWidthPixels(Context context) {
-        if (context == null) {
-            return -1;
-        }
-        if (mDisplayWidthPixels == 0) {
-            getDisplayMetrics(context);
-        }
-        return mDisplayWidthPixels;
+        WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics metrics = new DisplayMetrics();
+        manager.getDefaultDisplay().getMetrics(metrics);
+        return metrics.heightPixels;
     }
 
     public static int dip2px(Context context, float dipValue) {

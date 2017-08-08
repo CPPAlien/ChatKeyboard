@@ -1,12 +1,12 @@
 package cn.hadcn.keyboard.view;
 
+import static cn.hadcn.keyboard.utils.Utils.getDisplayHeightPixels;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.ViewTreeObserver;
-import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import cn.hadcn.keyboard.utils.Utils;
@@ -23,17 +23,15 @@ public abstract class SoftListenLayout extends RelativeLayout {
     private int mKeyboardHeight = 0;
     protected Context mContext;
 
-    public SoftListenLayout(Context context, AttributeSet attrs) {
+    public SoftListenLayout(final Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
-        WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics metrics = new DisplayMetrics();
-        manager.getDefaultDisplay().getMetrics(metrics);
+        int displayHeight = getDisplayHeightPixels(context);
         //the height of layout is at least 2/3 of screen height
-        mMinLayoutHeight = metrics.heightPixels * 2 / 3;
+        mMinLayoutHeight = displayHeight * 2 / 3;
 
         // min keyboard height, for ignoring navigation bar hide or show effects
-        mMinKeyboardHeight = metrics.heightPixels / 3;
+        mMinKeyboardHeight = displayHeight / 3;
 
         mKeyboardHeight = Utils.getDefKeyboardHeight(mContext);
 
@@ -44,9 +42,11 @@ public abstract class SoftListenLayout extends RelativeLayout {
                 Rect r = new Rect();
                 ((Activity) getContext()).getWindow().getDecorView()
                         .getWindowVisibleDisplayFrame(r);
-                if (mGlobalBottom != 0 && mGlobalBottom - r.bottom > mMinKeyboardHeight) {
+                int popHeight = Utils.getDisplayHeightPixels(context) - r.bottom;
+                if ((mGlobalBottom != 0 && mGlobalBottom - r.bottom > mMinKeyboardHeight)
+                        || (popHeight != 0 && mKeyboardHeight != popHeight)) {
                     // keyboard pop
-                    mKeyboardHeight = mGlobalBottom - r.bottom;
+                    mKeyboardHeight = popHeight;
                     OnSoftKeyboardPop(mKeyboardHeight);
                 } else if (mGlobalBottom != 0 && r.bottom - mGlobalBottom > mMinKeyboardHeight) {
                     OnSoftKeyboardClose();

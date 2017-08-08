@@ -122,6 +122,14 @@ public class SoftHandleLayout extends SoftListenLayout {
         //if soft keyboard popped, auto view must be visible, soft keyboard covers it
         if (mKeyboardState != KEYBOARD_STATE_BOTH) {
             showAutoView();
+        } else {
+            // else, just update auto view height
+            postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    setAutoViewHeight(mAutoViewHeight);
+                }
+            }, 150);
         }
         mKeyboardState = KEYBOARD_STATE_BOTH;
     }
