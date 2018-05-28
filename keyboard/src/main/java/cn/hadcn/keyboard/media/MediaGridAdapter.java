@@ -33,6 +33,7 @@ public class MediaGridAdapter extends BaseAdapter {
         mSize = size;
     }
 
+    @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
@@ -47,7 +48,7 @@ public class MediaGridAdapter extends BaseAdapter {
         }
 
         viewHolder.ivImage.setImageDrawable(ContextCompat.getDrawable(mContext, getItem(position)
-				.getDrawableId()));
+                .getDrawableId()));
 
         viewHolder.tvText.setText(getItem(position).getText());
 

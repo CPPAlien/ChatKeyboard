@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "cn.hadcn.keyboard_example"
-        minSdkVersion 10
+        minSdkVersion 14
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
