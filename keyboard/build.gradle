@@ -1,16 +1,16 @@
 apply plugin: 'com.android.library'
-
 apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.novoda.bintray-release'
 
 group = 'com.github.CPPAlien'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 27
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
-        minSdkVersion 10
-        targetSdkVersion 25
+        minSdkVersion 16
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0.0"
     }
@@ -20,9 +20,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:support-v4:27.1.1'
+}
+
+publish {
+    userOrg = 'pengtao'
+    groupId = 'me.pengtao'
+    artifactId = 'ChatKeyboard'
+    publishVersion = '2.0.0'
+    desc = 'ChatKeyboard is a powerful and easy using keyboard lib for Android, includes emoticons selection, audio recording, multi media functions, etc.'
+    website = 'https://github.com/CPPAlien/ChatKeyboard'
 }
