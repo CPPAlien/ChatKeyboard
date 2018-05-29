@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
 
@@ -47,9 +46,9 @@ public abstract class SoftListenLayout extends RelativeLayout {
                         || (popHeight != 0 && mKeyboardHeight != popHeight)) {
                     // keyboard pop
                     mKeyboardHeight = popHeight;
-                    OnSoftKeyboardPop(mKeyboardHeight);
+                    onSoftKeyboardPop(mKeyboardHeight);
                 } else if (mGlobalBottom != 0 && r.bottom - mGlobalBottom > mMinKeyboardHeight) {
-                    OnSoftKeyboardClose();
+                    onSoftKeyboardClose();
                 }
 
                 mGlobalBottom = r.bottom;
@@ -71,7 +70,7 @@ public abstract class SoftListenLayout extends RelativeLayout {
         }
     }
 
-    protected abstract void OnSoftKeyboardPop(int height);
+    protected abstract void onSoftKeyboardPop(int height);
 
-    protected abstract void OnSoftKeyboardClose();
+    protected abstract void onSoftKeyboardClose();
 }

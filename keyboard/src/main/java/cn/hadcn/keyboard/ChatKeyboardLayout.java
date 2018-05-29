@@ -723,8 +723,8 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsTab
     }
 
     @Override
-    protected void OnSoftKeyboardPop(int height) {
-        super.OnSoftKeyboardPop(height);
+    protected void onSoftKeyboardPop(int height) {
+        super.onSoftKeyboardPop(height);
         btnEmoticon.setSelected(false);
     }
 
