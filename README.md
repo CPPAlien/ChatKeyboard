@@ -21,11 +21,21 @@ ChatKeyboard is a powerful and easy using keyboard lib for Android, includes emo
 
 Gradle:
 
-```
 dependencies {
     compile 'me.pengtao:ChatKeyboard:2.0.0'
 }
+
+If the jcenter is not ok, you can use jitpack way as below.
+
 ```
+repositories{
+    maven { url "https://jitpack.io" }
+}
+dependencies {
+    compile 'com.github.CPPAlien:ChatKeyboard:1.0.1'
+}
+```
+Latest Version：[![](https://jitpack.io/v/CPPAlien/ChatKeyboard.svg)](https://jitpack.io/#CPPAlien/ChatKeyboard)
 
 ### How to use
 
