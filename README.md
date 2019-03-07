@@ -1,4 +1,4 @@
-![](http://7xq276.com2.z0.glb.qiniucdn.com/ic_launcher.png)
+![](https://user-images.githubusercontent.com/4279515/46778964-8820f200-cd48-11e8-9b6b-7a3cc4e62d48.png)
 
 # ChatKeyboard   [![](https://img.shields.io/badge/language-Java-green.svg)](https://github.com/CPPAlien/ChatKeyboard) 
 
@@ -12,14 +12,20 @@ ChatKeyboard is a powerful and easy using keyboard lib for Android, includes emo
 
 ### Demo
 <div class='row'>
-    <img src='http://7xq276.com2.z0.glb.qiniucdn.com/keyboard-demo.gif' width="250px"/>
+    <img src='https://user-images.githubusercontent.com/4279515/46778850-12b52180-cd48-11e8-9dd6-1d598c66dc3d.gif' width="250px"/>
 </div>
 
-[Apk Download](http://7xq276.com2.z0.glb.qiniucdn.com/keyboard_new.apk)
+[Apk Download](http://cdn.flowergo.xyz/keyboard_new.apk)
 
 ### Import
 
 Gradle:
+
+dependencies {
+    compile 'me.pengtao:ChatKeyboard:2.0.0'
+}
+
+If the jcenter is not ok, you can use jitpack way as below.
 
 ```
 repositories{
@@ -29,8 +35,7 @@ dependencies {
     compile 'com.github.CPPAlien:ChatKeyboard:1.0.1'
 }
 ```
-
-You Can Use The Latest Version：[![](https://jitpack.io/v/CPPAlien/ChatKeyboard.svg)](https://jitpack.io/#CPPAlien/ChatKeyboard)
+Latest Version：[![](https://jitpack.io/v/CPPAlien/ChatKeyboard.svg)](https://jitpack.io/#CPPAlien/ChatKeyboard)
 
 ### How to use
 
