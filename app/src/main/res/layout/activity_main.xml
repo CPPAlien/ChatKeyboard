@@ -12,10 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
-        app:showRightIcon="true"
+        app:faceIcon="@drawable/keyboard_emoticon_selector"
         app:keyboardStyle="chat_style"
-        app:sendButtonBackground="@drawable/send_button_bg"
-        app:sendButtonTextColor="#FFFFFF">
+        app:leftDefaultIcon="@drawable/voice"
+        app:leftSecondIcon="@drawable/keyboard"
+        app:rightIcon="@drawable/addpic"
+        app:sendButtonBackground="#3F87FF"
+        app:sendButtonTextColor="#FFFFFF"
+        app:showRightIcon="true">
         <ListView
             android:id="@+id/list_view"
             android:layout_width="match_parent"
