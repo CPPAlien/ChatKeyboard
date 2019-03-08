@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -73,7 +72,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsTab
     private int mLayoutOrderCount = 0;
     private int mChildViewPosition = -1;
     private HadEditText etInputArea;
-    private RelativeLayout rlInput;
+    private ViewGroup rlInput;
     private LinearLayout lyBottomLayout;
     private ImageView btnEmoticon;
     private Button btnSend;
@@ -142,7 +141,7 @@ public class ChatKeyboardLayout extends SoftHandleLayout implements EmoticonsTab
         EmoticonHandler.getInstance(context).loadEmoticonsToMemory();
         LayoutInflater.from(context).inflate(R.layout.keyboard_bar_layout, this);
 
-        rlInput = (RelativeLayout) findViewById(R.id.view_keyboard_input_layout);
+        rlInput = (ViewGroup) findViewById(R.id.view_keyboard_input_layout);
         lyBottomLayout = (LinearLayout) findViewById(R.id.view_keyboard_bottom);
         btnEmoticon = (ImageView) findViewById(R.id.view_keyboard_face_icon);
         leftIconView = (ImageView) findViewById(R.id.view_keyboard_left_icon);

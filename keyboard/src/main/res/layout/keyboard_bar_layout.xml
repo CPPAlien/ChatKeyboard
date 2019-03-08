@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
@@ -16,8 +15,8 @@
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/view_keyboard_left_icon"
-            android:layout_width="34dp"
-            android:layout_height="34dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:layout_marginStart="12dp"
@@ -25,18 +24,18 @@
             android:src="@drawable/default_record_icon" />
         <RelativeLayout
             android:id="@+id/rl_multi_and_send"
-            android:layout_width="45dp"
-            android:layout_height="wrap_content"
+            android:layout_width="36dp"
+            android:layout_height="28dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="12dp"
-            android:layout_marginRight="12dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
             android:focusableInTouchMode="true">
             <ImageView
                 android:id="@+id/view_keyboard_right_icon"
-                android:layout_width="34dp"
-                android:layout_height="34dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_centerInParent="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/default_right_icon" />
@@ -49,13 +48,12 @@
                 android:gravity="center"
                 android:text="@string/btn_text_send"
                 android:textColor="@color/keyboard_white"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
             android:layout_toEndOf="@id/view_keyboard_left_icon"
             android:layout_toLeftOf="@id/rl_multi_and_send"
             android:layout_toRightOf="@id/view_keyboard_left_icon"
@@ -64,45 +62,45 @@
                 android:id="@+id/view_keyboard_recording_bar"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
+                android:layout_height="28dp"
                 android:layout_centerVertical="true"
                 android:background="@drawable/recording_n"
                 android:gravity="center"
                 android:text="@string/recording_start"
                 android:textColor="#727272"
                 android:visibility="gone" />
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/view_keyboard_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <cn.hadcn.keyboard.view.HadEditText
                     android:id="@+id/et_chat"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textColorHint="@color/keyboard_edit_text_hint"
-                    android:layout_marginTop="6dp"
+                    android:layout_weight="1"
                     android:focusable="true"
                     android:focusableInTouchMode="false"
                     android:lineSpacingExtra="4dp"
                     android:maxLines="4"
-                    android:paddingEnd="45dp"
+                    android:paddingEnd="8dp"
                     android:paddingLeft="8dp"
-                    android:paddingRight="45dp"
+                    android:paddingRight="8dp"
                     android:paddingStart="8dp"
-                    android:textSize="16sp" />
+                    android:textColorHint="@color/keyboard_edit_text_hint"
+                    android:textSize="14sp" />
                 <ImageView
                     android:id="@+id/view_keyboard_face_icon"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="12dp"
                     android:scaleType="centerInside"
                     android:src="@drawable/keyboard_face_icon" />
-            </RelativeLayout>
+            </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
     <LinearLayout
