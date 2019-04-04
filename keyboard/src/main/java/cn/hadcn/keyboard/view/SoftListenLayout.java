@@ -3,6 +3,7 @@ package cn.hadcn.keyboard.view;
 import static cn.hadcn.keyboard.utils.Utils.getDisplayHeightPixels;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -97,16 +98,12 @@ public abstract class SoftListenLayout extends RelativeLayout {
      * 获取状态栏高度
      */
     public static int getStatusBarHeight(Context context) {
-        try {
-            Class<?> c = Class.forName("com.android.internal.R$dimen");
-            Object obj = c.newInstance();
-            Field field = c.getField("status_bar_height");
-            int x = Integer.parseInt(field.get(obj).toString());
-            return context.getResources().getDimensionPixelSize(x);
-        } catch (Exception e) {
-            e.printStackTrace();
+        int result = 0;
+        int resourceId = Resources.getSystem().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = Resources.getSystem().getDimensionPixelSize(resourceId);
         }
-        return 0;
+        return result;
     }
 
     /**
